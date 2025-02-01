@@ -1,6 +1,8 @@
 # TCG Pocket collection tracker
 Simple application to track your Pokemon Pocket collection
 
+URL: https://tcgpocketcollectiontracker.com/
+
 ## Idea
 Turn the existing spreadsheet into a simple web application, including all functionality currently available in the sheet.
 
