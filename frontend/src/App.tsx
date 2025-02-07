@@ -48,7 +48,7 @@ function App() {
         <Route path="/" element={<Overview user={user} ownedCards={ownedCards} />} />
         <Route path="/verify" element={<Verify />} />
         <Route path="/collection" element={<Collection user={user} ownedCards={ownedCards} setOwnedCards={setOwnedCards} />} />
-        <Route path="/trade" element={<Trade />} />
+        <Route path="/trade" element={<Trade user={user} ownedCards={ownedCards} />} />
       </Routes>
     </ThemeProvider>
   )
