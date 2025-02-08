@@ -30,12 +30,14 @@ export const expansions: Expansion[] = [
       { name: 'Pikachu pack', color: '#EDC12A' },
       { name: 'Every pack', color: '#CCCCCC' },
     ],
+    tradeable: true,
   },
   {
     name: 'Mythical Island',
     id: 'A1a',
     cards: a1aCards,
     packs: [{ name: 'Mew pack', color: '#FFC1EA' }],
+    tradeable: true,
   },
   {
     name: 'Space-Time Smackdown',
@@ -46,15 +48,25 @@ export const expansions: Expansion[] = [
       { name: 'Palkia pack', color: '#D5A6BD' },
       { name: 'Every pack', color: '#CCCCCC' },
     ],
+    tradeable: false,
   },
   {
     name: 'Promo-A',
     id: 'PA',
     cards: paCards,
     packs: [{ name: 'Every pack', color: '#CCCCCC' }],
+    tradeable: false,
     promo: true,
   },
 ]
+
+export const tradeableRaritiesDictionary: { [id: string]: number } = {
+  '◊': 0,
+  '◊◊': 0,
+  '◊◊◊': 120,
+  '◊◊◊◊': 500,
+  '☆': 500,
+}
 
 export const nrOfCardsOwned = (ownedCards: CollectionRow[], expansion?: Expansion, pack?: string) => {
   if (!expansion) {
