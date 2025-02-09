@@ -1,9 +1,8 @@
 import { login } from '@/lib/Auth.ts'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
 
-const Verify = () => {
-  const [errorLoggingIn, setErrorLoggingIn] = useState(false)
-
+function Verify() {
   useEffect(() => {
     login()
       .then((user) => {
@@ -11,20 +10,27 @@ const Verify = () => {
           console.log('logged in')
           window.location.href = '/'
         } else {
-          setErrorLoggingIn(true)
+          throw new Error('Error logging in!')
         }
       })
       .catch(console.error)
   }, [])
 
+  return <span>Logged in! Redirecting...</span>
+}
+
+function VerifyContainer() {
   return (
-    <div className="flex flex-col justify-center items-center m-40">
+    <div className="m-40 flex flex-col items-center justify-center">
       <h5 className="mb-5">
-        {errorLoggingIn && <span style={{ color: 'red' }}>Error logging in!</span>}
-        {!errorLoggingIn && 'Logging in...'}
+        <ErrorBoundary fallback={<span className="text-red-500">Error logging in!</span>}>
+          {/*<Suspense fallback={<span>Logging in...</span>}>*/}
+          <Verify />
+          {/*</Suspense>*/}
+        </ErrorBoundary>
       </h5>
     </div>
   )
 }
 
-export default Verify
+export default VerifyContainer
