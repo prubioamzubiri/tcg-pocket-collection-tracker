@@ -28,6 +28,8 @@ function App() {
   useEffect(() => {
     if (user) {
       fetchCollection().then(setOwnedCards).catch(console.error)
+    } else {
+      setOwnedCards([]) // in case the user is logged out, clear the cards
     }
   }, [user])
 
