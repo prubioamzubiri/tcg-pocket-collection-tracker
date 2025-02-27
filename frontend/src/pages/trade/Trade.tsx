@@ -10,7 +10,7 @@ import { UserNotLoggedIn } from './components/UserNotLoggedIn'
 function Trade() {
   const { user } = use(UserContext)
   const [rarityFilter, setRarityFilter] = useState<string[]>([])
-  const [minCards, setMinCards] = useState<number>(2)
+  const [minCards, setMinCards] = useState<number>(0)
   const [currentTab, setCurrentTab] = useState('looking_for')
 
   if (!user) {
