@@ -1,5 +1,6 @@
 import InstallPrompt from '@/components/InstallPrompt.tsx'
-import { getUser } from '@/lib/Auth.ts'
+import { useToast } from '@/hooks/use-toast.ts'
+import { authSSO, getUser } from '@/lib/Auth.ts'
 import { fetchAccount } from '@/lib/fetchAccount.ts'
 import CardDetail from '@/pages/collection/CardDetail.tsx'
 import type { AccountRow, CollectionRow } from '@/types'
@@ -21,6 +22,8 @@ const Community = loadable(() => import('./pages/community/Community.tsx'))
 const EditProfile = loadable(() => import('./components/EditProfile.tsx'))
 
 function App() {
+  const { toast } = useToast()
+
   const [user, setUser] = useState<User | null>(null)
   const [account, setAccount] = useState<AccountRow | null>(null)
   const [ownedCards, setOwnedCards] = useState<CollectionRow[]>([])
@@ -34,8 +37,17 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      fetchCollection().then(setOwnedCards).catch(console.error)
-      fetchAccount(user.email).then(setAccount).catch(console.error)
+      // check if query params sso & sig are set
+      const params = new URLSearchParams(window.location.search)
+      const sso = params.get('sso')
+      const sig = params.get('sig')
+      if (sso && sig) {
+        toast({ title: 'Logging in', description: 'Please wait...', variant: 'default' })
+        authSSO(sso, sig).catch(console.error)
+      } else {
+        fetchCollection().then(setOwnedCards).catch(console.error)
+        fetchAccount(user.email).then(setAccount).catch(console.error)
+      }
     } else {
       setOwnedCards([]) // in case the user is logged out, clear the cards
     }
