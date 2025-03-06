@@ -2,19 +2,7 @@
   "name": "A Variety of Pokemon Abilities",
   "requiredCards": [
     {
-      "_card": [
-        "Shaymin",
-        "Piloswine",
-        "Mamoswine",
-        "Regice",
-        "Dusknoir",
-        "Giratina",
-        "Regirock",
-        "Lucario",
-        "Darkrai",
-        "Bastiodon",
-        "Garchomp"
-      ],
+      "_card": ["Shaymin", "Piloswine", "Mamoswine", "Regice", "Dusknoir", "Giratina", "Regirock", "Lucario", "Darkrai", "Bastiodon", "Garchomp"],
       "cardId": [
         "A2-22",
         "A2-159",
