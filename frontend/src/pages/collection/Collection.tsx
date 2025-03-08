@@ -5,11 +5,10 @@ import ExpansionsFilter from '@/components/ExpansionsFilter.tsx'
 import OwnedFilter from '@/components/OwnedFilter.tsx'
 import RarityFilter from '@/components/RarityFilter.tsx'
 import SearchInput from '@/components/SearchInput.tsx'
-// import CardTracker from '@/components/cardTracker.tsx'
 import { allCards } from '@/lib/CardsDB'
 import { CollectionContext } from '@/lib/context/CollectionContext.ts'
 import { UserContext } from '@/lib/context/UserContext.ts'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useContext } from 'react'
 
 function Collection() {
@@ -44,10 +43,15 @@ function Collection() {
     }
 
     setResetScrollTrigger(true)
-    setTimeout(() => setResetScrollTrigger(false), 100)
 
     return filteredCards
   }, [expansionFilter, rarityFilter, searchValue, ownedFilter])
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setResetScrollTrigger(false), 100)
+
+    return () => clearTimeout(timeout)
+  }, [getFilteredCards])
 
   const handleBatchUpdate = async (cardIds: string[], amount: number) => {
     await updateMultipleCards(cardIds, amount, ownedCards, setOwnedCards, user)
@@ -62,10 +66,10 @@ function Collection() {
         <SearchInput setSearchValue={setSearchValue} />
         <OwnedFilter ownedFilter={ownedFilter} setOwnedFilter={setOwnedFilter} />
         <RarityFilter rarityFilter={rarityFilter} setRarityFilter={setRarityFilter} />
-        {/*TODO: NOT READY YET, FEEL FREE TO HELP*/}
-        {/*<CardTracker />*/}
+
         <BatchUpdateDialog filteredCards={getFilteredCards} onBatchUpdate={handleBatchUpdate} disabled={getFilteredCards.length === 0} />
       </div>
+
       <div>
         <CardsTable cards={getFilteredCards} resetScrollTrigger={resetScrollTrigger} />
       </div>
