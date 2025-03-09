@@ -82,8 +82,12 @@ function Trade() {
       .sort((a, b) => a.rarity.localeCompare(b.rarity))
       .map((c) => `${c.rarity} ${c.card_id} - ${c.name}`)
       .join('\n')
+
+    const raritiesLookingFor = lookingForCardsFiltered.map((c) => c.rarity)
+
     cardValues += '\n\nFor trade cards:\n'
     cardValues += forTradeCardsFiltered
+      .filter((c) => raritiesLookingFor.includes(c.rarity))
       .sort((a, b) => a.rarity.localeCompare(b.rarity))
       .map((c) => `${c.rarity} ${c.card_id} - ${c.name}`)
       .join('\n')
