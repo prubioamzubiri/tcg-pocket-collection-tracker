@@ -77,20 +77,42 @@ function Trade() {
   )
 
   const getCardValues = () => {
-    let cardValues = 'Looking for cards:\n'
-    cardValues += lookingForCardsFiltered
-      .sort((a, b) => a.rarity.localeCompare(b.rarity))
-      .map((c) => `${c.rarity} ${c.card_id} - ${c.name}`)
-      .join('\n')
+    let cardValues = ''
+
+    if (account?.username) {
+      cardValues += `Account: ${account.username} - ${account.friend_id}\n\n`
+    }
+
+    cardValues += 'Looking for cards:\n'
+
+    const lookingForCardsSorted = lookingForCardsFiltered.sort((a, b) => {
+      const expansionComparison = a.expansion.localeCompare(b.expansion)
+      if (expansionComparison !== 0) {
+        return expansionComparison
+      }
+      return a.rarity.localeCompare(b.rarity)
+    })
+
+    for (let i = 0; i < lookingForCardsSorted.length; i++) {
+      const prevExpansion = i > 0 ? lookingForCardsSorted[i - 1].expansion : ''
+      if (prevExpansion !== lookingForCardsSorted[i].expansion) {
+        cardValues += `\n${lookingForCardsSorted[i].set_details}:\n`
+      }
+      cardValues += `${lookingForCardsSorted[i].rarity} ${lookingForCardsSorted[i].card_id} - ${lookingForCardsSorted[i].name}\n`
+    }
 
     const raritiesLookingFor = lookingForCardsFiltered.map((c) => c.rarity)
 
     cardValues += '\n\nFor trade cards:\n'
-    cardValues += forTradeCardsFiltered
-      .filter((c) => raritiesLookingFor.includes(c.rarity))
-      .sort((a, b) => a.rarity.localeCompare(b.rarity))
-      .map((c) => `${c.rarity} ${c.card_id} - ${c.name}`)
-      .join('\n')
+    const forTradeCardsSorted = forTradeCardsFiltered.filter((c) => raritiesLookingFor.includes(c.rarity)).sort((a, b) => a.rarity.localeCompare(b.rarity))
+
+    for (let i = 0; i < forTradeCardsSorted.length; i++) {
+      const prevExpansion = i > 0 ? forTradeCardsSorted[i - 1].expansion : ''
+      if (prevExpansion !== forTradeCardsSorted[i].expansion) {
+        cardValues += `\n${forTradeCardsSorted[i].set_details}:\n`
+      }
+      cardValues += `${forTradeCardsSorted[i].rarity} ${forTradeCardsSorted[i].card_id} - ${forTradeCardsSorted[i].name}\n`
+    }
 
     return cardValues
   }
@@ -105,8 +127,8 @@ function Trade() {
   }
 
   const postToCommunity = async () => {
-    const username = account ? ` - ${account.username} - ${account.friend_id}` : ''
-    const title = encodeURIComponent(`Trade cards${username}`)
+    const rarities = Array.from(new Set(lookingForCardsFiltered.map((c) => c.rarity))).join(', ')
+    const title = encodeURIComponent(`Trading cards ${rarities}`)
     const body = encodeURIComponent(getCardValues())
     const category = 'Trading'
     const url = `https://community.tcgpocketcollectiontracker.com/new-topic?title=${title}&body=${body}&category=${category}`
