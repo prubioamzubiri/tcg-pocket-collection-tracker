@@ -84,7 +84,9 @@ export function Header() {
                 <DropdownMenuContent className="w-56">
                   <DropdownMenuLabel>{t('myAccount')}</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => setIsProfileDialogOpen(true)}>{t('editProfile')}</DropdownMenuItem>
+                  <DropdownMenuItem disabled onClick={() => setIsProfileDialogOpen(true)}>
+                    {t('editProfile')}
+                  </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => setIsExportDialogOpen(true)}>{t('export')}</DropdownMenuItem>
                   <DropdownMenuItem onClick={() => setIsImportDialogOpen(true)}>{t('import')}</DropdownMenuItem>
@@ -106,7 +108,7 @@ export function Header() {
           ) : (
             <Dialog open={isLoginDialogOpen} onOpenChange={setIsLoginDialogOpen}>
               <DialogTrigger asChild>
-                <Button disabled>{t('login')}</Button>
+                <Button>{t('login')}</Button>
               </DialogTrigger>
               <DialogContent className="border-2 border-slate-600 shadow-none">
                 <DialogHeader>

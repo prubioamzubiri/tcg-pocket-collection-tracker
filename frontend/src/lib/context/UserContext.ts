@@ -1,8 +1,8 @@
 import type { AccountRow } from '@/types'
-import type { Models } from 'appwrite'
+import type { Session } from '@supabase/supabase-js'
 import { createContext } from 'react'
 
-export type User = Models.User<Models.Preferences>
+export type User = Session
 
 interface IUserContext {
   user: User | null

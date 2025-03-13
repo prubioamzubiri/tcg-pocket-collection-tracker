@@ -1,13 +1,10 @@
-import type { Models } from 'appwrite'
-
 export interface AccountRow {
   $id: string
   username: string
   friend_id: string
 }
 
-export interface CollectionRow extends Partial<Models.Document> {
-  $id: string
+export interface CollectionRow {
   email: string
   card_id: string
   amount_owned: number

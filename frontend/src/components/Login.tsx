@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button.tsx'
 import { useToast } from '@/hooks/use-toast.ts'
-import { checkOTP, sendOTP } from '@/lib/Auth.ts'
+import { supabase } from '@/lib/Auth.ts'
 import { UserContext } from '@/lib/context/UserContext.ts'
 import { use, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -11,18 +11,31 @@ import { Input } from './ui/input.tsx'
 const EmailSchema = z.string().nonempty('Email is required').email('Email must be valid').max(255, 'Email must be less than 255 characters')
 
 export const Login = () => {
-  const { setUser, setIsLoginDialogOpen } = use(UserContext)
+  const { setIsLoginDialogOpen } = use(UserContext)
   const { toast } = useToast()
   const { t } = useTranslation('login')
 
   const [emailInput, setEmailInput] = useState('')
-  const [userId, setUserId] = useState('')
+  const [emailSubmitted, setEmailSubmitted] = useState(false)
 
   const otpEntered = async (otp: string) => {
     try {
-      const user = await checkOTP(userId, otp)
-      setUser(user)
-      setIsLoginDialogOpen(false)
+      const {
+        data: { session },
+        error,
+      } = await supabase.auth.verifyOtp({
+        email: emailInput,
+        token: otp,
+        type: 'email',
+      })
+
+      if (error) {
+        console.log('supa OTP error', error)
+        toast({ title: 'There was an error verifying your OTP. Please try again.', variant: 'destructive' })
+      } else {
+        console.log('supa session', session)
+        setIsLoginDialogOpen(false)
+      }
     } catch {
       toast({ title: t('invalidCode'), variant: 'destructive' })
     }
@@ -35,11 +48,16 @@ export const Login = () => {
       return
     }
 
-    const userId = await sendOTP(emailInput)
-    setUserId(userId)
+    const { error } = await supabase.auth.signInWithOtp({ email: emailInput })
+    if (error) {
+      console.log('supa OTP error', error)
+      toast({ title: 'There was an error sending your OTP email. Please try again.', variant: 'destructive' })
+    } else {
+      setEmailSubmitted(true)
+    }
   }
 
-  if (userId) {
+  if (emailSubmitted) {
     return (
       <>
         <p className="pt-4">{t('fill6Digit')}</p>
@@ -78,9 +96,7 @@ export const Login = () => {
           }}
         />
 
-        <Button disabled onClick={submitEmail}>
-          {t('button')}
-        </Button>
+        <Button onClick={submitEmail}>{t('button')}</Button>
       </div>
     </div>
   )
