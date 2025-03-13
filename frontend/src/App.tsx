@@ -1,6 +1,7 @@
 import InstallPrompt from '@/components/InstallPrompt.tsx'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert.tsx'
 import { useToast } from '@/hooks/use-toast.ts'
-import { authSSO, getUser } from '@/lib/Auth.ts'
+import { authSSO } from '@/lib/Auth.ts'
 import { fetchAccount } from '@/lib/fetchAccount.ts'
 import CardDetail from '@/pages/collection/CardDetail.tsx'
 import type { AccountRow, CollectionRow } from '@/types'
@@ -31,7 +32,7 @@ function App() {
   const [selectedCardId, setSelectedCardId] = useState('')
 
   useEffect(() => {
-    getUser().then(setUser).catch(console.error)
+    // getUser().then(setUser).catch(console.error)
   }, [])
 
   useEffect(() => {
@@ -58,6 +59,13 @@ function App() {
         <ErrorBoundary fallback={<div className="m-4">A new version was deployed, please refresh the page to see the latest changes.</div>}>
           <Toaster />
           <Header />
+          <Alert className="mb-8 shadow-none text-center max-w-4xl mx-auto" variant="destructive">
+            <AlertTitle>Under maintenance</AlertTitle>
+            <AlertDescription>
+              Because of scaling problems at our backend provider Appwrite, we are currently undergoing maintenance. We'll have to migrate the 700k logged cards
+              from the database to a different provider. Apologies for the inconvenience. We'll update you as soon as possible.
+            </AlertDescription>
+          </Alert>
           <Routes>
             <Route path="/" element={<Overview />} />
             <Route path="/collection" element={<Collection />} />

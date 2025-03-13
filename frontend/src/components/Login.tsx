@@ -78,7 +78,9 @@ export const Login = () => {
           }}
         />
 
-        <Button onClick={submitEmail}>{t('button')}</Button>
+        <Button disabled onClick={submitEmail}>
+          {t('button')}
+        </Button>
       </div>
     </div>
   )
