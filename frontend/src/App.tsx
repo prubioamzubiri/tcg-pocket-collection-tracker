@@ -49,7 +49,7 @@ function App() {
       const sig = params.get('sig')
       if (sso && sig) {
         toast({ title: 'Logging in', description: 'Please wait...', variant: 'default' })
-        authSSO(sso, sig).catch(console.error)
+        authSSO(user, sso, sig).catch(console.error)
       } else {
         fetchCollection().then(setOwnedCards).catch(console.error)
         fetchAccount().then(setAccount).catch(console.error)
