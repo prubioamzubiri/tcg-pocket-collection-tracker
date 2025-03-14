@@ -1,6 +1,6 @@
 # TCG Pocket Collection Tracker
 
-TCG Pocket Collection Tracker is an application designed to help users efficiently track their Pokémon Pocket game cards, identify optimal card packs to open, manage trades, and engage with both friends and the community at large. Our application is completely free, open-source, and prioritizes user privacy by not selling data, tracking analytics, using advertisements, or accepting donations.
+TCG Pocket Collection Tracker is an application designed to help users efficiently track their Pokémon Pocket game cards, identify optimal card packs to open, manage trades, and engage with both friends and the community at large. Our application is completely free, open-source, and prioritizes user privacy by not selling data, tracking analytics or using advertisements.
 
 Start using the app today at https://tcgpocketcollectiontracker.com.
 
@@ -10,7 +10,7 @@ Start using the app today at https://tcgpocketcollectiontracker.com.
 The frontend is built as a static HTML site, powered by React and TypeScript. We utilize Vite to compile it into a standalone application, which is hosted cost-free on GitHub Pages. The UI leverages ShadCN and Tailwind CSS, while react-table is employed for handling extensive card lists, supported by react-virtualize for efficient data virtualization.
 
 ### Backend
-Our backend infrastructure utilizes Appwrite.io, an open-source alternative to Firebase or Supabase, with robust features including a free tier supporting up to 75,000 monthly active users. The backend manages user authentication (via OTP email) and includes a database for card storage.
+Our backend infrastructure utilizes Supabase. The backend manages user authentication (via OTP email) and includes a database for card storage.
 
 ## Features
 
@@ -20,6 +20,7 @@ Our backend infrastructure utilizes Appwrite.io, an open-source alternative to F
 - Collection summary insights
 - Optimal pack calculation tool
 - Trade facilitation support
+- Automatic card scanner from screenshots - take a look at the [details here](https://github.com/1vcian/Pokemon-TCGP-Card-Scanner)
 
 For upcoming features and tasks, please consult our [issues list](https://github.com/marcelpanse/tcg-pocket-collection-tracker/issues).
 
