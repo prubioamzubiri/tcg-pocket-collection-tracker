@@ -20,7 +20,7 @@ export async function fetchCollection() {
 const fetchRange = async (total: number, start: number, end: number): Promise<CollectionRow[]> => {
   console.log('fetching range', total, start, end)
 
-  const { data, error } = await supabase.from('collection').select('email, card_id, amount_owned').range(start, end)
+  const { data, error } = await supabase.from('collection').select().range(start, end)
   if (error) {
     console.log('supa error', error)
     throw new Error('Error fetching collection')

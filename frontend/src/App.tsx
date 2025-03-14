@@ -1,6 +1,7 @@
 import InstallPrompt from '@/components/InstallPrompt.tsx'
 import { useToast } from '@/hooks/use-toast.ts'
 import { authSSO, supabase } from '@/lib/Auth.ts'
+import { fetchAccount } from '@/lib/fetchAccount.ts'
 import CardDetail from '@/pages/collection/CardDetail.tsx'
 import type { AccountRow, CollectionRow } from '@/types'
 import loadable from '@loadable/component'
@@ -51,7 +52,7 @@ function App() {
         authSSO(sso, sig).catch(console.error)
       } else {
         fetchCollection().then(setOwnedCards).catch(console.error)
-        // fetchAccount(user.email).then(setAccount).catch(console.error)
+        fetchAccount().then(setAccount).catch(console.error)
       }
     } else {
       setOwnedCards([]) // in case the user is logged out, clear the cards

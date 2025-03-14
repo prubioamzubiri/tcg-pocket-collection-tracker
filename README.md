@@ -21,6 +21,7 @@ Our backend infrastructure utilizes Supabase. The backend manages user authentic
 - Optimal pack calculation tool
 - Trade facilitation support
 - Automatic card scanner from screenshots - take a look at the [details here](https://github.com/1vcian/Pokemon-TCGP-Card-Scanner)
+- Community forum (thanks @stephvane for hosting)
 
 For upcoming features and tasks, please consult our [issues list](https://github.com/marcelpanse/tcg-pocket-collection-tracker/issues).
 
@@ -37,6 +38,11 @@ To get started:
 We maintain code standards with Biome, ensuring up-to-date formatting and linting through integrated git hooks. Installing a Biome plugin in your IDE is advised for consistency.
 
 We encourage contributors to incrementally improve the project by making small changes and submitting pull requests for review and potential merging.
+
+## Support us
+If you like this project, consider donating to help us keep it running.
+
+<a href="https://buymeacoffee.com/pocketcollectiontracker" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
 ## License
 

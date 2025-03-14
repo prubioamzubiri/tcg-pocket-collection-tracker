@@ -1,12 +1,17 @@
-export async function fetchAccount(_email: string) {
-  // const db = await getDatabase()
-  // const { documents } = await db.listDocuments(DATABASE_ID, ACCOUNTS_ID, [
-  //   Query.select(['$id', 'username', 'friend_id']),
-  //   Query.equal('email', email),
-  //   Query.limit(1),
-  // ])
-  // if (documents.length > 0) {
-  //   return documents[0] as unknown as AccountRow
-  // }
+import { supabase } from '@/lib/Auth.ts'
+import type { AccountRow } from '@/types'
+
+export async function fetchAccount() {
+  const { data, error } = await supabase.from('accounts').select().limit(1)
+  if (error) {
+    console.log('supa error', error)
+    throw new Error('Error fetching collection')
+  }
+
+  console.log('fetched account', data)
+
+  if (data.length > 0) {
+    return data[0] as AccountRow
+  }
   return null
 }
