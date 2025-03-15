@@ -1,3 +1,5 @@
+[![All Contributors](https://img.shields.io/github/all-contributors/marcelpanse/tcg-pocket-collection-tracker?color=ee8449&style=flat-square)](#contributors)
+
 # TCG Pocket Collection Tracker
 
 TCG Pocket Collection Tracker is an application designed to help users efficiently track their Pokémon Pocket game cards, identify optimal card packs to open, manage trades, and engage with both friends and the community at large. Our application is completely free, open-source, and prioritizes user privacy by not selling data, tracking analytics or using advertisements.
@@ -43,6 +45,17 @@ We encourage contributors to incrementally improve the project by making small c
 If you like this project, consider donating to help us keep it running.
 
 <a href="https://buymeacoffee.com/pocketcollectiontracker" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
+## Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ## License
 
