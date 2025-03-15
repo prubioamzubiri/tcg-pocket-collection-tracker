@@ -1,5 +1,3 @@
-[![All Contributors](https://img.shields.io/github/all-contributors/marcelpanse/tcg-pocket-collection-tracker?color=ee8449&style=flat-square)](#contributors)
-
 # TCG Pocket Collection Tracker
 
 TCG Pocket Collection Tracker is an application designed to help users efficiently track their Pokémon Pocket game cards, identify optimal card packs to open, manage trades, and engage with both friends and the community at large. Our application is completely free, open-source, and prioritizes user privacy by not selling data, tracking analytics or using advertisements.
