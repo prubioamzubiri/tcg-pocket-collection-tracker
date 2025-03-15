@@ -105,6 +105,13 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/411353?v=4",
       "profile": "https://github.com/stephanvane",
       "contributions": ["code"]
+    },
+    {
+      "login": "xander-marjoram",
+      "name": "Xander Marjoram",
+      "avatar_url": "https://avatars.githubusercontent.com/u/26894168?v=4",
+      "profile": "https://github.com/xander-marjoram",
+      "contributions": ["code"]
     }
   ],
   "contributorsPerLine": 7,
