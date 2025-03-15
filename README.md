@@ -24,7 +24,7 @@ Our backend infrastructure utilizes Supabase. The backend manages user authentic
 - Optimal pack calculation tool
 - Trade facilitation support
 - Automatic card scanner from screenshots - take a look at the [details here](https://github.com/1vcian/Pokemon-TCGP-Card-Scanner)
-- Community forum (thanks @stephvane for hosting)
+- Community forum
 
 For upcoming features and tasks, please consult our [issues list](https://github.com/marcelpanse/tcg-pocket-collection-tracker/issues).
 
