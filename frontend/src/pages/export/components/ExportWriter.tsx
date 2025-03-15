@@ -16,6 +16,9 @@ export const ExportWriter = () => {
           Id: ac.card_id,
           CardName: ac.name,
           NumberOwned: ownedCards.find((oc) => oc.card_id === ac.card_id)?.amount_owned ?? 0,
+          Expansion: ac.expansion,
+          Pack: ac.pack,
+          Rarity: ac.rarity,
         }
       })
     const sheet = XLSX.utils.json_to_sheet(json)
