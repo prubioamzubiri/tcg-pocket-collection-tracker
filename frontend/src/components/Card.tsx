@@ -177,7 +177,12 @@ export const incrementMultipleCards = async (
     const currentAmount = ownedCard?.amount_owned || 0
     const newAmount = Math.max(0, currentAmount + incrementAmount)
 
-    cardArray.push({ card_id: cardId, amount_owned: newAmount, email: user.user.email })
+    const duplicateScannedCard = cardArray.find((row) => row.card_id === cardId)
+    if (duplicateScannedCard) {
+      duplicateScannedCard.amount_owned = newAmount
+    } else {
+      cardArray.push({ card_id: cardId, amount_owned: newAmount, email: user.user.email })
+    }
 
     if (ownedCard) {
       console.log('Incrementing existing card:', cardId, 'from', currentAmount, 'to', newAmount)
