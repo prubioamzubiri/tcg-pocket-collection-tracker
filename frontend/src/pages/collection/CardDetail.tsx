@@ -38,6 +38,9 @@ function CardDetail({ cardId, onClose }: CardDetailProps) {
               <strong>{t('text.tradeTokens')}:</strong> {sellableForTokensDictionary[card.rarity] || 'N/A'}
             </p>
             <p className="text-lg mb-1">
+              <strong>Energy:</strong> {card.energy}
+            </p>
+            <p className="text-lg mb-1">
               <strong>{t('text.hp')}:</strong> {card.hp}
             </p>
             <p className="text-lg mb-1">
