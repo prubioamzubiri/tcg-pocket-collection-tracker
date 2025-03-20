@@ -27,7 +27,7 @@ const fetchRange = async (total: number, start: number, end: number): Promise<Co
   }
 
   if (end < total) {
-    return [...data, ...(await fetchRange(total, end, Math.min(total, end + PAGE_SIZE)))]
+    return [...data, ...(await fetchRange(total, end + 1, Math.min(total, end + PAGE_SIZE)))]
   }
 
   return data as CollectionRow[]

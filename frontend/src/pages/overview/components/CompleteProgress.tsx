@@ -27,7 +27,7 @@ export function CompleteProgress({ title, expansion, packName, rarityFilter = []
   return (
     <div className="sm:mt-4">
       {title}
-      <Progress value={progressValue} />
+      <Progress value={progressValue || 100} />
       {t('youHave', { nCardsOwned: nrOfCardsOwned, nTotalCards: totalNrOfCards })}
     </div>
   )
