@@ -1,7 +1,7 @@
 import HamburgerMenu from '@/components/HamburgerMenu.tsx'
 import { Login } from '@/components/Login.tsx'
 import { Button } from '@/components/ui/button.tsx'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog.tsx'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog.tsx'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,6 +19,7 @@ import Import from '@/pages/import/Import'
 import loadable from '@loadable/component'
 import { Globe, LogOut, UserRoundPen } from 'lucide-react'
 import { use, useState } from 'react'
+import GitHubButton from 'react-github-btn'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 
@@ -28,6 +29,7 @@ export function Header() {
   const { user, setUser, isLoginDialogOpen, setIsLoginDialogOpen, setIsProfileDialogOpen } = use(UserContext)
   const [isImportDialogOpen, setIsImportDialogOpen] = useState<boolean>(false)
   const [isExportDialogOpen, setIsExportDialogOpen] = useState<boolean>(false)
+  const [isAboutUsDialogOpen, setIsAboutUsDialogOpen] = useState<boolean>(false)
   const { t, i18n } = useTranslation('header')
   const changeLanguage = (lng: string) => i18n.changeLanguage(lng)
 
@@ -90,6 +92,9 @@ export function Header() {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => setIsExportDialogOpen(true)}>{t('export')}</DropdownMenuItem>
                   <DropdownMenuItem onClick={() => setIsImportDialogOpen(true)}>{t('import')}</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => setIsAboutUsDialogOpen(true)}>{t('aboutUs')}</DropdownMenuItem>
+
                   <DropdownMenuGroup>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
@@ -135,6 +140,55 @@ export function Header() {
             <DialogTitle>{t('export')}</DialogTitle>
           </DialogHeader>
           <Export />
+        </DialogContent>
+      </Dialog>
+      <Dialog open={isAboutUsDialogOpen} onOpenChange={setIsAboutUsDialogOpen}>
+        <DialogContent className="border-2 border-slate-600 shadow-none">
+          <DialogHeader>
+            <DialogTitle>{t('aboutUsDialog.title')}</DialogTitle>
+          </DialogHeader>
+          <DialogDescription className="p-4">
+            <span className="text-md" dangerouslySetInnerHTML={{ __html: t('aboutUsDialog.content', { interpolation: { escapeValue: false } }) }} />
+
+            <span className="text-md">
+              <br />
+              <br />
+              The site is hosted on Github Pages and Supabase. Costs are covered by me as a hobby project. If you like the project, please consider supporting
+              me using the coffee button in the bottom right corner.
+            </span>
+
+            <span className="flex mt-6 justify-center gap-4">
+              <GitHubButton
+                href="https://github.com/marcelpanse/tcg-pocket-collection-tracker"
+                data-color-scheme="no-preference: light; light: light; dark: light;"
+                data-icon="octicon-star"
+                data-size="large"
+                data-show-count="true"
+                aria-label="Star marcelpanse/tcg-pocket-collection-tracker on GitHub"
+              >
+                Star
+              </GitHubButton>
+
+              <GitHubButton
+                href="https://github.com/marcelpanse/tcg-pocket-collection-tracker/issues"
+                data-color-scheme="no-preference: light; light: light; dark: light;"
+                data-size="large"
+                data-show-count="true"
+                aria-label="Issue marcelpanse/tcg-pocket-collection-tracker on GitHub"
+              >
+                Issue
+              </GitHubButton>
+
+              <GitHubButton
+                href="https://github.com/marcelpanse/tcg-pocket-collection-tracker"
+                data-color-scheme="no-preference: light; light: light; dark: light;"
+                data-size="large"
+                aria-label="Code marcelpanse/tcg-pocket-collection-tracker on GitHub"
+              >
+                Read me
+              </GitHubButton>
+            </span>
+          </DialogDescription>
         </DialogContent>
       </Dialog>
     </>
