@@ -2311,6 +2311,7 @@
     "hp": "40",
     "energy": "40 HP",
     "name": "Old Amber",
+    "linkedCardID": "A1-218",
     "card_type": "trainer",
     "evolution_type": "item",
     "attacks": [],

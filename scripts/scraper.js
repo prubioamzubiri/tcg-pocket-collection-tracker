@@ -104,6 +104,10 @@ function extractCardInfo($, cardUrl) {
   // Assign the name from the first part
   cardInfo.name = titleParts[0].trim()
 
+  if (cardInfo.name === 'Old Amber' && cardInfo.id === '63') {
+    cardInfo.linkedCardID = 'A1-218'
+  }
+
   const typeAndEvolution = $('p.card-text-type').text().trim().split('-')
   cardInfo.card_type = typeAndEvolution[0].toLowerCase().trim()
   cardInfo.evolution_type = typeAndEvolution[1] ? typeAndEvolution[1].toLowerCase().trim().replace(' ', '') : 'basic'
