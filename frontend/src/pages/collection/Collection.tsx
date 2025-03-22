@@ -71,10 +71,10 @@ function Collection() {
 
   return (
     <div className="flex flex-col gap-y-1 mx-auto max-w-[900px]">
-      <div className="flex items-center gap-2 flex-col md:flex-row px-8">
+      <div className="flex items-center gap-2 flex-col md:flex-row gap-y-1 px-4">
         <ExpansionsFilter expansionFilter={expansionFilter} setExpansionFilter={setExpansionFilter} />
       </div>
-      <div className="items-center justify-between gap-2 flex-col md:flex-row px-8 md:flex">
+      <div className="items-center justify-between gap-2 flex-col md:flex-row gap-y-1 px-4 md:flex">
         <SearchInput setSearchValue={setSearchValue} />
         <OwnedFilter ownedFilter={ownedFilter} setOwnedFilter={setOwnedFilter} />
         <RarityFilter rarityFilter={rarityFilter} setRarityFilter={setRarityFilter} />

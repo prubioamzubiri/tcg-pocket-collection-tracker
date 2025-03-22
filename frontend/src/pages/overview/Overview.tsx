@@ -6,7 +6,7 @@ import * as CardsDB from '@/lib/CardsDB.ts'
 import { CollectionContext } from '@/lib/context/CollectionContext'
 import { GradientCard } from '@/pages/overview/components/GradientCard.tsx'
 import type { Rarity } from '@/types'
-import { Siren } from 'lucide-react'
+import { Heart, Siren } from 'lucide-react'
 import { use, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ExpansionOverview } from './components/ExpansionOverview'
@@ -22,7 +22,11 @@ function Overview() {
   const { t } = useTranslation('pages/overview')
 
   const [highestProbabilityPack, setHighestProbabilityPack] = useState<Pack | undefined>()
+  const [collectionCount, setCollectionCount] = useState('')
+  const [usersCount, setUsersCount] = useState('')
+
   const ownedCardsCount = useMemo(() => ownedCards.reduce((total, card) => total + card.amount_owned, 0), [ownedCards])
+
   const [rarityFilter, setRarityFilter] = useState<Rarity[]>(() => {
     const savedRarityFilter = localStorage.getItem('rarityFilter')
     return savedRarityFilter ? JSON.parse(savedRarityFilter) : []
@@ -33,6 +37,15 @@ function Overview() {
   })
 
   const totalUniqueCards = CardsDB.getTotalNrOfCards({ rarityFilter })
+
+  useEffect(() => {
+    fetch('https://vcwloujmsjuacqpwthee.supabase.co/storage/v1/object/public/stats/stats.json')
+      .then((response) => response.json())
+      .then((data) => {
+        setCollectionCount(data.collectionCount)
+        setUsersCount(data.usersCount)
+      })
+  }, [])
 
   useEffect(() => {
     localStorage.setItem('rarityFilter', JSON.stringify(rarityFilter))
@@ -67,6 +80,14 @@ function Overview() {
             <Siren className="h-4 w-4" />
             <AlertTitle>{t('dontHaveCards.title')}</AlertTitle>
             <AlertDescription>{t('dontHaveCards.description')}</AlertDescription>
+          </Alert>
+        )}
+
+        {ownedCards.length > 0 && (
+          <Alert className="mb-8 border-2 border-slate-600 shadow-none">
+            <Heart className="h-4 w-4" />
+            <AlertTitle>{t('stats.title')}</AlertTitle>
+            <AlertDescription>{t('stats.description', { usersCount, collectionCount })}</AlertDescription>
           </Alert>
         )}
 

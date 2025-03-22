@@ -146,7 +146,7 @@ function Trade() {
   return (
     <div className="flex flex-col gap-y-4">
       <Tabs defaultValue={currentTab} onValueChange={(value) => setCurrentTab(value)}>
-        <div className="mx-auto max-w-[900px] flex flex-row flex-wrap align-center gap-4 p-8">
+        <div className="mx-auto max-w-[900px] flex flex-row flex-wrap align-center gap-x-4 gap-y-1 px-4">
           <TabsList className="flex-grow m-auto flex-wrap h-auto border-2 border-slate-600 rounded-md">
             <TabsTrigger value="looking_for">Looking For</TabsTrigger>
             <TabsTrigger value="for_trade">For Trade</TabsTrigger>
