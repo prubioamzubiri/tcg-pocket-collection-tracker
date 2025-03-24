@@ -14,7 +14,7 @@ Deno.serve(async (_req) => {
 
     try {
       // Run a query
-      const collectionCountResult = await connection.queryObject<{ count: number }>('SELECT count(*) as count FROM collection')
+      const collectionCountResult = await connection.queryObject<{ count: number }>('SELECT SUM(amount_owned) as count FROM collection;')
       const usersCountResult = await connection.queryObject<{ count: number }>('SELECT count(*) as count FROM auth.users')
 
       const collectionCount = collectionCountResult.rows[0]?.count.toLocaleString()
