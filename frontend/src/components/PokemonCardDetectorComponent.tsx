@@ -223,7 +223,7 @@ const PokemonCardDetector: FC<PokemonCardDetectorProps> = ({ onDetectionComplete
                   ? {
                       id: bestMatch.id,
                       distance: bestMatch.distance,
-                      imageUrl: `/images/${bestMatch.card.image?.split('/').at(-1)}`,
+                      imageUrl: `/images/en-US/${bestMatch.card.image?.split('/').at(-1)}`,
                     }
                   : undefined,
                 topMatches,
@@ -322,7 +322,7 @@ const PokemonCardDetector: FC<PokemonCardDetectorProps> = ({ onDetectionComplete
             matchedCard: {
               id: newMatch.id,
               distance: newMatch.distance,
-              imageUrl: `/images/${newMatch.card.image?.split('/').at(-1)}`,
+              imageUrl: `/images/en-US/${newMatch.card.image?.split('/').at(-1)}`,
             },
           }
         }
@@ -397,7 +397,7 @@ const PokemonCardDetector: FC<PokemonCardDetectorProps> = ({ onDetectionComplete
                       }}
                       title={match.card.name}
                     >
-                      <img src={`/images/${match.card.image?.split('/').at(-1)}`} alt={match.card.name} className="w-full h-auto object-contain" />
+                      <img src={`/images/en-US/${match.card.image?.split('/').at(-1)}`} alt={match.card.name} className="w-full h-auto object-contain" />
                       <div className="text-xs text-center mt-1 bg-black/60 text-white py-0.5 rounded">{(100 - (match.distance / 128) * 100).toFixed(0)}%</div>
                     </div>
                   ))}
