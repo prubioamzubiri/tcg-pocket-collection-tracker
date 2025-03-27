@@ -64,7 +64,7 @@ export const expansions: Expansion[] = [
     id: 'A2a',
     cards: a2aCards,
     packs: [{ name: 'arceuspack', color: '#E4D7CA' }],
-    tradeable: false,
+    tradeable: true,
   },
   {
     name: 'shiningrevelry',
