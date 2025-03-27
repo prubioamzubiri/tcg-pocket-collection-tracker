@@ -57,9 +57,9 @@ function Overview() {
     const filteredExpansions = CardsDB.expansions.filter((expansion) => !expansion.promo)
     for (const expansion of filteredExpansions) {
       const pullRates = expansion.packs
-        .filter((p) => p.name !== 'Every pack')
+        .filter((p) => p.name !== 'everypack')
         .map((pack) => ({
-          packName: pack.name.replace(' pack', ''),
+          packName: pack.name.replace('pack', ''),
           percentage: CardsDB.pullRate({ ownedCards, expansion, pack, rarityFilter, numberFilter }),
           fill: pack.color,
         }))

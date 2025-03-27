@@ -3,6 +3,7 @@ import A1 from '../../assets/cards/A1.json'
 import A1a from '../../assets/cards/A1a.json'
 import A2 from '../../assets/cards/A2.json'
 import A2a from '../../assets/cards/A2a.json'
+import A2b from '../../assets/cards/A2b.json'
 import PA from '../../assets/cards/P-A.json'
 
 const update = (cards: Card[], expansionName: ExpansionId) => {
@@ -19,8 +20,9 @@ export const a1Cards: Card[] = update(A1 as unknown as Card[], 'A1')
 export const a1aCards: Card[] = update(A1a as unknown as Card[], 'A1a')
 export const a2Cards: Card[] = update(A2 as unknown as Card[], 'A2')
 export const a2aCards: Card[] = update(A2a as unknown as Card[], 'A2a')
+export const a2bCards: Card[] = update(A2b as unknown as Card[], 'A2b')
 export const paCards: Card[] = update(PA as unknown as Card[], 'P-A')
-export const allCards: Card[] = [...a1Cards, ...a1aCards, ...a2Cards, ...a2aCards, ...paCards]
+export const allCards: Card[] = [...a1Cards, ...a1aCards, ...a2Cards, ...a2aCards, ...a2bCards, ...paCards]
 
 export const getCardById = (cardId: string): Card | undefined => {
   return allCards.find((card) => card.card_id === cardId)
@@ -62,6 +64,13 @@ export const expansions: Expansion[] = [
     id: 'A2a',
     cards: a2aCards,
     packs: [{ name: 'arceuspack', color: '#E4D7CA' }],
+    tradeable: false,
+  },
+  {
+    name: 'shiningrevelry',
+    id: 'A2b',
+    cards: a2bCards,
+    packs: [{ name: 'shiningrevelrypack', color: '#99F6E4' }],
     tradeable: false,
   },
   {
@@ -204,7 +213,7 @@ export const pullRate = ({ ownedCards, expansion, pack, rarityFilter = [], numbe
   //probabilities
   // console.log('calc pull rate for', pack.name, ownedCards.length, rarityFilter)
 
-  const cardsInPack = expansion.cards.filter((c) => c.pack === pack.name || c.pack === 'Every pack')
+  const cardsInPack = expansion.cards.filter((c) => c.pack === pack.name || c.pack === 'everypack')
   // console.log('cards in pack', cardsInPack.length) //79
   let missingCards = cardsInPack.filter((c) => !ownedCards.find((oc) => oc.card_id === c.card_id && oc.amount_owned > numberFilter - 1))
 

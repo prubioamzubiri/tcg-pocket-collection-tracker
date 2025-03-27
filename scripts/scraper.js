@@ -5,8 +5,8 @@ import fetch from 'node-fetch'
 
 const BASE_URL = 'https://pocket.limitlesstcg.com'
 const targetDir = 'frontend/assets/cards/'
-const expansions = ['A1', 'A1a', 'A2', 'A2a', 'P-A']
-const packs = ['Pikachu pack', 'Charizard pack', 'Mewtwo pack', 'Dialga pack', 'Palkia pack', 'Mew pack', 'Arceus pack', 'All cards']
+const expansions = ['A1', 'A1a', 'A2', 'A2a', 'A2b', 'P-A']
+const packs = ['Pikachu pack', 'Charizard pack', 'Mewtwo pack', 'Dialga pack', 'Palkia pack', 'Mew pack', 'Arceus pack', 'Shining revelry pack', 'All cards']
 
 const typeMapping = {
   G: 'Grass',
