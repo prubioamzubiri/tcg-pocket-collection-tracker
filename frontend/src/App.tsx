@@ -50,9 +50,9 @@ function App() {
       if (sso && sig) {
         toast({ title: 'Logging in', description: 'Please wait...', variant: 'default' })
         authSSO(user, sso, sig).catch(console.error)
-      } else {
-        fetchCollection().then(setOwnedCards).catch(console.error)
-        fetchAccount().then(setAccount).catch(console.error)
+      } else if (user.user.email) {
+        fetchCollection(user.user.email).then(setOwnedCards).catch(console.error)
+        fetchAccount(user.user.email).then(setAccount).catch(console.error)
       }
     } else {
       setOwnedCards([]) // in case the user is logged out, clear the cards

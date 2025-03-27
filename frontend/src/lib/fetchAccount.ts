@@ -1,8 +1,8 @@
 import { supabase } from '@/lib/Auth.ts'
 import type { AccountRow } from '@/types'
 
-export async function fetchAccount() {
-  const { data, error } = await supabase.from('accounts').select().limit(1)
+export async function fetchAccount(email: string) {
+  const { data, error } = await supabase.from('accounts').select().eq('email', email).limit(1)
   if (error) {
     console.log('supa error', error)
     throw new Error('Error fetching collection')
