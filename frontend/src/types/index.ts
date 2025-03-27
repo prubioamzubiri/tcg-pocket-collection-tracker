@@ -9,6 +9,7 @@ export interface AccountRow {
   $id: string
   username: string
   friend_id: string
+  is_public: boolean
 }
 
 export interface CollectionRow {
@@ -72,10 +73,6 @@ export interface Card {
   crafting_cost: number
 
   amount_owned?: number // calculated from the collection table
-}
-
-export interface CollectedCard extends Card {
-  amount_owned?: number
 }
 
 export interface ImportExportRow {

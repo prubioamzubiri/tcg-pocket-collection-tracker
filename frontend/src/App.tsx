@@ -2,7 +2,6 @@ import InstallPrompt from '@/components/InstallPrompt.tsx'
 import { useToast } from '@/hooks/use-toast.ts'
 import { authSSO, supabase } from '@/lib/Auth.ts'
 import { fetchAccount } from '@/lib/fetchAccount.ts'
-import CardDetail from '@/pages/collection/CardDetail.tsx'
 import type { AccountRow, CollectionRow } from '@/types'
 import loadable from '@loadable/component'
 import { useEffect, useState } from 'react'
@@ -67,11 +66,10 @@ function App() {
           <Header />
           <Routes>
             <Route path="/" element={<Overview />} />
-            <Route path="/collection" element={<Collection />} />
+            <Route path="/collection/:friendId?" element={<Collection />} />
             <Route path="/trade" element={<Trade />} />
           </Routes>
           <EditProfile account={account} setAccount={setAccount} isProfileDialogOpen={isProfileDialogOpen} setIsProfileDialogOpen={setIsProfileDialogOpen} />
-          <CardDetail cardId={selectedCardId} onClose={() => setSelectedCardId('')} />
           <InstallPrompt />
         </ErrorBoundary>
       </CollectionContext.Provider>

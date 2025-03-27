@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog.tsx'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Switch } from '@/components/ui/switch.tsx'
 import { useToast } from '@/hooks/use-toast.ts'
 import { supabase } from '@/lib/Auth.ts'
 import { UserContext } from '@/lib/context/UserContext.ts'
@@ -32,6 +33,7 @@ const EditProfile: FC<Props> = ({ account, setAccount, isProfileDialogOpen, setI
     friend_id: z.string().regex(/^[0-9]{16}$/, {
       message: 'Friend ID is not valid, it must be 16 digits without dashes.',
     }),
+    is_public: z.boolean().optional(),
   })
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -39,6 +41,7 @@ const EditProfile: FC<Props> = ({ account, setAccount, isProfileDialogOpen, setI
     values: {
       username: account?.username || '',
       friend_id: account?.friend_id || '',
+      is_public: account?.is_public || false,
     },
   })
 
@@ -50,6 +53,7 @@ const EditProfile: FC<Props> = ({ account, setAccount, isProfileDialogOpen, setI
           email: user?.user.email,
           username: values.username,
           friend_id: values.friend_id,
+          is_public: values.is_public,
         })
         .select()
         .single()
@@ -57,7 +61,6 @@ const EditProfile: FC<Props> = ({ account, setAccount, isProfileDialogOpen, setI
       setAccount(account.data as AccountRow)
 
       toast({ title: 'Account saved.', variant: 'default' })
-      setIsProfileDialogOpen(false)
     } catch (e) {
       console.error('error saving account', e)
       toast({ title: 'Error saving your account.', variant: 'destructive' })
@@ -116,6 +119,29 @@ const EditProfile: FC<Props> = ({ account, setAccount, isProfileDialogOpen, setI
                   </FormControl>
                   <FormDescription>{t('friendIDDescription')}</FormDescription>
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="is_public"
+              render={({ field }) => (
+                <FormItem className="flex flex-col items-start">
+                  <FormControl className="mt-2">
+                    <div className="flex items-center gap-x-2 w-full">
+                      <FormLabel>{t('isPublic')}</FormLabel>
+                      <div className="grow-1">
+                        <Switch checked={field.value} onCheckedChange={field.onChange} />
+                      </div>
+                      <Button
+                        disabled={!account?.is_public}
+                        onClick={() => window.open(`https://tcgpocketcollectiontracker.com/#/collection/${form.getValues().friend_id}`)}
+                      >
+                        {t('isPublicButton')}
+                      </Button>
+                    </div>
+                  </FormControl>
+                  <FormDescription>{t('isPublicDescription')}</FormDescription>
                 </FormItem>
               )}
             />

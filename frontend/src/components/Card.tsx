@@ -6,7 +6,8 @@ import { type User, UserContext } from '@/lib/context/UserContext.ts'
 import type { Card as CardType } from '@/types'
 import type { CollectionRow } from '@/types'
 import { MinusIcon, PlusIcon } from 'lucide-react'
-import { use, useCallback, useEffect, useMemo, useState } from 'react'
+import { use, useCallback, useEffect, useState } from 'react'
+import { useParams } from 'react-router'
 
 interface Props {
   card: CardType
@@ -17,9 +18,11 @@ interface Props {
 const _inputDebounce: Record<string, number | null> = {}
 
 export function Card({ card, useMaxWidth = false }: Props) {
+  const params = useParams()
+
   const { user, setIsLoginDialogOpen } = use(UserContext)
   const { ownedCards, setOwnedCards, setSelectedCardId } = use(CollectionContext)
-  let amountOwned = useMemo(() => ownedCards.find((row) => row.card_id === card.card_id)?.amount_owned || 0, [ownedCards])
+  let amountOwned = card.amount_owned || 0
   const [inputValue, setInputValue] = useState(0)
 
   useEffect(() => {
@@ -94,22 +97,28 @@ export function Card({ card, useMaxWidth = false }: Props) {
       <p className="max-w-[130px] overflow-hidden text-ellipsis whitespace-nowrap font-semibold text-[12px] pt-2">
         {card.card_id} - {card.name}
       </p>
+
       <div className="flex items-center gap-x-1">
-        <Button variant="ghost" size="icon" onClick={() => removeCard(card.card_id)} className="rounded-full" tabIndex={-1}>
-          <MinusIcon />
-        </Button>
+        {!params.friendId && (
+          <Button variant="ghost" size="icon" onClick={() => removeCard(card.card_id)} className="rounded-full" tabIndex={-1}>
+            <MinusIcon />
+          </Button>
+        )}
         <input
           min="0"
           max="99"
           type="text"
+          disabled={Boolean(params.friendId)}
           value={inputValue}
           onChange={handleInputChange}
           className="w-7 text-center border-none rounded"
           onFocus={(event) => event.target.select()}
         />
-        <Button variant="ghost" size="icon" className="rounded-full" onClick={() => addCard(card.card_id)} tabIndex={-1}>
-          <PlusIcon />
-        </Button>
+        {!params.friendId && (
+          <Button variant="ghost" size="icon" className="rounded-full" onClick={() => addCard(card.card_id)} tabIndex={-1}>
+            <PlusIcon />
+          </Button>
+        )}
       </div>
     </div>
   )
