@@ -49,7 +49,6 @@ export function Card({ card, useMaxWidth = false }: Props) {
         } else {
           ownedCards.push({ email: user.user.email, card_id: cardId, amount_owned: newAmount })
         }
-        setOwnedCards([...ownedCards])
 
         const { error } = await supabase.from('collection').upsert({ card_id: cardId, amount_owned: newAmount, email: user.user.email })
         if (error) {
