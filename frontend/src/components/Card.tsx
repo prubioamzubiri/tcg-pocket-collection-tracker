@@ -26,7 +26,7 @@ export function Card({ card, useMaxWidth = false }: Props) {
 
   const { user, setIsLoginDialogOpen } = use(UserContext)
   const { ownedCards, setOwnedCards, setSelectedCardId } = use(CollectionContext)
-  let amountOwned = card.amount_owned || 0
+  const [amountOwned, setAmountOwned] = useState(card.amount_owned || 0)
   const [inputValue, setInputValue] = useState(0)
 
   useEffect(() => {
@@ -35,9 +35,7 @@ export function Card({ card, useMaxWidth = false }: Props) {
 
   const updateCardCount = useCallback(
     async (cardId: string, newAmount: number) => {
-      // we need to optimistically update the amountOwned so we can use it in the addCard/removeCard functions since the setState won't be updated yet if you click fast.
-      amountOwned = Math.max(0, newAmount)
-      setInputValue(amountOwned)
+      setAmountOwned(Math.max(0, newAmount))
 
       if (_inputDebounce[cardId]) {
         window.clearTimeout(_inputDebounce[cardId])
