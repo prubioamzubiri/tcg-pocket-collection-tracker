@@ -20,6 +20,10 @@ const _inputDebounce: Record<string, number | null> = {}
 export function Card({ card, useMaxWidth = false }: Props) {
   const params = useParams()
 
+  if (card.linkedCardID) {
+    return null
+  }
+
   const { user, setIsLoginDialogOpen } = use(UserContext)
   const { ownedCards, setOwnedCards, setSelectedCardId } = use(CollectionContext)
   let amountOwned = card.amount_owned || 0
