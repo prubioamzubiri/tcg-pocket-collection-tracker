@@ -13,7 +13,9 @@ function CardDetail({ cardId, onClose }: CardDetailProps) {
   const { t } = useTranslation(['pages/card-detail', 'common/types', 'common/packs', 'common/sets'])
   const card: Card = getCardById(cardId) || ({} as Card)
   const expansion = expansions.find((e) => e.id === card.expansion)
-  const pack = expansion?.packs.find((p) => p.name === card.pack)
+
+  // if we draw from 'everypack' we need to take one of the packs to calculated based on
+  const packName = card.pack === 'everypack' ? expansion?.packs[0].name : card.pack
 
   return (
     <Sheet
@@ -36,9 +38,9 @@ function CardDetail({ cardId, onClose }: CardDetailProps) {
           </div>
 
           <div className="p-4 w-full">
-            {expansion && pack && (
+            {expansion && packName && (
               <p className="text-lg mb-1">
-                <strong>Chance to pull: {pullRateForSpecificCard(expansion, pack, card).toFixed(3)}%</strong>
+                <strong>Chance to pull: {pullRateForSpecificCard(expansion, packName, card).toFixed(3)}%</strong>
               </p>
             )}
             <p className="text-lg mb-1">

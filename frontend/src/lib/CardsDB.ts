@@ -257,9 +257,7 @@ export const pullRate = ({ ownedCards, expansion, pack, rarityFilter = [], numbe
   return chanceToGetNewCard
 }
 
-export const pullRateForSpecificCard = (expansion: Expansion, pack: Pack, card: Card) => {
-  // if we draw from 'everypack' we need to take one of the packs to calculated based on
-  const packName = pack.name === 'everypack' ? expansion.packs[0].name : pack.name
+export const pullRateForSpecificCard = (expansion: Expansion, packName: string, card: Card) => {
   const nrOfcardsOfThisRarity = expansion.cards.filter((c) => (c.pack === packName || c.pack === 'everypack') && c.rarity === card.rarity).length
   // console.log('nrOfcardsOfThisRarity', nrOfcardsOfThisRarity)
 
