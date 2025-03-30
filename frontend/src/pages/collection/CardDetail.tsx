@@ -1,6 +1,6 @@
 import { Card as CardComponent } from '@/components/Card'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
-import { getCardById, sellableForTokensDictionary } from '@/lib/CardsDB.ts'
+import { expansions, getCardById, pullRateForSpecificCard, sellableForTokensDictionary } from '@/lib/CardsDB.ts'
 import type { Card } from '@/types'
 import { useTranslation } from 'react-i18next'
 
@@ -12,6 +12,8 @@ interface CardDetailProps {
 function CardDetail({ cardId, onClose }: CardDetailProps) {
   const { t } = useTranslation(['pages/card-detail', 'common/types', 'common/packs', 'common/sets'])
   const card: Card = getCardById(cardId) || ({} as Card)
+  const expansion = expansions.find((e) => e.id === card.expansion)
+  const pack = expansion?.packs.find((p) => p.name === card.pack)
 
   return (
     <Sheet
@@ -34,8 +36,19 @@ function CardDetail({ cardId, onClose }: CardDetailProps) {
           </div>
 
           <div className="p-4 w-full">
+            {expansion && pack && (
+              <p className="text-lg mb-1">
+                <strong>Chance to pull: {pullRateForSpecificCard(expansion, pack, card).toFixed(3)}%</strong>
+              </p>
+            )}
             <p className="text-lg mb-1">
               <strong>{t('text.tradeTokens')}:</strong> {sellableForTokensDictionary[card.rarity] || 'N/A'}
+            </p>
+            <p className="text-lg mb-1">
+              <strong>{t('text.expansion')}:</strong> {card.expansion}
+            </p>
+            <p className="text-lg mb-1">
+              <strong>{t('text.pack')}:</strong> {t(`${card.pack}`, { ns: 'common/packs' })}
             </p>
             <p className="text-lg mb-1">
               <strong>Energy:</strong> {card.energy}
@@ -60,12 +73,6 @@ function CardDetail({ cardId, onClose }: CardDetailProps) {
             </p>
             <p className="text-lg mb-1">
               <strong>{t('text.setDetails')}:</strong> {t(card.set_details, { ns: 'common/sets' })}
-            </p>
-            <p className="text-lg mb-1">
-              <strong>{t('text.expansion')}:</strong> {card.expansion}
-            </p>
-            <p className="text-lg mb-1">
-              <strong>{t('text.pack')}:</strong> {t(`${card.pack}`, { ns: 'common/packs' })}
             </p>
 
             <div className="mt-4">

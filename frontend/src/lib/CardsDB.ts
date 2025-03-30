@@ -256,3 +256,24 @@ export const pullRate = ({ ownedCards, expansion, pack, rarityFilter = [], numbe
 
   return chanceToGetNewCard
 }
+
+export const pullRateForSpecificCard = (expansion: Expansion, pack: Pack, card: Card) => {
+  // if we draw from 'everypack' we need to take one of the packs to calculated based on
+  const packName = pack.name === 'everypack' ? expansion.packs[0].name : pack.name
+  const nrOfcardsOfThisRarity = expansion.cards.filter((c) => (c.pack === packName || c.pack === 'everypack') && c.rarity === card.rarity).length
+  // console.log('nrOfcardsOfThisRarity', nrOfcardsOfThisRarity)
+
+  const chanceToGetThisCard1_3 = probabilityPerRarity1_3[card.rarity] / 100 / nrOfcardsOfThisRarity
+  const chanceToGetThisCard4 = probabilityPerRarity4[card.rarity] / 100 / nrOfcardsOfThisRarity
+  const chanceToGetThisCard5 = probabilityPerRarity5[card.rarity] / 100 / nrOfcardsOfThisRarity
+
+  // console.log('totalProbability1_3', chanceToGetThisCard1_3)
+  // console.log('totalProbability4', chanceToGetThisCard4)
+  // console.log('totalProbability5', chanceToGetThisCard5)
+
+  // take the total probabilities per card draw (for the 1-3 you need to take the cube root of the probability) and multiply
+  const chanceToGetNewCard = 1 - (1 - chanceToGetThisCard1_3) ** 3 * (1 - chanceToGetThisCard4) * (1 - chanceToGetThisCard5)
+  // console.log('chance to get new card', chanceToGetNewCard)
+
+  return chanceToGetNewCard * 100
+}

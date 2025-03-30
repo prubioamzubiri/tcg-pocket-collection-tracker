@@ -37,7 +37,8 @@ function Collection() {
       console.log('fetching collection by friend id', friendId)
       fetchCollection(undefined, friendId).then(setFriendCards).catch(console.error)
     } else if (!friendId && friendCards) {
-      setFriendCards(null)
+      // NOTE: because the card table is hard to refresh, we have to reload the page. This is a bit of a hack, but it works. If you figure  a better way, please let me know.
+      window.location.reload()
     }
   }, [params])
 
@@ -48,7 +49,11 @@ function Collection() {
   }, [])
 
   const cardCollection = useMemo(() => {
-    return friendCards || ownedCards
+    // if friendId is in the url, return friendCards, otherwise return ownedCards. FriendCards can be null if they are still loading.
+    if (params.friendId) {
+      return friendCards
+    }
+    return ownedCards || []
   }, [ownedCards, friendCards])
 
   const filterRarities = (c: Card) => {
@@ -57,6 +62,10 @@ function Collection() {
   }
 
   const getFilteredCards = useMemo(() => {
+    if (!cardCollection) {
+      return null // cards are still loading
+    }
+
     let filteredCards = allCards
 
     if (expansionFilter !== 'all') {
@@ -97,6 +106,11 @@ function Collection() {
 
   const handleBatchUpdate = async (cardIds: string[], amount: number) => {
     await updateMultipleCards(cardIds, amount, ownedCards, setOwnedCards, user)
+  }
+
+  // cards are still loading, lets wait.
+  if (!getFilteredCards) {
+    return null
   }
 
   return (
