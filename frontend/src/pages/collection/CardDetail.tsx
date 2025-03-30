@@ -40,7 +40,7 @@ function CardDetail({ cardId, onClose }: CardDetailProps) {
           <div className="p-4 w-full">
             {expansion && packName && (
               <p className="text-lg mb-1">
-                <strong>Chance to pull: {pullRateForSpecificCard(expansion, packName, card).toFixed(3)}%</strong>
+                <strong>Chance to pull: {pullRateForSpecificCard(expansion, packName, card).toFixed(2)}%</strong>
               </p>
             )}
             <p className="text-lg mb-1">
