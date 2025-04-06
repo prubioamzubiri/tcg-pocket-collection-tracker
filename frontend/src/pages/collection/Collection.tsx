@@ -126,10 +126,10 @@ function Collection() {
       <div className="flex items-center gap-2 flex-col md:flex-row gap-y-1 px-4">
         <ExpansionsFilter expansionFilter={expansionFilter} setExpansionFilter={setExpansionFilter} />
       </div>
-      <div className="items-center justify-between gap-2 flex-col md:flex-row gap-y-1 px-4 md:flex">
+      <div className="items-center gap-2 flex-col md:flex-row gap-y-1 px-4 md:flex">
         <SearchInput setSearchValue={setSearchValue} />
         <OwnedFilter ownedFilter={ownedFilter} setOwnedFilter={setOwnedFilter} />
-        <RarityFilter rarityFilter={rarityFilter} setRarityFilter={setRarityFilter} />
+        <RarityFilter rarityFilter={rarityFilter} setRarityFilter={setRarityFilter} collapse />
 
         {!friendCards && <BatchUpdateDialog filteredCards={getFilteredCards} onBatchUpdate={handleBatchUpdate} disabled={getFilteredCards.length === 0} />}
       </div>

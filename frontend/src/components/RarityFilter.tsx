@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
-import useWindowDimensions from '@/lib/hooks/useWindowDimensionsHook.ts'
 import type { Rarity } from '@/types'
 import { type FC, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -10,10 +9,9 @@ interface Props {
   rarityFilter: Rarity[]
   setRarityFilter: (rarityFilter: Rarity[]) => void
   deckbuildingMode?: boolean
+  collapse?: boolean
 }
-const RarityFilter: FC<Props> = ({ rarityFilter, setRarityFilter, deckbuildingMode }) => {
-  const { width } = useWindowDimensions()
-  const isMobile = width < 768
+const RarityFilter: FC<Props> = ({ rarityFilter, setRarityFilter, deckbuildingMode, collapse }) => {
   const { t } = useTranslation('rarity-filter')
 
   useEffect(() => {
@@ -31,7 +29,7 @@ const RarityFilter: FC<Props> = ({ rarityFilter, setRarityFilter, deckbuildingMo
         size="sm"
         value={rarityFilter}
         onValueChange={(value: Rarity[]) => setRarityFilter(value)}
-        className={`justify-end shadow-none border-2 border-slate-600 rounded-md ${isMobile ? 'flex-col' : 'flex-row'}`}
+        className={`justify-end shadow-none border-2 border-slate-600 rounded-md ${collapse ? 'flex-col' : 'flex-row'}`}
       >
         <ToggleGroupItem value="◊" aria-label="◊" className="text-gray-400 hover:text-gray-500">
           ♢
@@ -56,6 +54,12 @@ const RarityFilter: FC<Props> = ({ rarityFilter, setRarityFilter, deckbuildingMo
             <ToggleGroupItem value="☆☆☆" aria-label="☆☆☆" className="text-yellow-500 hover:text-yellow-600 data-[state=on]:text-yellow-500">
               ☆☆☆
             </ToggleGroupItem>
+            <ToggleGroupItem value="✵" aria-label="✵" className="text-pink-300 hover:text-pink-500 .dark:data-[state=on]:text-pink-400">
+              ✵
+            </ToggleGroupItem>
+            <ToggleGroupItem value="✵✵" aria-label="✵✵" className="text-pink-300 hover:text-pink-500 data-[state=on]:text-pink-400">
+              ✵✵
+            </ToggleGroupItem>
             <ToggleGroupItem value="Crown Rare" aria-label="♛">
               👑
             </ToggleGroupItem>
@@ -63,10 +67,10 @@ const RarityFilter: FC<Props> = ({ rarityFilter, setRarityFilter, deckbuildingMo
         )}
       </ToggleGroup>
     ),
-    [rarityFilter, isMobile, deckbuildingMode],
+    [rarityFilter, collapse, deckbuildingMode],
   )
 
-  if (!isMobile) {
+  if (!collapse) {
     return Toggles
   }
 
