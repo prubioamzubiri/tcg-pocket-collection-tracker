@@ -106,7 +106,7 @@ export const sellableForTokensDictionary: Record<Rarity, number | null> = {
   '☆': 100,
   '☆☆': 300,
   '☆☆☆': 300,
-  '✵': 400,
+  '✵': 250,
   '✵✵': 650,
   'Crown Rare': 1500,
   Unknown: null,
