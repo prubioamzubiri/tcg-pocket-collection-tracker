@@ -2,7 +2,7 @@ import useWindowDimensions from '@/lib/hooks/useWindowDimensionsHook.ts'
 import type { Card as CardType } from '@/types'
 import { type Row, createColumnHelper, getCoreRowModel, getGroupedRowModel, useReactTable } from '@tanstack/react-table'
 import { useVirtualizer } from '@tanstack/react-virtual'
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Card } from './Card.tsx'
 
@@ -18,6 +18,26 @@ export function CardsTable({ cards, resetScrollTrigger, showStats }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const { width } = useWindowDimensions()
   const { t } = useTranslation('common/sets')
+  const [scrollContainerHeight, setScrollContainerHeight] = useState('auto')
+
+  useLayoutEffect(() => {
+    const updateScrollContainerHeight = () => {
+      if (scrollRef.current) {
+        const headerHeight = (document.querySelector('#header') as HTMLElement | null)?.offsetHeight || 0
+        const filterbarHeight = (document.querySelector('#filterbar') as HTMLElement | null)?.offsetHeight || 0
+        const maxHeight = window.innerHeight - headerHeight - filterbarHeight
+
+        setScrollContainerHeight(`${maxHeight}px`)
+      }
+    }
+
+    updateScrollContainerHeight() // initial calculation
+    window.addEventListener('resize', updateScrollContainerHeight)
+
+    return () => {
+      window.removeEventListener('resize', updateScrollContainerHeight)
+    }
+  }, []) // You can add dependencies here if needed
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -98,7 +118,11 @@ export function CardsTable({ cards, resetScrollTrigger, showStats }: Props) {
   })
 
   return (
-    <div ref={scrollRef} className="h-[calc(100vh-270px)] overflow-y-auto mt-4 sm:mt-8 px-4 flex flex-col justify-start" style={{ scrollbarWidth: 'none' }}>
+    <div
+      ref={scrollRef}
+      className="overflow-y-auto mt-4 sm:mt-8 px-4 flex flex-col justify-start"
+      style={{ scrollbarWidth: 'none', height: scrollContainerHeight }}
+    >
       {showStats && (
         <small className="text-right hidden md:block">
           {cards.filter((c) => !c.linkedCardID).length} selected, {cards.filter((card) => (card.amount_owned ?? 0) > 0).length} uniques owned,{' '}

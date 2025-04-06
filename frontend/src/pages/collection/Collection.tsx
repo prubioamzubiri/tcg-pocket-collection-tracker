@@ -115,23 +115,25 @@ function Collection() {
 
   return (
     <div className="flex flex-col gap-y-1 mx-auto max-w-[900px]">
-      {friendCards && (
-        <Alert className="mb-2 border-2 border-slate-600 shadow-none">
-          <Siren className="h-4 w-4" />
-          <AlertTitle>{t('publicCollectionTitle')}</AlertTitle>
-          <AlertDescription>{t('publicCollectionDescription')}</AlertDescription>
-        </Alert>
-      )}
+      <div id="filterbar">
+        {friendCards && (
+          <Alert className="mb-2 border-2 border-slate-600 shadow-none">
+            <Siren className="h-4 w-4" />
+            <AlertTitle>{t('publicCollectionTitle')}</AlertTitle>
+            <AlertDescription>{t('publicCollectionDescription')}</AlertDescription>
+          </Alert>
+        )}
 
-      <div className="flex items-center gap-2 flex-col md:flex-row gap-y-1 px-4">
-        <ExpansionsFilter expansionFilter={expansionFilter} setExpansionFilter={setExpansionFilter} />
-      </div>
-      <div className="items-center gap-2 flex-col md:flex-row gap-y-1 px-4 md:flex">
-        <SearchInput setSearchValue={setSearchValue} />
-        <OwnedFilter ownedFilter={ownedFilter} setOwnedFilter={setOwnedFilter} />
-        <RarityFilter rarityFilter={rarityFilter} setRarityFilter={setRarityFilter} collapse />
+        <div className="flex items-center gap-2 flex-col md:flex-row gap-y-1 px-4">
+          <ExpansionsFilter expansionFilter={expansionFilter} setExpansionFilter={setExpansionFilter} />
+        </div>
+        <div className="items-center gap-2 flex-col md:flex-row gap-y-1 px-4 md:flex">
+          <SearchInput setSearchValue={setSearchValue} />
+          <OwnedFilter ownedFilter={ownedFilter} setOwnedFilter={setOwnedFilter} />
+          <RarityFilter rarityFilter={rarityFilter} setRarityFilter={setRarityFilter} collapse />
 
-        {!friendCards && <BatchUpdateDialog filteredCards={getFilteredCards} onBatchUpdate={handleBatchUpdate} disabled={getFilteredCards.length === 0} />}
+          {!friendCards && <BatchUpdateDialog filteredCards={getFilteredCards} onBatchUpdate={handleBatchUpdate} disabled={getFilteredCards.length === 0} />}
+        </div>
       </div>
 
       <div>
