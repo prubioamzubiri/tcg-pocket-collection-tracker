@@ -115,6 +115,8 @@ export const sellableForTokensDictionary: Record<Rarity, number | null> = {
 
 const basicCards: Rarity[] = ['◊', '◊◊', '◊◊◊', '◊◊◊◊']
 
+type CardWithAmount = Card & { amount_owned: number }
+
 interface NrOfCardsOwnedProps {
   ownedCards: CollectionRow[]
   rarityFilter: Rarity[]
@@ -124,10 +126,12 @@ interface NrOfCardsOwnedProps {
   deckbuildingMode?: boolean
 }
 export const getNrOfCardsOwned = ({ ownedCards, rarityFilter, numberFilter, expansion, packName, deckbuildingMode }: NrOfCardsOwnedProps): number => {
-  let allCardsWithAmounts = allCards.map((ac) => {
-    const amount = ownedCards.find((oc) => ac.card_id === oc.card_id)?.amount_owned || 0
-    return { ...ac, amount_owned: amount }
-  })
+  let allCardsWithAmounts = allCards
+    .filter((a) => !a.linkedCardID)
+    .map((ac) => {
+      const amount = ownedCards.find((oc) => ac.card_id === oc.card_id)?.amount_owned || 0
+      return { ...ac, amount_owned: amount }
+    })
   if (deckbuildingMode) {
     allCardsWithAmounts = allCardsWithAmounts
       .map((ac) => {
@@ -141,20 +145,20 @@ export const getNrOfCardsOwned = ({ ownedCards, rarityFilter, numberFilter, expa
   }
 
   const filters = {
-    number: (cr: CollectionRow) => cr.amount_owned > numberFilter - 1,
-    rarity: (cr: CollectionRow) => {
+    number: (cr: CardWithAmount) => cr.amount_owned > numberFilter - 1,
+    rarity: (cr: CardWithAmount) => {
       const cardRarity = getCardById(cr.card_id)?.rarity
       if (!rarityFilter.length || !cardRarity) return true
       return rarityFilter.includes(cardRarity)
     },
-    expansion: (cr: CollectionRow) => (expansion ? expansion.cards.find((c) => cr.card_id === c.card_id) : true),
-    pack: (cr: CollectionRow) => (expansion && packName ? expansion.cards.find((c) => c.pack === packName && cr.card_id === c.card_id) : true),
-    deckbuildingMode: (cr: CollectionRow) =>
+    expansion: (cr: CardWithAmount) => (expansion ? expansion.cards.find((c) => cr.card_id === c.card_id) : true),
+    pack: (cr: CardWithAmount) => (expansion && packName ? expansion.cards.find((c) => c.pack === packName && cr.card_id === c.card_id) : true),
+    deckbuildingMode: (cr: CardWithAmount) =>
       deckbuildingMode ? allCardsWithAmounts.find((c) => c.card_id === cr.card_id && c.amount_owned > numberFilter - 1) : true,
   }
 
   // biome-ignore format: improve readability for filters
-  return ownedCards
+  return allCardsWithAmounts
     .filter(filters.number)
     .filter(filters.rarity)
     .filter(filters.expansion)
