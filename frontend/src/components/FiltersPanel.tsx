@@ -47,7 +47,7 @@ const FilterPanel: FC<Props> = ({ children, cards, onFiltersChanged, visibleFilt
   const [expansionFilter, setExpansionFilter] = useState<string>('all')
   const [rarityFilter, setRarityFilter] = useState<Rarity[]>([])
   const [ownedFilter, setOwnedFilter] = useState<'all' | 'owned' | 'missing'>('all')
-  const [numberFilter, setNumberFilter] = useState(1)
+  const [numberFilter, setNumberFilter] = useState(0)
 
   const filterRarities = (c: Card) => {
     if (rarityFilter.length === 0) return true
@@ -72,7 +72,6 @@ const FilterPanel: FC<Props> = ({ children, cards, onFiltersChanged, visibleFilt
       }
     }
     filteredCards = filteredCards.filter(filterRarities)
-    console.log('number filter', numberFilter, filteredCards)
     if (searchValue) {
       filteredCards = filteredCards.filter((card) => {
         return (
@@ -137,7 +136,9 @@ const FilterPanel: FC<Props> = ({ children, cards, onFiltersChanged, visibleFilt
                 {filtersDialog.expansions && <ExpansionsFilter expansionFilter={expansionFilter} setExpansionFilter={setExpansionFilter} />}
                 {filtersDialog.rarity && <RarityFilter rarityFilter={rarityFilter} setRarityFilter={setRarityFilter} />}
                 {filtersDialog.owned && <OwnedFilter ownedFilter={ownedFilter} setOwnedFilter={setOwnedFilter} fullWidth />}
-                {filtersDialog.amount && <NumberFilter numberFilter={numberFilter} setNumberFilter={setNumberFilter} options={[1, 2, 3, 4, 5, 6, 7, 8, 9]} />}
+                {filtersDialog.amount && (
+                  <NumberFilter numberFilter={numberFilter} setNumberFilter={setNumberFilter} options={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]} />
+                )}
               </div>
             </DialogContent>
           </Dialog>
