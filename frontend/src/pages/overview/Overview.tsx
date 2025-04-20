@@ -1,6 +1,6 @@
 import DeckbuildingFilter from '@/components/DeckbuildingFilter'
-import NumberFilter from '@/components/NumberFilter'
-import RarityFilter from '@/components/RarityFilter.tsx'
+import NumberFilter from '@/components/filters/NumberFilter.tsx'
+import RarityFilter from '@/components/filters/RarityFilter.tsx'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { AlertTitle } from '@/components/ui/alert.tsx'
 import * as CardsDB from '@/lib/CardsDB.ts'

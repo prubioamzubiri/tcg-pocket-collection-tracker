@@ -1,9 +1,10 @@
 import { BatchUpdateDialog } from '@/components/BatchUpdateDialog.tsx'
 import { updateMultipleCards } from '@/components/Card.tsx'
-import ExpansionsFilter from '@/components/ExpansionsFilter.tsx'
-import OwnedFilter from '@/components/OwnedFilter.tsx'
-import RarityFilter from '@/components/RarityFilter.tsx'
-import SearchInput from '@/components/SearchInput.tsx'
+import ExpansionsFilter from '@/components/filters/ExpansionsFilter.tsx'
+import NumberFilter from '@/components/filters/NumberFilter.tsx'
+import OwnedFilter from '@/components/filters/OwnedFilter.tsx'
+import RarityFilter from '@/components/filters/RarityFilter.tsx'
+import SearchInput from '@/components/filters/SearchInput.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog.tsx'
 import { allCards } from '@/lib/CardsDB.ts'
@@ -31,6 +32,7 @@ interface Props {
     search?: boolean
     owned?: boolean
     rarity?: boolean
+    amount?: boolean
   }
 
   batchUpdate?: boolean
@@ -45,6 +47,7 @@ const FilterPanel: FC<Props> = ({ children, cards, onFiltersChanged, visibleFilt
   const [expansionFilter, setExpansionFilter] = useState<string>('all')
   const [rarityFilter, setRarityFilter] = useState<Rarity[]>([])
   const [ownedFilter, setOwnedFilter] = useState<'all' | 'owned' | 'missing'>('all')
+  const [numberFilter, setNumberFilter] = useState(1)
 
   const filterRarities = (c: Card) => {
     if (rarityFilter.length === 0) return true
@@ -69,6 +72,7 @@ const FilterPanel: FC<Props> = ({ children, cards, onFiltersChanged, visibleFilt
       }
     }
     filteredCards = filteredCards.filter(filterRarities)
+    filteredCards = filteredCards.filter((f) => (f.amount_owned || 0) >= numberFilter)
     if (searchValue) {
       filteredCards = filteredCards.filter((card) => {
         return (
@@ -87,7 +91,7 @@ const FilterPanel: FC<Props> = ({ children, cards, onFiltersChanged, visibleFilt
     }
 
     return filteredCards
-  }, [cards, expansionFilter, rarityFilter, searchValue, ownedFilter, langState])
+  }, [cards, expansionFilter, rarityFilter, searchValue, ownedFilter, numberFilter, langState])
 
   useEffect(() => {
     onFiltersChanged(getFilteredCards)
@@ -132,6 +136,7 @@ const FilterPanel: FC<Props> = ({ children, cards, onFiltersChanged, visibleFilt
                 {filtersDialog.expansions && <ExpansionsFilter expansionFilter={expansionFilter} setExpansionFilter={setExpansionFilter} />}
                 {filtersDialog.rarity && <RarityFilter rarityFilter={rarityFilter} setRarityFilter={setRarityFilter} />}
                 {filtersDialog.owned && <OwnedFilter ownedFilter={ownedFilter} setOwnedFilter={setOwnedFilter} fullWidth />}
+                {filtersDialog.amount && <NumberFilter numberFilter={numberFilter} setNumberFilter={setNumberFilter} options={[1, 2, 3, 4, 5, 6, 7, 8, 9]} />}
               </div>
             </DialogContent>
           </Dialog>

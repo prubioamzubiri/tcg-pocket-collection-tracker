@@ -1,6 +1,6 @@
 import { CardsTable } from '@/components/CardsTable.tsx'
-import NumberFilter from '@/components/NumberFilter'
-import RarityFilter from '@/components/RarityFilter.tsx'
+import NumberFilter from '@/components/filters/NumberFilter.tsx'
+import RarityFilter from '@/components/filters/RarityFilter.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useToast } from '@/hooks/use-toast.ts'
