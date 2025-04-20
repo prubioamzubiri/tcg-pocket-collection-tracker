@@ -1,4 +1,4 @@
-import DeckbuildingFilter from '@/components/DeckbuildingFilter'
+import DeckbuildingFilter from '@/components/filters/DeckbuildingFilter'
 import NumberFilter from '@/components/filters/NumberFilter.tsx'
 import RarityFilter from '@/components/filters/RarityFilter.tsx'
 import { Alert, AlertDescription } from '@/components/ui/alert'
