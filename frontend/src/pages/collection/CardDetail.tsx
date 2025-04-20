@@ -1,7 +1,9 @@
 import { Card as CardComponent } from '@/components/Card'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { expansions, getCardById, pullRateForSpecificCard, sellableForTokensDictionary } from '@/lib/CardsDB.ts'
+import { getCardNameByLang } from '@/lib/utils'
 import type { Card } from '@/types'
+import i18n from 'i18next'
 import { useTranslation } from 'react-i18next'
 
 interface CardDetailProps {
@@ -29,7 +31,7 @@ function CardDetail({ cardId, onClose }: CardDetailProps) {
       <SheetContent className="transition-all duration-300 ease-in-out border-slate-600 overflow-y-auto">
         <SheetHeader>
           <SheetTitle>
-            {card.name} {card.rarity}
+            {getCardNameByLang(card, i18n.language)} {card.rarity}
           </SheetTitle>
         </SheetHeader>
         <div className="flex flex-col items-center">

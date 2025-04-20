@@ -9,7 +9,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { allCards } from '@/lib/CardsDB.ts'
 import { CollectionContext } from '@/lib/context/CollectionContext.ts'
 import { UserContext } from '@/lib/context/UserContext.ts'
+import { getCardNameByLang } from '@/lib/utils'
 import type { Card, CollectionRow, Rarity } from '@/types'
+import i18n from 'i18next'
 import { type FC, type JSX, useContext, useEffect, useMemo, useState } from 'react'
 
 interface Props {
@@ -38,6 +40,7 @@ const FilterPanel: FC<Props> = ({ children, cards, onFiltersChanged, visibleFilt
   const { user } = useContext(UserContext)
   const { ownedCards, setOwnedCards } = useContext(CollectionContext)
 
+  const [langState, setLangState] = useState(i18n.language)
   const [searchValue, setSearchValue] = useState('')
   const [expansionFilter, setExpansionFilter] = useState<string>('all')
   const [rarityFilter, setRarityFilter] = useState<Rarity[]>([])
@@ -68,7 +71,10 @@ const FilterPanel: FC<Props> = ({ children, cards, onFiltersChanged, visibleFilt
     filteredCards = filteredCards.filter(filterRarities)
     if (searchValue) {
       filteredCards = filteredCards.filter((card) => {
-        return card.name.toLowerCase().includes(searchValue.toLowerCase()) || card.card_id.toLowerCase().includes(searchValue.toLowerCase())
+        return (
+          getCardNameByLang(card, i18n.language).toLowerCase().includes(searchValue.toLowerCase()) ||
+          card.card_id.toLowerCase().includes(searchValue.toLowerCase())
+        )
       })
     }
 
@@ -81,10 +87,19 @@ const FilterPanel: FC<Props> = ({ children, cards, onFiltersChanged, visibleFilt
     }
 
     return filteredCards
-  }, [cards, expansionFilter, rarityFilter, searchValue, ownedFilter])
+  }, [cards, expansionFilter, rarityFilter, searchValue, ownedFilter, langState])
 
   useEffect(() => {
     onFiltersChanged(getFilteredCards)
+    const handleLanguageChange = (lng: string) => {
+      setLangState(lng)
+    }
+
+    i18n.on('languageChanged', handleLanguageChange)
+
+    return () => {
+      i18n.off('languageChanged', handleLanguageChange)
+    }
   }, [getFilteredCards])
 
   const handleBatchUpdate = async (cardIds: string[], amount: number) => {

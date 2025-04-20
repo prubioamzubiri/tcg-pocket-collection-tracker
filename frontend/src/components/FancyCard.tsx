@@ -1,3 +1,4 @@
+import { getCardNameByLang } from '@/lib/utils'
 import type { Card } from '@/types'
 import i18n from 'i18next'
 import { type CSSProperties, type Dispatch, type SetStateAction, useCallback, useRef, useState } from 'react'
@@ -87,7 +88,7 @@ function FancyCard({ selected, setIsSelected, card, size = 'default' }: Props) {
           className="card-test"
           style={cardTestStyle}
           src={`${imagePath}`}
-          alt={card.name}
+          alt={getCardNameByLang(card, i18n.language)}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           onError={(e) => {

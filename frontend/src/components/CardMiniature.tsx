@@ -1,6 +1,8 @@
 // src/components/CardMiniature.tsx
 import FancyCard from '@/components/FancyCard'
+import { getCardNameByLang } from '@/lib/utils'
 import type { Card } from '@/types'
+import i18n from 'i18next'
 
 interface CardMiniatureProps {
   card: Card
@@ -21,7 +23,7 @@ export function CardMiniature({ card, onSelect, selected }: CardMiniatureProps) 
         setIsSelected={handleClick} // Pass the click handler
         size="small"
       />
-      <p className="text-xs text-center mt-1">{card.name}</p>
+      <p className="text-xs text-center mt-1">{getCardNameByLang(card, i18n.language)}</p>
     </div>
   )
 }
