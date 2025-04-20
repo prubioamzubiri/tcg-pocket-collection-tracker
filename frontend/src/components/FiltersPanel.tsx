@@ -72,7 +72,7 @@ const FilterPanel: FC<Props> = ({ children, cards, onFiltersChanged, visibleFilt
       }
     }
     filteredCards = filteredCards.filter(filterRarities)
-    filteredCards = filteredCards.filter((f) => (f.amount_owned || 0) >= numberFilter)
+    console.log('number filter', numberFilter, filteredCards)
     if (searchValue) {
       filteredCards = filteredCards.filter((card) => {
         return (
@@ -89,6 +89,7 @@ const FilterPanel: FC<Props> = ({ children, cards, onFiltersChanged, visibleFilt
         card.amount_owned = 0
       }
     }
+    filteredCards = filteredCards.filter((f) => (f.amount_owned || 0) >= numberFilter)
 
     return filteredCards
   }, [cards, expansionFilter, rarityFilter, searchValue, ownedFilter, numberFilter, langState])
