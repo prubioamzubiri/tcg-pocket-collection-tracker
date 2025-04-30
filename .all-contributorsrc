@@ -140,6 +140,13 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/73377131?v=4",
       "profile": "https://github.com/jejnaj",
       "contributions": ["code"]
+    },
+    {
+      "login": "msilvestro",
+      "name": "Matteo Silvestro",
+      "avatar_url": "https://avatars.githubusercontent.com/u/25161825?v=4",
+      "profile": "https://matteosilvestro.com/",
+      "contributions": ["code"]
     }
   ],
   "contributorsPerLine": 7,
