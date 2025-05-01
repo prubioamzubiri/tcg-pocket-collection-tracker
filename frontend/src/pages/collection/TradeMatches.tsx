@@ -1,5 +1,5 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog.tsx'
-import { getCardById } from '@/lib/CardsDB'
+import { expansions, getCardById } from '@/lib/CardsDB'
 import type { Card, CollectionRow, Rarity } from '@/types'
 import type { FC } from 'react'
 import { useMemo } from 'react'
@@ -22,6 +22,8 @@ interface TradeCard extends Card {
 const TradeMatches: FC<Props> = ({ isTradeMatchesDialogOpen, setIsTradeMatchesDialogOpen, ownedCards, friendCards }) => {
   const { t } = useTranslation('trade-matches')
 
+  const tradeableExpansions = useMemo(() => expansions.filter((e) => e.tradeable).map((e) => e.id), [])
+
   // Cards the friend has 2+ copies of that the user doesn't own
   const friendExtraCards = useMemo(() => {
     const result: Record<Rarity, TradeCard[]> = {
@@ -39,7 +41,7 @@ const TradeMatches: FC<Props> = ({ isTradeMatchesDialogOpen, setIsTradeMatchesDi
       '': [],
     }
 
-    // Find cards that friend has 2+ copies of
+    // Find cards that friend has 2+ copies of and are in a tradable expansion
     const friendExtraCards = friendCards.filter((card) => card.amount_owned >= 2)
 
     // Filter out cards that user already owns
@@ -49,7 +51,7 @@ const TradeMatches: FC<Props> = ({ isTradeMatchesDialogOpen, setIsTradeMatchesDi
     // Get full card info and group by rarity
     for (const card of cardsUserDoesntOwn) {
       const fullCard = getCardById(card.card_id)
-      if (fullCard && rarityOrder.includes(fullCard.rarity)) {
+      if (fullCard && rarityOrder.includes(fullCard.rarity) && tradeableExpansions.includes(fullCard.expansion)) {
         result[fullCard.rarity].push({
           ...fullCard,
           amount_owned: card.amount_owned,
@@ -87,7 +89,7 @@ const TradeMatches: FC<Props> = ({ isTradeMatchesDialogOpen, setIsTradeMatchesDi
     // Get full card info and group by rarity
     for (const card of cardsFriendDoesntOwn) {
       const fullCard = getCardById(card.card_id)
-      if (fullCard && rarityOrder.includes(fullCard.rarity)) {
+      if (fullCard && rarityOrder.includes(fullCard.rarity) && tradeableExpansions.includes(fullCard.expansion)) {
         result[fullCard.rarity].push({
           ...fullCard,
           amount_owned: card.amount_owned,
