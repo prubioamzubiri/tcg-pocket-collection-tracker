@@ -98,6 +98,11 @@ const TradeMatches: FC<Props> = ({ isTradeMatchesDialogOpen, setIsTradeMatchesDi
     return result
   }, [ownedCards, friendCards])
 
+  // Check if there are any possible trades across all rarities
+  const hasPossibleTrades = useMemo(() => {
+    return rarityOrder.some((rarity) => friendExtraCards[rarity].length > 0 && userExtraCards[rarity].length > 0)
+  }, [friendExtraCards, userExtraCards])
+
   return (
     <Dialog open={isTradeMatchesDialogOpen} onOpenChange={setIsTradeMatchesDialogOpen}>
       <DialogContent className="border-2 border-slate-600 shadow-none max-w-4xl h-[90vh]">
@@ -105,6 +110,12 @@ const TradeMatches: FC<Props> = ({ isTradeMatchesDialogOpen, setIsTradeMatchesDi
           <DialogTitle>{t('title')}</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col gap-4">
+          {!hasPossibleTrades && (
+            <div className="text-center py-8">
+              <p className="text-xl text-gray-500">{t('noPossibleTrades')}</p>
+              <p className="text-sm text-gray-400 mt-2">{t('noPossibleTradesDescription')}</p>
+            </div>
+          )}
           {rarityOrder.map(
             (rarity) =>
               friendExtraCards[rarity].length > 0 &&
