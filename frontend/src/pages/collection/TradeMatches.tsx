@@ -147,7 +147,10 @@ const TradeMatches: FC<Props> = ({ isTradeMatchesDialogOpen, setIsTradeMatchesDi
                         <ul className="space-y-1">
                           {userExtraCards[rarity].map((card) => (
                             <li key={card.card_id} className="flex justify-between">
-                              <span>{card.name}</span>
+                              <div className="flex items-center">
+                                <div className="min-w-14 me-4">{card.card_id}</div>
+                                <div>{card.name}</div>
+                              </div>
                               <span className="text-gray-500">×{card.amount_owned}</span>
                             </li>
                           ))}
