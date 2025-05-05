@@ -110,19 +110,18 @@ function Overview() {
             <h2 className="mb-1 text-center text-base sm:text-lg md:text-2xl">{t('youHave')}</h2>
             <RadialChart
               value={totalUniqueCards === 0 ? 0 : CardsDB.getNrOfCardsOwned({ ownedCards, rarityFilter, numberFilter, deckbuildingMode }) / totalUniqueCards}
-              label={String(CardsDB.getNrOfCardsOwned({ ownedCards, rarityFilter, numberFilter, deckbuildingMode }))}
+              label={`${CardsDB.getNrOfCardsOwned({ ownedCards, rarityFilter, numberFilter, deckbuildingMode })} / ${totalUniqueCards}`}
               color="#38bdf8"
               size={120}
               strokeWidth={12}
             />
-            <h2 className="mt-2 text-balance text-center text-base sm:text-lg md:text-2xl">{t('uniqueCards', { totalUniqueCards: totalUniqueCards })}</h2>
+            <h2 className="mt-2 text-balance text-center text-base sm:text-lg md:text-2xl">{t('uniqueCards')}</h2>
             <h2 className="text-balance text-center text-sm sm:text-md md:text-lg">
               {numberFilter === 1 ? t('numberOfCopies-single') : t('numberOfCopies-plural', { numberFilter: numberFilter })}
             </h2>
           </div>
           <GradientCard
             title={highestProbabilityPack?.packName || ''}
-            packNames={t('all')}
             percentage={highestProbabilityPack?.percentage || 0}
             className="col-span-8 md:col-span-4 col-start-1 md:col-start-3 mb-4 md:mb-0"
             backgroundColor={highestProbabilityPack?.fill}

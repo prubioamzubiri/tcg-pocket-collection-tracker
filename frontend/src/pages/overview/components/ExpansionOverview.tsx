@@ -54,7 +54,6 @@ export function ExpansionOverview({ expansion, rarityFilter, numberFilter, deckb
               <>
                 <GradientCard
                   title={highestProbabilityPack.packName}
-                  packNames={chartData.map((cd) => t(cd.packName, { ns: 'common/packs' })).join(', ')}
                   percentage={highestProbabilityPack.percentage}
                   className="col-span-8 snap-start flex-shrink-0 w-full"
                   backgroundColor={highestProbabilityPack.fill}
@@ -93,7 +92,6 @@ export function ExpansionOverview({ expansion, rarityFilter, numberFilter, deckb
             <>
               <GradientCard
                 title={highestProbabilityPack.packName}
-                packNames={chartData.map((cd) => t(cd.packName, { ns: 'common/packs' })).join(', ')}
                 percentage={highestProbabilityPack.percentage}
                 className="col-span-8 lg:col-span-4"
                 backgroundColor={highestProbabilityPack.fill}

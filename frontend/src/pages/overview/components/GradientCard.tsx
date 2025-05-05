@@ -4,11 +4,10 @@ interface GradientCardProps {
   title: string
   className?: string
   backgroundColor?: string
-  packNames: string
   percentage: number
 }
 
-export function GradientCard({ title, packNames, percentage, className, backgroundColor }: GradientCardProps) {
+export function GradientCard({ title, percentage, className, backgroundColor }: GradientCardProps) {
   const { t } = useTranslation(['gradient-card', 'common/packs'])
   const chancePercentage = Math.round(percentage * 1000) / 10
 
@@ -20,7 +19,6 @@ export function GradientCard({ title, packNames, percentage, className, backgrou
       <header className="font-semibold text-center text-2xl sm:text-6xl text-slate-900">{t(title, { ns: 'common/packs' })}</header>
       <p className="mt-2 text-center text-md sm:text-xl text-slate-900">
         {t('text', {
-          packNames: packNames,
           chancePercentage: chancePercentage,
         })}
       </p>

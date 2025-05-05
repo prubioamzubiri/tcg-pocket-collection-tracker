@@ -21,17 +21,20 @@ import { Globe, LogOut, UserRoundPen } from 'lucide-react'
 import { use, useState } from 'react'
 import GitHubButton from 'react-github-btn'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
+import { Link, useLocation } from 'react-router'
 
 const PokemonCardDetector = loadable(() => import('@/components/PokemonCardDetectorComponent.tsx'))
 
 export function Header() {
   const { user, setUser, isLoginDialogOpen, setIsLoginDialogOpen, setIsProfileDialogOpen } = use(UserContext)
+  const location = useLocation()
   const [isImportDialogOpen, setIsImportDialogOpen] = useState<boolean>(false)
   const [isExportDialogOpen, setIsExportDialogOpen] = useState<boolean>(false)
   const [isAboutUsDialogOpen, setIsAboutUsDialogOpen] = useState<boolean>(false)
   const { t, i18n } = useTranslation('header')
   const changeLanguage = (lng: string) => i18n.changeLanguage(lng)
+
+  const isOverviewPage = location.pathname === '/'
 
   return (
     <>
@@ -39,7 +42,14 @@ export function Header() {
         <div className="shrink font-bold pr-4 hidden md:block">TCG Pocket Collection Tracker</div>
         <NavigationMenu className="max-w-full justify-start">
           <NavigationMenuList>
-            <NavigationMenuLink asChild>
+            {/* dynamic item for mobile that switches between overview and collection depending on the current page */}
+            <NavigationMenuLink asChild className="block sm:hidden">
+              <Link to={isOverviewPage ? '/collection' : '/'}>
+                <Button variant="ghost">{isOverviewPage ? t('collection') : t('overview')}</Button>
+              </Link>
+            </NavigationMenuLink>
+
+            <NavigationMenuLink asChild className="hidden sm:block">
               <Link to="/">
                 <Button variant="ghost">{t('overview')}</Button>
               </Link>

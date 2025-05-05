@@ -53,7 +53,7 @@ export const RadialChart: React.FC<RadialChartProps> = ({
         y="50%"
         textAnchor="middle"
         dominantBaseline="central"
-        className="font-semibold text-lg"
+        className="font-semibold text-md"
         fill="#FFFFFF" // tailwind slate-700
       >
         {label ?? `${Math.round(value * 100)}%`}
