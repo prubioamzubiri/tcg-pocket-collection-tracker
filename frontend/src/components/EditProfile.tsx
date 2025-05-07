@@ -129,15 +129,31 @@ const EditProfile: FC<Props> = ({ account, setAccount, isProfileDialogOpen, setI
                 <FormItem className="flex flex-col items-start">
                   <FormControl className="mt-2">
                     <div className="flex items-center gap-x-2 w-full">
-                      <FormLabel>{t('isPublic')}</FormLabel>
+                      <FormLabel>{t('isPublicToggle')}</FormLabel>
                       <div className="grow-1">
                         <Switch checked={field.value} onCheckedChange={field.onChange} />
                       </div>
                       <Button
                         disabled={!account?.is_public}
-                        onClick={() => window.open(`https://tcgpocketcollectiontracker.com/#/collection/${form.getValues().friend_id}`)}
+                        onClick={async (e) => {
+                          e.preventDefault()
+
+                          toast({ title: 'Copied public collection page URL to clipboard!', variant: 'default', duration: 3000 })
+                          await navigator.clipboard.writeText(`https://tcgpocketcollectiontracker.com/#/collection/${account?.friend_id}`)
+                        }}
                       >
                         {t('isPublicButton')}
+                      </Button>
+                      <Button
+                        disabled={!account?.is_public}
+                        onClick={async (e) => {
+                          e.preventDefault()
+
+                          toast({ title: 'Copied trading page URL to clipboard!', variant: 'default', duration: 3000 })
+                          await navigator.clipboard.writeText(`https://tcgpocketcollectiontracker.com/#/collection/${account?.friend_id}/trade`)
+                        }}
+                      >
+                        {t('isPublicTradeButton')}
                       </Button>
                     </div>
                   </FormControl>

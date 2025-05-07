@@ -81,7 +81,7 @@ function Collection() {
       >
         <div>
           {friendCards && (
-            <Alert className="mb-2 border-2 border-slate-600 shadow-none">
+            <Alert className="mb-4 border-2 border-slate-600 shadow-none">
               <Siren className="h-4 w-4" />
               <AlertTitle>{t('publicCollectionTitle')}</AlertTitle>
               <AlertDescription>

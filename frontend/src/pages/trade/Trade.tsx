@@ -15,7 +15,7 @@ import { type MouseEvent, use, useMemo, useState } from 'react'
 import { UserNotLoggedIn } from './components/UserNotLoggedIn'
 
 function Trade() {
-  const { user, account } = use(UserContext)
+  const { user, account, setIsProfileDialogOpen } = use(UserContext)
   const { ownedCards } = use(CollectionContext)
   const { toast } = useToast()
 
@@ -82,8 +82,11 @@ function Trade() {
   const getCardValues = () => {
     let cardValues = ''
 
+    if (account?.is_public) {
+      cardValues += `Public trade page: https://tcgpocketcollectiontracker.com/#/collection/${account?.friend_id}/trade\n`
+    }
     if (account?.username) {
-      cardValues += `Account: ${account.username} - ${account.friend_id}\n\n`
+      cardValues += `Friend ID: ${account.friend_id} (${account.username})\n\n`
     }
 
     cardValues += 'Looking for cards:\n'
@@ -129,14 +132,15 @@ function Trade() {
     await navigator.clipboard.writeText(cardValues)
   }
 
-  const postToCommunity = async () => {
-    const rarities = Array.from(new Set(lookingForCardsFiltered.map((c) => c.rarity))).join(', ')
-    const title = encodeURIComponent(`Trading cards ${rarities}`)
-    const body = encodeURIComponent(getCardValues())
-    const category = 'Trading'
-    const url = `https://community.tcgpocketcollectiontracker.com/new-topic?title=${title}&body=${body}&category=${category}`
+  const copyTradingLink = async (e: MouseEvent) => {
+    e.preventDefault()
 
-    window.open(url, '_blank')
+    toast({ title: 'Copied trading page URL to clipboard!', variant: 'default', duration: 3000 })
+    await navigator.clipboard.writeText(`https://tcgpocketcollectiontracker.com/#/collection/${account?.friend_id}/trade`)
+  }
+
+  const enableTradingPage = () => {
+    setIsProfileDialogOpen(true)
   }
 
   if (!user) {
@@ -165,9 +169,15 @@ function Trade() {
           <Button variant="outline" onClick={(e) => copyToClipboard(e)}>
             Copy to clipboard
           </Button>
-          <Button variant="outline" onClick={() => postToCommunity()}>
-            Post to community
-          </Button>
+          {!account?.is_public ? (
+            <Button variant="outline" onClick={() => enableTradingPage()}>
+              Enable trading page
+            </Button>
+          ) : (
+            <Button variant="outline" onClick={(e) => copyTradingLink(e)}>
+              Share trading page
+            </Button>
+          )}
         </div>
         <div className="max-w-auto mx-4 md:mx-8">
           <TabsContent value="looking_for">

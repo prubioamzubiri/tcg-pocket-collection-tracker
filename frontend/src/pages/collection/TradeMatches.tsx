@@ -127,11 +127,12 @@ const TradeMatches: FC<Props> = ({ ownedCards, friendCards }) => {
         }
       }}
     >
-      <DialogContent className="border-2 border-slate-600 shadow-none max-w-4xl h-[90vh]">
+      <DialogContent className="border-2 border-slate-600 shadow-none max-w-4xl h-[90vh] content-start">
         <DialogHeader>
           <DialogTitle>{t('title')}</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col gap-4">
+          <p className="pb-2">{t('featureDescription')}</p>
           {!hasPossibleTrades && (
             <div className="text-center py-8">
               <p className="text-xl text-gray-500">{t('noPossibleTrades')}</p>
