@@ -181,7 +181,7 @@ function Trade() {
             )}
           </div>
         </div>
-        <div className="max-w-auto mx-4 md:mx-8">
+        <div className="mx-auto max-w-[900px] ">
           <TabsContent value="looking_for">
             {lookingForCards && lookingForCards.length > 0 ? <CardsTable cards={lookingForCardsFiltered} /> : <NoCardsNeeded />}
           </TabsContent>

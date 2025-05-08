@@ -14,6 +14,7 @@ import { type FC, use } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { z } from 'zod'
+import { SocialShareButtons } from './SocialShareButtons'
 
 interface Props {
   account: AccountRow | null
@@ -67,9 +68,11 @@ const EditProfile: FC<Props> = ({ account, setAccount, isProfileDialogOpen, setI
     }
   }
 
+  const shareUrl = `https://tcgpocketcollectiontracker.com/#/collection/${account?.friend_id}`
+
   return (
     <Dialog open={isProfileDialogOpen} onOpenChange={setIsProfileDialogOpen}>
-      <DialogContent className="border-2 border-slate-600 shadow-none">
+      <DialogContent className="border-2 border-slate-600 shadow-none h-[90vh] content-start">
         <DialogHeader>
           <DialogTitle>{t('editProfile')}</DialogTitle>
         </DialogHeader>
@@ -139,7 +142,7 @@ const EditProfile: FC<Props> = ({ account, setAccount, isProfileDialogOpen, setI
                           e.preventDefault()
 
                           toast({ title: 'Copied public collection page URL to clipboard!', variant: 'default', duration: 3000 })
-                          await navigator.clipboard.writeText(`https://tcgpocketcollectiontracker.com/#/collection/${account?.friend_id}`)
+                          await navigator.clipboard.writeText(shareUrl)
                         }}
                       >
                         {t('isPublicButton')}
@@ -150,7 +153,7 @@ const EditProfile: FC<Props> = ({ account, setAccount, isProfileDialogOpen, setI
                           e.preventDefault()
 
                           toast({ title: 'Copied trading page URL to clipboard!', variant: 'default', duration: 3000 })
-                          await navigator.clipboard.writeText(`https://tcgpocketcollectiontracker.com/#/collection/${account?.friend_id}/trade`)
+                          await navigator.clipboard.writeText(`${shareUrl}/trade`)
                         }}
                       >
                         {t('isPublicTradeButton')}
@@ -161,6 +164,7 @@ const EditProfile: FC<Props> = ({ account, setAccount, isProfileDialogOpen, setI
                 </FormItem>
               )}
             />
+            {account?.is_public && <SocialShareButtons />}
             <Button type="submit">{t('save')}</Button>
           </form>
         </Form>

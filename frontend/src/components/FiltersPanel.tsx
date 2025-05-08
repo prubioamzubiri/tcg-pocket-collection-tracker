@@ -105,7 +105,6 @@ const FilterPanel: FC<Props> = ({ children, cards, onFiltersChanged, visibleFilt
   }, [cards, expansionFilter, packFilter, rarityFilter, searchValue, ownedFilter, numberFilter, maxNumberFilter, langState])
 
   useEffect(() => {
-    console.log('filtere', getFilteredCards)
     onFiltersChanged(getFilteredCards)
     const handleLanguageChange = (lng: string) => {
       setLangState(lng)

@@ -3,6 +3,7 @@ import FilterPanel from '@/components/FiltersPanel'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { CollectionContext } from '@/lib/context/CollectionContext.ts'
+import { UserContext } from '@/lib/context/UserContext.ts'
 import { fetchCollection } from '@/lib/fetchCollection.ts'
 import CardDetail from '@/pages/collection/CardDetail.tsx'
 import type { Card, CollectionRow } from '@/types'
@@ -24,6 +25,7 @@ function Collection() {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' })
 
   const { ownedCards, selectedCardId, setSelectedCardId } = useContext(CollectionContext)
+  const { account } = useContext(UserContext)
   const [resetScrollTrigger, setResetScrollTrigger] = useState(false)
   const [friendCards, setFriendCards] = useState<CollectionRow[] | null>(null)
   const [filteredCards, setFilteredCards] = useState<Card[] | null>(null)
@@ -103,7 +105,7 @@ function Collection() {
       </FilterPanel>
       <div>{filteredCards && <CardsTable cards={filteredCards} resetScrollTrigger={resetScrollTrigger} showStats />}</div>
       <CardDetail cardId={selectedCardId} onClose={() => setSelectedCardId('')} />
-      <TradeMatches ownedCards={ownedCards} friendCards={friendCards || []} />
+      <TradeMatches ownedCards={ownedCards} friendCards={friendCards || []} ownCollection={params.friendId === account?.friend_id} />
     </div>
   )
 }

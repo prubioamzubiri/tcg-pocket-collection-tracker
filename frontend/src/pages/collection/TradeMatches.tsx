@@ -1,4 +1,5 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog.tsx'
+import { SocialShareButtons } from '@/components/SocialShareButtons.tsx'
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog.tsx'
 import { expansions, getCardById } from '@/lib/CardsDB'
 import type { Card, CollectionRow, Rarity } from '@/types'
 import { type FC, useEffect, useState } from 'react'
@@ -9,6 +10,7 @@ import { useLocation, useNavigate } from 'react-router'
 interface Props {
   ownedCards: CollectionRow[]
   friendCards: CollectionRow[]
+  ownCollection: boolean
 }
 
 // Order of rarities for display
@@ -18,7 +20,7 @@ interface TradeCard extends Card {
   amount_owned: number
 }
 
-const TradeMatches: FC<Props> = ({ ownedCards, friendCards }) => {
+const TradeMatches: FC<Props> = ({ ownedCards, friendCards, ownCollection }) => {
   const { t } = useTranslation('trade-matches')
   const location = useLocation()
   const navigate = useNavigate()
@@ -118,6 +120,70 @@ const TradeMatches: FC<Props> = ({ ownedCards, friendCards }) => {
     return rarityOrder.some((rarity) => friendExtraCards[rarity].length > 0 && userExtraCards[rarity].length > 0)
   }, [friendExtraCards, userExtraCards])
 
+  const tradeMatchesContent = () => {
+    if (ownCollection) {
+      return (
+        <div className="text-center py-8">
+          <p className="text-xl text-gray-500">{t('ownCollection')}</p>
+          <p className="text-sm text-gray-400 mt-2">{t('ownCollectionDescription')}</p>
+        </div>
+      )
+    }
+
+    if (!hasPossibleTrades) {
+      return (
+        <div className="text-center py-8">
+          <p className="text-xl text-gray-500">{t('noPossibleTrades')}</p>
+          <p className="text-sm text-gray-400 mt-2">{t('noPossibleTradesDescription')}</p>
+        </div>
+      )
+    }
+
+    return rarityOrder.map(
+      (rarity) =>
+        friendExtraCards[rarity].length > 0 &&
+        userExtraCards[rarity].length > 0 && (
+          <div key={rarity} className="mb-4">
+            <h3 className="text-lg font-semibold mb-2">{rarity}</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <h4 className="text-md font-medium mb-2">{t('friendHas')}</h4>
+                <div className="border rounded p-2 max-h-60 overflow-y-auto">
+                  <ul className="space-y-1">
+                    {friendExtraCards[rarity].map((card) => (
+                      <li key={card.card_id} className="flex justify-between">
+                        <div className="flex items-center">
+                          <div className="min-w-14 me-4">{card.card_id}</div>
+                          <div>{card.name}</div>
+                        </div>
+                        <span className="text-gray-500">×{card.amount_owned}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              <div>
+                <h4 className="text-md font-medium mb-2">{t('youHave')}</h4>
+                <div className="border rounded p-2 max-h-60 overflow-y-auto">
+                  <ul className="space-y-1">
+                    {userExtraCards[rarity].map((card) => (
+                      <li key={card.card_id} className="flex justify-between">
+                        <div className="flex items-center">
+                          <div className="min-w-14 me-4">{card.card_id}</div>
+                          <div>{card.name}</div>
+                        </div>
+                        <span className="text-gray-500">×{card.amount_owned}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        ),
+    )
+  }
+
   return (
     <Dialog
       open={isTradeMatchesDialogOpen}
@@ -127,62 +193,19 @@ const TradeMatches: FC<Props> = ({ ownedCards, friendCards }) => {
         }
       }}
     >
-      <DialogContent className="border-2 border-slate-600 shadow-none max-w-4xl h-[90vh] content-start">
+      <DialogContent className="border-2 border-slate-600 shadow-none max-w-4xl h-[90vh] content-start flex flex-col">
         <DialogHeader>
           <DialogTitle>{t('title')}</DialogTitle>
         </DialogHeader>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 grow">
           <p className="pb-2">{t('featureDescription')}</p>
-          {!hasPossibleTrades && (
-            <div className="text-center py-8">
-              <p className="text-xl text-gray-500">{t('noPossibleTrades')}</p>
-              <p className="text-sm text-gray-400 mt-2">{t('noPossibleTradesDescription')}</p>
-            </div>
-          )}
-          {rarityOrder.map(
-            (rarity) =>
-              friendExtraCards[rarity].length > 0 &&
-              userExtraCards[rarity].length > 0 && (
-                <div key={rarity} className="mb-4">
-                  <h3 className="text-lg font-semibold mb-2">{rarity}</h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <h4 className="text-md font-medium mb-2">{t('friendHas')}</h4>
-                      <div className="border rounded p-2 max-h-60 overflow-y-auto">
-                        <ul className="space-y-1">
-                          {friendExtraCards[rarity].map((card) => (
-                            <li key={card.card_id} className="flex justify-between">
-                              <div className="flex items-center">
-                                <div className="min-w-14 me-4">{card.card_id}</div>
-                                <div>{card.name}</div>
-                              </div>
-                              <span className="text-gray-500">×{card.amount_owned}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                    <div>
-                      <h4 className="text-md font-medium mb-2">{t('youHave')}</h4>
-                      <div className="border rounded p-2 max-h-60 overflow-y-auto">
-                        <ul className="space-y-1">
-                          {userExtraCards[rarity].map((card) => (
-                            <li key={card.card_id} className="flex justify-between">
-                              <div className="flex items-center">
-                                <div className="min-w-14 me-4">{card.card_id}</div>
-                                <div>{card.name}</div>
-                              </div>
-                              <span className="text-gray-500">×{card.amount_owned}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ),
-          )}
+          {tradeMatchesContent()}
         </div>
+        {ownCollection && (
+          <DialogFooter>
+            <SocialShareButtons />
+          </DialogFooter>
+        )}
       </DialogContent>
     </Dialog>
   )
