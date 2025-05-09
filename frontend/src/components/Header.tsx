@@ -39,7 +39,9 @@ export function Header() {
   return (
     <>
       <header id="header" className="flex max-w-7xl mx-auto h-14 md:h-20 shrink-0 flex-wrap items-center px-4 md:px-6">
-        <Link to="/">
+        <HamburgerMenu />
+        <Link to="/" className="flex items-center gap-2">
+          <img src="\pokemon-icon128.png" alt="Logo" className="h-5" />
           <div className="shrink font-bold pr-4 hidden md:block">TCG Pocket Collection Tracker</div>
         </Link>
         <NavigationMenu className="max-w-full justify-start">
@@ -139,7 +141,6 @@ export function Header() {
             </Dialog>
           )}
         </div>
-        <HamburgerMenu />
       </header>
       <Dialog open={isImportDialogOpen} onOpenChange={setIsImportDialogOpen}>
         <DialogContent className="border-2 border-slate-600 shadow-none">
