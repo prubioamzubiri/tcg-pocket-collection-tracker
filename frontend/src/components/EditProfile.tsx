@@ -131,7 +131,7 @@ const EditProfile: FC<Props> = ({ account, setAccount, isProfileDialogOpen, setI
               render={({ field }) => (
                 <FormItem className="flex flex-col items-start">
                   <FormControl className="mt-2">
-                    <div className="flex items-center gap-x-2 w-full">
+                    <div className="flex items-center gap-x-2 w-full flex-wrap">
                       <FormLabel>{t('isPublicToggle')}</FormLabel>
                       <div className="grow-1">
                         <Switch checked={field.value} onCheckedChange={field.onChange} />

@@ -29,7 +29,7 @@ export const SocialShareButtons: FC = () => {
   const title = 'My Pokemon Pocket collection'
 
   return (
-    <div className="flex gap-2 mt-0 items-center">
+    <div className="flex gap-2 mt-0 items-center flex-wrap">
       <small>Share on</small>
       <FacebookShareButton url={shareUrl}>
         <FacebookIcon size={32} round />

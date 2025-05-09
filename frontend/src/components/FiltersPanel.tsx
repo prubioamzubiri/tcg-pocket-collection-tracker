@@ -38,10 +38,11 @@ interface Props {
   }
 
   batchUpdate?: boolean
+  share?: boolean
 }
 
-const FilterPanel: FC<Props> = ({ children, cards, onFiltersChanged, visibleFilters, filtersDialog, batchUpdate }: Props) => {
-  const { user } = useContext(UserContext)
+const FilterPanel: FC<Props> = ({ children, cards, onFiltersChanged, visibleFilters, filtersDialog, batchUpdate, share }: Props) => {
+  const { user, setIsProfileDialogOpen } = useContext(UserContext)
   const { ownedCards, setOwnedCards } = useContext(CollectionContext)
 
   const [langState, setLangState] = useState(i18n.language)
@@ -174,6 +175,12 @@ const FilterPanel: FC<Props> = ({ children, cards, onFiltersChanged, visibleFilt
             onBatchUpdate={handleBatchUpdate}
             disabled={!getFilteredCards || getFilteredCards.length === 0}
           />
+        )}
+
+        {share && (
+          <Button variant="outline" onClick={() => setIsProfileDialogOpen(true)}>
+            Share
+          </Button>
         )}
       </div>
     </div>

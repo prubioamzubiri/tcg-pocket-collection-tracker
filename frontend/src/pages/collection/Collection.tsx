@@ -80,6 +80,7 @@ function Collection() {
         visibleFilters={{ expansions: !isMobile, search: true, owned: !isMobile, rarity: !isMobile }}
         filtersDialog={{ expansions: true, pack: true, search: true, owned: true, rarity: true, amount: true }}
         batchUpdate={Boolean(!friendCards)}
+        share
       >
         <div>
           {friendCards && (
