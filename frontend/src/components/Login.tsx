@@ -62,7 +62,7 @@ export const Login = () => {
       <>
         <p className="pt-4">{t('fill6Digit')}</p>
         <div>
-          <InputOTP maxLength={6} autoFocus onComplete={otpEntered}>
+          <InputOTP maxLength={6} autoFocus onComplete={otpEntered} className="max-w-max">
             <InputOTPGroup className="border-2 border-slate-600 shadow-none">
               <InputOTPSlot index={0} />
               <InputOTPSlot index={1} />
@@ -98,6 +98,8 @@ export const Login = () => {
 
         <Button onClick={submitEmail}>{t('button')}</Button>
       </div>
+
+      <p className="mt-3 text-sm text-white/25">We'll only use your email for login.</p>
     </div>
   )
 }
