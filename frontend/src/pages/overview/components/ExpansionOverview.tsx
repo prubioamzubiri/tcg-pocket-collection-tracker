@@ -43,8 +43,8 @@ export function ExpansionOverview({ expansion, rarityFilter, numberFilter, deckb
 
   return (
     <>
-      <h2 className="mt-6 col-span-8 text-3xl flex items-center">
-        <img src={`/images/sets/${expansion.id}.webp`} alt={`${expansion.id}`} className="mr-2 inline" />
+      <h2 className="ml-6 md:ml-0 mt-6 col-span-8 text-3xl flex items-center">
+        <img src={`/images/sets/${expansion.id}.webp`} alt={`${expansion.id}`} className="mr-2 inline h-10" />
         {t(expansion.name, { ns: 'common/sets' })}
       </h2>
       {isMobile ? (
@@ -63,7 +63,7 @@ export function ExpansionOverview({ expansion, rarityFilter, numberFilter, deckb
                 </div>
               </>
             )}
-            <div className="col-span-8 snap-start flex-shrink-0 w-full border-2 border-slate-600 border-solid rounded-4xl p-4 sm:p-8">
+            <div className="col-span-8 snap-start flex-shrink-0 w-full border-1 border-neutral-700 border-solid rounded-lg p-4 sm:p-8">
               <CompleteProgress
                 title={t('totalCards')}
                 expansion={expansion}

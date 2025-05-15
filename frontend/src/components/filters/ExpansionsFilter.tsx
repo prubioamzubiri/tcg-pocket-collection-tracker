@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 interface Props {
   expansionFilter: string
   setExpansionFilter: (expansionFilter: string) => void
-  setPackFilter: (expansionFilter: string) => void
+  setPackFilter?: (expansionFilter: string) => void
 }
 const ExpansionsFilter: FC<Props> = ({ expansionFilter, setExpansionFilter, setPackFilter }) => {
   const { t } = useTranslation('common/sets')
@@ -16,11 +16,11 @@ const ExpansionsFilter: FC<Props> = ({ expansionFilter, setExpansionFilter, setP
       value={expansionFilter}
       onValueChange={(value) => {
         setExpansionFilter(value)
-        setPackFilter('all')
+        setPackFilter?.('all')
       }}
       className="w-full"
     >
-      <TabsList className="w-full flex-wrap h-auto border-2 border-slate-600 rounded-md">
+      <TabsList className="w-full flex-wrap h-auto border-1 border-neutral-700 rounded-md">
         <TabsTrigger value="all">{t('all')}</TabsTrigger>
         {expansions.map((expansion) => (
           <TabsTrigger key={`tab_trigger_${expansion.id}`} value={expansion.id}>

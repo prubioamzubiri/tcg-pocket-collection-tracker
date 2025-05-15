@@ -1,6 +1,6 @@
 # TCG Pocket Collection Tracker
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-22-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-23-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 TCG Pocket Collection Tracker is an application designed to help users efficiently track their Pokémon Pocket game cards, identify optimal card packs to open, manage trades, and engage with both friends and the community at large. Our application is completely free, open-source, and prioritizes user privacy by not selling data, tracking analytics or using advertisements.
@@ -14,6 +14,11 @@ The frontend is built as a static HTML site, powered by React and TypeScript. We
 
 ### Backend
 Our backend infrastructure utilizes Supabase. The backend manages user authentication (via OTP email) and includes a database for card storage.
+
+### Technical overview
+For an exstensive technical overview of the project, take a look at [this wiki page](https://deepwiki.com/marcelpanse/tcg-pocket-collection-tracker).
+
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/marcelpanse/tcg-pocket-collection-tracker)
 
 ## Features
 
@@ -78,6 +83,7 @@ We encourage contributors to incrementally improve the project by making small c
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/aredmondd"><img src="https://avatars.githubusercontent.com/u/94017614?v=4?s=100" width="100px;" alt="Aiden Redmond"/><br /><sub><b>Aiden Redmond</b></sub></a><br /><a href="https://github.com/marcelpanse/tcg-pocket-collection-tracker/commits?author=aredmondd" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/BarisMeurer"><img src="https://avatars.githubusercontent.com/u/58820159?v=4?s=100" width="100px;" alt="BarisMeurer"/><br /><sub><b>BarisMeurer</b></sub></a><br /><a href="#design-BarisMeurer" title="Design">🎨</a></td>
     </tr>
   </tbody>
 </table>
