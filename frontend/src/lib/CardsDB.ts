@@ -56,7 +56,8 @@ export const a2Missions: Mission[] = A2Missions as unknown as Mission[]
 export const a2aMissions: Mission[] = A2aMissions as unknown as Mission[]
 export const a2bMissions: Mission[] = A2bMissions as unknown as Mission[]
 export const a3Missions: Mission[] = A3Missions as unknown as Mission[]
-export const allMissions: Mission[] = [...a1Missions, ...a1aMissions, ...a2Missions, ...a2aMissions, ...a2bMissions, ...a3Missions]
+export const a3aMissions: Mission[] = A3aMissions as unknown as Mission[]
+export const allMissions: Mission[] = [...a1Missions, ...a1aMissions, ...a2Missions, ...a2aMissions, ...a2bMissions, ...a3Missions, ...a3aMissions]
 
 export const expansions: Expansion[] = [
   {
@@ -127,7 +128,7 @@ export const expansions: Expansion[] = [
     id: 'A3a',
     cards: a3aCards,
     packs: [{ name: 'buzzwolepack', color: '#ef4444' }],
-    missions: A3aMissions,
+    missions: a3aMissions,
     tradeable: false,
     containsShinies: true,
   },
