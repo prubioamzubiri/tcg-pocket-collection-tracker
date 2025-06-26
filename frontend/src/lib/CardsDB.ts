@@ -139,7 +139,7 @@ export const expansions: Expansion[] = [
     name: 'eeveegrove',
     id: 'A3b',
     cards: a3bCards,
-    packs: [{ name: 'eeveegrove', color: '#ef4444' }],
+    packs: [{ name: 'eeveegrovepack', color: '#b45309' }],
     missions: a3bMissions,
     tradeable: false,
     containsShinies: true,
