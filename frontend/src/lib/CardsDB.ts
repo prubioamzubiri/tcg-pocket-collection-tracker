@@ -7,6 +7,7 @@ import A2a from '../../assets/cards/A2a.json'
 import A2b from '../../assets/cards/A2b.json'
 import A3 from '../../assets/cards/A3.json'
 import A3a from '../../assets/cards/A3a.json'
+import A3b from '../../assets/cards/A3b.json'
 import PA from '../../assets/cards/P-A.json'
 import A1Missions from '../../assets/themed-collections/A1-missions.json'
 import A1aMissions from '../../assets/themed-collections/A1a-missions.json'
@@ -15,6 +16,7 @@ import A2aMissions from '../../assets/themed-collections/A2a-missions.json'
 import A2bMissions from '../../assets/themed-collections/A2b-missions.json'
 import A3Missions from '../../assets/themed-collections/A3-missions.json'
 import A3aMissions from '../../assets/themed-collections/A3a-missions.json'
+import A3bMissions from '../../assets/themed-collections/A3b-missions.json'
 
 const update = (cards: Card[], expansionName: ExpansionId) => {
   for (const card of cards) {
@@ -41,8 +43,9 @@ export const a2aCards: Card[] = update(A2a as unknown as Card[], 'A2a')
 export const a2bCards: Card[] = update(A2b as unknown as Card[], 'A2b')
 export const a3Cards: Card[] = update(A3 as unknown as Card[], 'A3')
 export const a3aCards: Card[] = update(A3a as unknown as Card[], 'A3a')
+export const a3bCards: Card[] = update(A3b as unknown as Card[], 'A3b')
 export const paCards: Card[] = update(PA as unknown as Card[], 'P-A')
-export const allCards: Card[] = [...a1Cards, ...a1aCards, ...a2Cards, ...a2aCards, ...a2bCards, ...a3Cards, ...a3aCards, ...paCards]
+export const allCards: Card[] = [...a1Cards, ...a1aCards, ...a2Cards, ...a2aCards, ...a2bCards, ...a3Cards, ...a3aCards, ...a3bCards, ...paCards]
 
 export const allCardsDict: Map<string, Card> = new Map(allCards.map((card) => [card.card_id, card]))
 
@@ -57,7 +60,7 @@ export const a2aMissions: Mission[] = A2aMissions as unknown as Mission[]
 export const a2bMissions: Mission[] = A2bMissions as unknown as Mission[]
 export const a3Missions: Mission[] = A3Missions as unknown as Mission[]
 export const a3aMissions: Mission[] = A3aMissions as unknown as Mission[]
-export const allMissions: Mission[] = [...a1Missions, ...a1aMissions, ...a2Missions, ...a2aMissions, ...a2bMissions, ...a3Missions, ...a3aMissions]
+export const a3bMissions: Mission[] = A3bMissions as unknown as Mission[]
 
 export const expansions: Expansion[] = [
   {
@@ -129,6 +132,15 @@ export const expansions: Expansion[] = [
     cards: a3aCards,
     packs: [{ name: 'buzzwolepack', color: '#ef4444' }],
     missions: a3aMissions,
+    tradeable: true,
+    containsShinies: true,
+  },
+  {
+    name: 'eeveegrove',
+    id: 'A3b',
+    cards: a3bCards,
+    packs: [{ name: 'eeveegrove', color: '#ef4444' }],
+    missions: a3bMissions,
     tradeable: false,
     containsShinies: true,
   },

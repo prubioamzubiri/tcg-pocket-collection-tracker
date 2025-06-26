@@ -928,6 +928,10 @@
       {
         "version": "Promo-A #25",
         "rarity": ""
+      },
+      {
+        "version": "Eevee Grove #103",
+        "rarity": "☆☆"
       }
     ],
     "artist": "PLANETA Igarashi",
@@ -2446,6 +2450,10 @@
       {
         "version": "Promo-A #62",
         "rarity": ""
+      },
+      {
+        "version": "Eevee Grove #102",
+        "rarity": "☆"
       }
     ],
     "artist": "Eri Yamaki",
@@ -2921,7 +2929,7 @@
       },
       {
         "version": "Promo-A #74",
-        "rarity": "☆"
+        "rarity": ""
       }
     ],
     "artist": "GIDORA",
@@ -2961,7 +2969,7 @@
       },
       {
         "version": "Promo-A #75",
-        "rarity": "◊"
+        "rarity": ""
       }
     ],
     "artist": "Hasuno",
@@ -3005,7 +3013,7 @@
       },
       {
         "version": "Promo-A #76",
-        "rarity": "◊"
+        "rarity": ""
       }
     ],
     "artist": "Hasuno",
@@ -3045,7 +3053,7 @@
       },
       {
         "version": "Promo-A #77",
-        "rarity": "◊"
+        "rarity": ""
       }
     ],
     "artist": "Shin Nagasawa",
@@ -3157,7 +3165,7 @@
       },
       {
         "version": "Promo-A #80",
-        "rarity": "◊"
+        "rarity": ""
       }
     ],
     "artist": "Shin Nagasawa",
@@ -3239,7 +3247,7 @@
       },
       {
         "version": "Promo-A #82",
-        "rarity": "◊◊◊"
+        "rarity": ""
       }
     ],
     "artist": "Megumi Mizutani",
@@ -3279,10 +3287,392 @@
       },
       {
         "version": "Promo-A #83",
-        "rarity": "◊◊◊"
+        "rarity": ""
       }
     ],
     "artist": "Kanako Eo",
+    "crafting_cost": "Unknown"
+  },
+  {
+    "id": "84",
+    "image": "https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/pocket/P-A/P-A_084_EN.webp",
+    "hp": "130",
+    "energy": "Lightning",
+    "name": "Tapu Koko ex",
+    "card_type": "pokémon",
+    "evolution_type": "basic",
+    "attacks": [
+      {
+        "cost": ["Lightning"],
+        "name": "Plasma Hurricane",
+        "damage": "20",
+        "effect": "Take a [L] Energy from your Energy Zone and attach it to this Pokémon."
+      },
+      {
+        "cost": ["Lightning", "Lightning", "Colorless"],
+        "name": "Mach Bolt",
+        "damage": "90",
+        "effect": "No effect"
+      }
+    ],
+    "ability": {
+      "name": "No ability",
+      "effect": "N/A"
+    },
+    "weakness": "fighting",
+    "retreat": "1",
+    "rarity": "P",
+    "fullart": "Yes",
+    "ex": "yes",
+    "set_details": "promo-a",
+    "pack": "everypack",
+    "alternate_versions": [
+      {
+        "version": "Extradimensional Crisis #19",
+        "rarity": "◊◊◊◊"
+      },
+      {
+        "version": "Extradimensional Crisis #77",
+        "rarity": "☆☆"
+      },
+      {
+        "version": "Extradimensional Crisis #84",
+        "rarity": "☆☆"
+      },
+      {
+        "version": "Promo-A #84",
+        "rarity": ""
+      }
+    ],
+    "artist": "PLANETA Tsuji",
+    "crafting_cost": "Unknown"
+  },
+  {
+    "id": "85",
+    "image": "https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/pocket/P-A/P-A_085_EN.webp",
+    "hp": "60",
+    "energy": "Water",
+    "name": "Vanillite",
+    "card_type": "pokémon",
+    "evolution_type": "basic",
+    "attacks": [
+      {
+        "cost": ["Water"],
+        "name": "Sweets Relay",
+        "damage": "10+",
+        "effect": "If 1 of your Pokémon used Sweets Relay during your last turn, this attack does 20 more damage."
+      }
+    ],
+    "ability": {
+      "name": "No ability",
+      "effect": "N/A"
+    },
+    "weakness": "metal",
+    "retreat": "1",
+    "rarity": "P",
+    "fullart": "Yes",
+    "ex": "no",
+    "set_details": "promo-a",
+    "pack": "everypack",
+    "alternate_versions": [
+      {
+        "version": "Eevee Grove #18",
+        "rarity": "◊"
+      },
+      {
+        "version": "Promo-A #85",
+        "rarity": ""
+      }
+    ],
+    "artist": "OOYAMA",
+    "crafting_cost": "Unknown"
+  },
+  {
+    "id": "86",
+    "image": "https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/pocket/P-A/P-A_086_EN.webp",
+    "hp": "90",
+    "energy": "Lightning",
+    "name": "Jolteon",
+    "card_type": "pokémon",
+    "evolution_type": "stage1",
+    "attacks": [
+      {
+        "cost": ["Lightning"],
+        "name": "Beginning Bolt",
+        "damage": "40+",
+        "effect": "If this Pokémon evolved during this turn, this attack does 20 more damage."
+      }
+    ],
+    "ability": {
+      "name": "No ability",
+      "effect": "N/A"
+    },
+    "weakness": "fighting",
+    "retreat": "1",
+    "rarity": "P",
+    "fullart": "Yes",
+    "ex": "no",
+    "set_details": "promo-a",
+    "pack": "everypack",
+    "alternate_versions": [
+      {
+        "version": "Eevee Grove #25",
+        "rarity": "◊◊◊"
+      },
+      {
+        "version": "Eevee Grove #74",
+        "rarity": "☆"
+      },
+      {
+        "version": "Promo-A #86",
+        "rarity": ""
+      }
+    ],
+    "artist": "Mizue",
+    "crafting_cost": "Unknown"
+  },
+  {
+    "id": "87",
+    "image": "https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/pocket/P-A/P-A_087_EN.webp",
+    "hp": "80",
+    "energy": "Psychic",
+    "name": "Alcremie",
+    "card_type": "pokémon",
+    "evolution_type": "stage1",
+    "attacks": [
+      {
+        "cost": ["Colorless"],
+        "name": "Sweets Overload",
+        "damage": "40x",
+        "effect": "This attack does 40 damage for each time your Pokémon used Sweets Relay during this game."
+      }
+    ],
+    "ability": {
+      "name": "No ability",
+      "effect": "N/A"
+    },
+    "weakness": "metal",
+    "retreat": "1",
+    "rarity": "P",
+    "fullart": "Yes",
+    "ex": "no",
+    "set_details": "promo-a",
+    "pack": "everypack",
+    "alternate_versions": [
+      {
+        "version": "Eevee Grove #37",
+        "rarity": "◊◊"
+      },
+      {
+        "version": "Promo-A #87",
+        "rarity": ""
+      }
+    ],
+    "artist": "Tika Matsuno",
+    "crafting_cost": "Unknown"
+  },
+  {
+    "id": "88",
+    "image": "https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/pocket/P-A/P-A_088_EN.webp",
+    "hp": "100",
+    "energy": "Dragon",
+    "name": "Dragonair",
+    "card_type": "pokémon",
+    "evolution_type": "stage1",
+    "attacks": [
+      {
+        "cost": ["Colorless"],
+        "name": "Shed",
+        "damage": "Skin",
+        "effect": "Heal 30 damage from this Pokémon."
+      }
+    ],
+    "ability": {
+      "name": "No ability",
+      "effect": "N/A"
+    },
+    "weakness": "none",
+    "retreat": "2",
+    "rarity": "P",
+    "fullart": "Yes",
+    "ex": "no",
+    "set_details": "promo-a",
+    "pack": "everypack",
+    "alternate_versions": [
+      {
+        "version": "Promo-A #88",
+        "rarity": ""
+      }
+    ],
+    "artist": "Shinya Komatsu",
+    "crafting_cost": "Unknown"
+  },
+  {
+    "id": "89",
+    "image": "https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/pocket/P-A/P-A_089_EN.webp",
+    "hp": "100",
+    "energy": "Colorless",
+    "name": "Audino",
+    "card_type": "pokémon",
+    "evolution_type": "basic",
+    "attacks": [
+      {
+        "cost": ["Colorless", "Colorless"],
+        "name": "Drain Slap",
+        "damage": "40",
+        "effect": "Heal 10 damage from this Pokémon."
+      }
+    ],
+    "ability": {
+      "name": "No ability",
+      "effect": "N/A"
+    },
+    "weakness": "fighting",
+    "retreat": "2",
+    "rarity": "P",
+    "fullart": "Yes",
+    "ex": "no",
+    "set_details": "promo-a",
+    "pack": "everypack",
+    "alternate_versions": [
+      {
+        "version": "Promo-A #89",
+        "rarity": ""
+      }
+    ],
+    "artist": "MAHOU",
+    "crafting_cost": "Unknown"
+  },
+  {
+    "id": "90",
+    "image": "https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/pocket/P-A/P-A_090_EN.webp",
+    "hp": "80",
+    "energy": "Metal",
+    "name": "Togedemaru",
+    "card_type": "pokémon",
+    "evolution_type": "basic",
+    "attacks": [
+      {
+        "cost": ["Metal", "Metal"],
+        "name": "Bristling Spikes",
+        "damage": "30",
+        "effect": "During your opponent's next turn, if this Pokémon is damaged by an attack, do 30 damage to the Attacking Pokémon."
+      }
+    ],
+    "ability": {
+      "name": "No ability",
+      "effect": "N/A"
+    },
+    "weakness": "fire",
+    "retreat": "1",
+    "rarity": "P",
+    "fullart": "Yes",
+    "ex": "no",
+    "set_details": "promo-a",
+    "pack": "everypack",
+    "alternate_versions": [
+      {
+        "version": "Eevee Grove #48",
+        "rarity": "◊"
+      },
+      {
+        "version": "Promo-A #90",
+        "rarity": ""
+      }
+    ],
+    "artist": "sowsow",
+    "crafting_cost": "Unknown"
+  },
+  {
+    "id": "91",
+    "image": "https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/pocket/P-A/P-A_091_EN.webp",
+    "hp": "120",
+    "energy": "Colorless",
+    "name": "Greedent",
+    "card_type": "pokémon",
+    "evolution_type": "stage1",
+    "attacks": [
+      {
+        "cost": ["Colorless", "Colorless", "Colorless"],
+        "name": "Enhanced Fang",
+        "damage": "50+",
+        "effect": "If this Pokémon has a Pokémon Tool attached, this attack does 50 more damage."
+      }
+    ],
+    "ability": {
+      "name": "No ability",
+      "effect": "N/A"
+    },
+    "weakness": "fighting",
+    "retreat": "2",
+    "rarity": "P",
+    "fullart": "Yes",
+    "ex": "no",
+    "set_details": "promo-a",
+    "pack": "everypack",
+    "alternate_versions": [
+      {
+        "version": "Eevee Grove #65",
+        "rarity": "◊◊"
+      },
+      {
+        "version": "Promo-A #91",
+        "rarity": ""
+      }
+    ],
+    "artist": "HYOGONOSUKE",
+    "crafting_cost": "Unknown"
+  },
+  {
+    "id": "92",
+    "image": "https://limitlesstcg.nyc3.cdn.digitaloceanspaces.com/pocket/P-A/P-A_092_EN.webp",
+    "hp": "60",
+    "energy": "Colorless",
+    "name": "Eevee",
+    "card_type": "pokémon",
+    "evolution_type": "basic",
+    "attacks": [
+      {
+        "cost": ["Colorless"],
+        "name": "Tackle",
+        "damage": "20",
+        "effect": "No effect"
+      }
+    ],
+    "ability": {
+      "name": "No ability",
+      "effect": "N/A"
+    },
+    "weakness": "fighting",
+    "retreat": "1",
+    "rarity": "P",
+    "fullart": "Yes",
+    "ex": "no",
+    "set_details": "promo-a",
+    "pack": "everypack",
+    "alternate_versions": [
+      {
+        "version": "Genetic Apex #206",
+        "rarity": "◊"
+      },
+      {
+        "version": "Genetic Apex #207",
+        "rarity": "◊"
+      },
+      {
+        "version": "Genetic Apex #208",
+        "rarity": "◊"
+      },
+      {
+        "version": "Genetic Apex #248",
+        "rarity": "☆"
+      },
+      {
+        "version": "Promo-A #92",
+        "rarity": ""
+      }
+    ],
+    "artist": "nisimono",
     "crafting_cost": "Unknown"
   }
 ]
