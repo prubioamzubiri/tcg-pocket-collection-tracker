@@ -1,7 +1,8 @@
 import { incrementMultipleCards } from '@/components/Card'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogOverlay, DialogTitle } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input.tsx'
 import { allCards } from '@/lib/CardsDB'
 import { CollectionContext } from '@/lib/context/CollectionContext'
 import { UserContext } from '@/lib/context/UserContext'
@@ -9,9 +10,8 @@ import { getCardNameByLang } from '@/lib/utils'
 import { CardHashStorageService } from '@/services/CardHashStorageService'
 import { ImageSimilarityService } from '@/services/ImageHashingService'
 import PokemonCardDetectorService, { type DetectionResult } from '@/services/PokemonCardDetectionServices'
-import type { Card } from '@/types'
+import type { Card, CollectionRow } from '@/types'
 import i18n from 'i18next'
-import { MinusIcon, PlusIcon } from 'lucide-react'
 import type { ChangeEvent, FC } from 'react'
 import { use, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -38,6 +38,16 @@ interface ExtractedCard {
   selected?: boolean
 }
 
+enum State {
+  Error = 0,
+  Closed = 1,
+  UploadImages = 2,
+  UploadingImages = 3,
+  ShowMatches = 4,
+  ProcessUpdates = 5,
+  Confirmation = 6,
+}
+
 const PokemonCardDetector: FC<PokemonCardDetectorProps> = ({ onDetectionComplete, modelPath = '/model/model.json' }) => {
   const { t } = useTranslation('scan')
   const { user } = use(UserContext)
@@ -45,24 +55,35 @@ const PokemonCardDetector: FC<PokemonCardDetectorProps> = ({ onDetectionComplete
 
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const [isOpen, setIsOpen] = useState(false)
+  const [state, setState] = useState<State>(State.Closed)
+  const [error, setError] = useState<string>('')
+
   const [isLoadingModel, setIsLoadingModel] = useState<boolean>(false)
-  const [isGeneratingHashes, setIsGeneratingHashes] = useState(false)
-  const [initProgress, setInitProgress] = useState('0%')
-  const [extractedCards, setExtractedCards] = useState<ExtractedCard[]>([])
+  const [isGeneratingHashes, setIsGeneratingHashes] = useState<boolean>(false)
+  const isInitialized = !isLoadingModel && !isGeneratingHashes
+
+  const [initProgress, setInitProgress] = useState(0)
   const [amount, setAmount] = useState(1)
-  const [showPotentialMatches, setShowPotentialMatches] = useState(false)
-  const [isUploadingImages, setIsUploadingImages] = useState(false)
-  const [isProcessingCardUpdates, setIsProcessingCardUpdates] = useState(false)
+  const [showPotentialMatches, setShowPotentialMatches] = useState<boolean>(false)
+
+  const [extractedCards, setExtractedCards] = useState<ExtractedCard[]>([])
+  const [incrementedCards, setIncrementedCards] = useState<CollectionRow[]>([])
 
   const detectorService = PokemonCardDetectorService.getInstance()
 
   useEffect(() => {
-    if (isOpen) {
+    if (state === State.Closed + 1) {
+      if (extractedCards.length > 0) {
+        setExtractedCards([])
+        setAmount(1)
+        setShowPotentialMatches(false)
+      }
+    }
+    if (state !== State.Closed) {
       initializeModel().catch(console.error)
       generateAndStoreHashes().catch(console.error)
     }
-  }, [modelPath, isOpen])
+  }, [modelPath, state])
 
   const initializeModel = async () => {
     try {
@@ -70,7 +91,8 @@ const PokemonCardDetector: FC<PokemonCardDetectorProps> = ({ onDetectionComplete
       await detectorService.loadModel(modelPath)
       console.log('Model loaded successfully')
     } catch (error) {
-      console.error('Error loading model:', error)
+      setState(State.Error)
+      setError(`Error loading model: ${error}`)
     } finally {
       setIsLoadingModel(false)
     }
@@ -134,7 +156,8 @@ const PokemonCardDetector: FC<PokemonCardDetectorProps> = ({ onDetectionComplete
               const hash = await hashingService.calculatePerceptualHash(resolvedImagePath)
               return { id: card.card_id, hash }
             } catch (error) {
-              console.error(`Error generating hash for card ${card.card_id}:`, error)
+              setState(State.Error)
+              setError(`Error generating hash for card ${card.card_id}: ${error}`)
               return null
             }
           })
@@ -143,11 +166,7 @@ const PokemonCardDetector: FC<PokemonCardDetectorProps> = ({ onDetectionComplete
           const validResults = batchResults.filter((hash): hash is { id: string; hash: ArrayBuffer } => hash !== null)
           allHashes.push(...validResults)
 
-          // Allow UI to update between batches
-          await new Promise((resolve) => setTimeout(resolve, 0))
-
-          const progress = ((Math.min(i + batchSize, totalCards) / totalCards) * 100).toFixed(0)
-          setInitProgress(`${progress}%`)
+          setInitProgress(Math.min(i + batchSize, totalCards) / totalCards)
         }
 
         await hashStorageService.storeHashes(allHashes)
@@ -156,7 +175,8 @@ const PokemonCardDetector: FC<PokemonCardDetectorProps> = ({ onDetectionComplete
         console.log('Using stored hashes from IndexDB')
       }
     } catch (error) {
-      console.error('Error in hash generation/storage:', error)
+      setState(State.Error)
+      setError(`Error in hash generation/storage:, ${error}`)
     } finally {
       setIsGeneratingHashes(false)
     }
@@ -247,7 +267,7 @@ const PokemonCardDetector: FC<PokemonCardDetectorProps> = ({ onDetectionComplete
   }
 
   const handleImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
-    setIsUploadingImages(true)
+    setState(State.UploadingImages)
 
     const files = event.target.files
     if (!files || files.length === 0) return
@@ -275,10 +295,10 @@ const PokemonCardDetector: FC<PokemonCardDetectorProps> = ({ onDetectionComplete
       if (onDetectionComplete) {
         onDetectionComplete(detectionResults)
       }
+      setState(State.UploadingImages + 1)
     } catch (error) {
-      console.error('Error during detection:', error)
-    } finally {
-      setIsUploadingImages(false)
+      setState(State.Error)
+      setError(`Error during detection: ${error}`)
     }
   }
 
@@ -299,16 +319,6 @@ const PokemonCardDetector: FC<PokemonCardDetectorProps> = ({ onDetectionComplete
   }
 
   const selectedCount = extractedCards.filter((card) => card.selected).length
-
-  const handleDecrement = () => {
-    if (amount > 0) {
-      setAmount((prev) => prev - 1)
-    }
-  }
-
-  const handleIncrement = () => {
-    setAmount((prev) => prev + 1)
-  }
 
   const handleChangeMatch = (cardIndex: number, matchId: string) => {
     setExtractedCards((prev) => {
@@ -333,42 +343,34 @@ const PokemonCardDetector: FC<PokemonCardDetectorProps> = ({ onDetectionComplete
     })
   }
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.trim()
-    if (value === '') {
-      setAmount(0)
-    } else {
-      const numericValue = Number(value)
-      if (!Number.isNaN(numericValue)) {
-        setAmount(numericValue < 0 ? 0 : numericValue)
-      }
-    }
-  }
-
   const handleConfirm = async () => {
-    setIsProcessingCardUpdates(true)
+    if (amount === 0) {
+      setState(State.ProcessUpdates + 1)
+      setIncrementedCards([])
+      return
+    }
+
+    setState(State.ProcessUpdates)
 
     const cardIds = extractedCards.filter((card) => card.selected && card.matchedCard).map((card) => card.matchedCard?.id)
 
     if (cardIds.length > 0) {
       try {
-        await incrementMultipleCards(
+        const incrementedCards = await incrementMultipleCards(
           cardIds.filter((id): id is string => id !== undefined),
           amount,
           ownedCards,
           setOwnedCards,
           user,
         )
-        setIsOpen(false)
-        setExtractedCards([])
-        setAmount(1)
-        setShowPotentialMatches(false)
+        setIncrementedCards(incrementedCards)
       } catch (error) {
-        console.error('Error incrementing card quantities:', error)
+        setError(`Error incrementing card quantities: ${error}`)
+        setState(State.Error)
+        return
       }
     }
-
-    setIsProcessingCardUpdates(false)
+    setState(State.ProcessUpdates + 1)
   }
 
   const renderPotentialMatches = (card: ExtractedCard, index: number) => {
@@ -467,18 +469,39 @@ const PokemonCardDetector: FC<PokemonCardDetectorProps> = ({ onDetectionComplete
 
   return (
     <div className="pokemon-card-detector flex justify-end">
-      <Button onClick={() => setIsOpen(true)} variant="ghost">
+      <Button onClick={() => setState(State.Closed + 1)} variant="ghost">
         {t('scan')}
       </Button>
 
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <Dialog
+        open={state !== State.Closed}
+        onOpenChange={(open) => {
+          if (!open) setState(State.Closed)
+        }}
+      >
         <DialogOverlay className="DialogOverlay">
           <DialogContent className="DialogContent max-w-4xl">
             <DialogHeader>
               <DialogTitle>{t('title')}</DialogTitle>
             </DialogHeader>
 
-            {!isLoadingModel && !isGeneratingHashes && extractedCards.length === 0 && (
+            {error && (
+              <Alert variant="destructive">
+                <AlertTitle>An error occured!</AlertTitle>
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+
+            {!isInitialized && (
+              <Alert variant="default">
+                <AlertDescription className="flex items-center space-x-2">
+                  <Spinner />
+                  <p>{t('loading', { initProgress: (initProgress * 100).toFixed(0) })}</p>
+                </AlertDescription>
+              </Alert>
+            )}
+
+            {isInitialized && state === State.UploadImages && (
               <div
                 className="file-input-container flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-900/10"
                 onClick={() => fileInputRef.current?.click()}
@@ -486,33 +509,23 @@ const PokemonCardDetector: FC<PokemonCardDetectorProps> = ({ onDetectionComplete
                 <AlertDescription>
                   <p className="mb-4 text-center">{t('description')}</p>
                 </AlertDescription>
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  onChange={handleImageUpload}
-                  accept="image/*"
-                  multiple
-                  disabled={isLoadingModel}
-                  className="w-full hidden"
-                />
-                <Button variant="outline" className="mt-2" disabled={isUploadingImages}>
-                  {isUploadingImages && <Spinner />} {t('selectImages')}
+                <input type="file" ref={fileInputRef} onChange={handleImageUpload} accept="image/*" multiple className="w-full hidden" />
+                <Button variant="outline" className="mt-2">
+                  {t('selectImages')}
                 </Button>
               </div>
             )}
 
-            {(isLoadingModel || isGeneratingHashes) && (
+            {state === State.UploadingImages && (
               <Alert variant="default">
-                <AlertDescription>
-                  <div className="flex items-center space-x-2">
-                    <Spinner />
-                    <p>{t('loading', { initProgress })}</p>
-                  </div>
+                <AlertDescription className="flex items-center space-x-2">
+                  <Spinner />
+                  <p>{t('loading', { initProgress })}</p>
                 </AlertDescription>
               </Alert>
             )}
 
-            {!isLoadingModel && extractedCards.length > 0 && (
+            {state === State.ShowMatches && (
               <div>
                 <div className="flex gap-2 justify-between my-4 flex-wrap">
                   <Button variant="outline" onClick={handleDeselectAll} className="hidden sm:block">
@@ -530,67 +543,43 @@ const PokemonCardDetector: FC<PokemonCardDetectorProps> = ({ onDetectionComplete
                   {extractedCards.map((card, index) => renderPotentialMatches(card, index))}
                 </div>
 
-                {
-                  <div className="flex flex-col items-center gap-2">
-                    <p className="text-sm font-medium pt-4">{t('setIncrement')}</p>
-                    <div className="flex items-center gap-x-1">
-                      <Button variant="ghost" size="icon" onClick={handleDecrement} disabled={amount === 0} className="rounded-full">
-                        <MinusIcon size={14} />
-                      </Button>
-                      <input
-                        type="text"
-                        min="0"
-                        value={amount}
-                        onChange={handleInputChange}
-                        placeholder={t('enterAmount')}
-                        className="w-10 text-center border-none rounded"
-                        onFocus={(event) => event.target.select()}
-                      />
-                      <Button variant="ghost" size="icon" onClick={handleIncrement} className="rounded-full">
-                        <PlusIcon size={14} />
-                      </Button>
-                    </div>
-                  </div>
-                }
+                <div className="flex flex-col items-center text-center">
+                  <label htmlFor="increment">
+                    {t('setIncrement')}
+                    <Input name="increment" type="number" min="0" value={amount} onChange={(e) => setAmount(Number(e.target.value))} />
+                  </label>
+                </div>
               </div>
             )}
+
+            {state === State.ProcessUpdates && (
+              <Alert variant="default">
+                <AlertDescription className="flex items-center space-x-2">
+                  <Spinner />
+                  <p>{t('processing')}</p>
+                </AlertDescription>
+              </Alert>
+            )}
+
+            {state === State.Confirmation && <p>{t('success', { n: incrementedCards.length * amount })}</p>}
 
             <DialogFooter className="gap-y-4">
               <Button
                 variant="outline"
                 onClick={() => {
-                  setIsOpen(false)
-                  if (extractedCards.length > 0) {
-                    setExtractedCards([])
-                    setAmount(1)
-                    setShowPotentialMatches(false)
-                  }
+                  setState(State.Closed)
                 }}
               >
-                {extractedCards.length > 0 ? t('cancel') : t('close')}
+                {state === State.ShowMatches ? t('cancel') : t('close')}
               </Button>
-              {extractedCards.length > 0 && (
-                <Button onClick={handleConfirm} disabled={selectedCount === 0 || isProcessingCardUpdates || isLoadingModel} variant="default">
-                  {isProcessingCardUpdates ? (
-                    <svg
-                      aria-hidden="true"
-                      className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
-                      viewBox="0 0 100 101"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                        fill="currentColor"
-                      />
-                      <path
-                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                        fill="currentFill"
-                      />
-                    </svg>
-                  ) : (
-                    t('updateSelectedCards')
-                  )}
+              {state === State.ShowMatches && (
+                <Button onClick={handleConfirm} disabled={selectedCount === 0} variant="default">
+                  {t('updateSelectedCards')}
+                </Button>
+              )}
+              {state === State.Confirmation && (
+                <Button onClick={() => setState(State.Closed + 1)} variant="default">
+                  {t('scanMore')}
                 </Button>
               )}
             </DialogFooter>
