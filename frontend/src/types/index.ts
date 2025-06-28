@@ -20,6 +20,7 @@ export interface CollectionRow {
   card_id: string
   amount_owned: number
   rarity?: Rarity
+  updated_at: string
 }
 
 export interface Expansion {

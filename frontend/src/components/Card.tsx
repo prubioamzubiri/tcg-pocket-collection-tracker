@@ -51,10 +51,12 @@ export function Card({ card, useMaxWidth = false }: CardProps) {
         if (ownedCard) {
           ownedCard.amount_owned = newAmount
         } else {
-          ownedCards.push({ email: user.user.email, card_id: cardId, amount_owned: newAmount })
+          ownedCards.push({ email: user.user.email, card_id: cardId, amount_owned: newAmount, updated_at: new Date().toISOString() })
         }
 
-        const { error } = await supabase.from('collection').upsert({ card_id: cardId, amount_owned: newAmount, email: user.user.email })
+        const { error } = await supabase
+          .from('collection')
+          .upsert({ card_id: cardId, amount_owned: newAmount, email: user.user.email, updated_at: new Date().toISOString() })
         if (error) {
           throw new Error('Error updating collection')
         }
@@ -144,7 +146,7 @@ export const updateMultipleCards = async (
   const ownedCardsCopy = [...ownedCards]
 
   // update into the database
-  const cardArray = cardIds.map((cardId) => ({ card_id: cardId, amount_owned: newAmount, email: user.user.email }))
+  const cardArray = cardIds.map((cardId) => ({ card_id: cardId, amount_owned: newAmount, email: user.user.email, updated_at: new Date().toISOString() }))
   const { error } = await supabase.from('collection').upsert(cardArray)
   if (error) {
     throw new Error('Error bulk updating collection')
@@ -163,6 +165,7 @@ export const updateMultipleCards = async (
         email: user.user.email,
         card_id: cardId,
         amount_owned: newAmount,
+        updated_at: new Date().toISOString(),
       })
     }
   }
@@ -193,6 +196,7 @@ export const incrementMultipleCards = async (
     if (ownedCard) {
       console.log('Incrementing existing card:', cardId, 'from', ownedCard.amount_owned, 'to', ownedCard.amount_owned + increment)
       ownedCard.amount_owned += increment
+      ownedCard.updated_at = new Date().toISOString()
       cardArray.push(ownedCard)
     } else if (!ownedCard && increment > 0) {
       console.log('Adding new card:', cardId, 'with amount', increment)
@@ -200,6 +204,7 @@ export const incrementMultipleCards = async (
         email: user.user.email,
         card_id: cardId,
         amount_owned: increment,
+        updated_at: new Date().toISOString(),
       }
       ownedCardsCopy.push(card)
       cardArray.push(card)

@@ -35,7 +35,7 @@ export const ImportReader = () => {
         const ownedCard = ownedCards.find((row) => row.card_id === r.Id)
         console.log('Owned Card', ownedCard)
 
-        cardArray.push({ card_id: cardId, amount_owned: newAmount, email: user?.user.email })
+        cardArray.push({ card_id: cardId, amount_owned: newAmount, email: user?.user.email, updated_at: new Date().toISOString() })
 
         // update UI
         if (ownedCard && ownedCard.amount_owned !== newAmount) {
@@ -51,6 +51,7 @@ export const ImportReader = () => {
               email: user?.user.email,
               card_id: cardId,
               amount_owned: newAmount,
+              updated_at: new Date().toISOString(),
             },
           ])
           setProcessedData((p) => [...(p ?? []), { ...r, added: true }])
