@@ -213,7 +213,7 @@ export const incrementMultipleCards = async (
 
   const { error } = await supabase.from('collection').upsert(cardArray)
   if (error) {
-    throw new Error('Error bulk updating collection')
+    throw new Error(`Error bulk updating collection: ${error.message}`)
   }
   setOwnedCards([...ownedCardsCopy]) // rerender the component
 

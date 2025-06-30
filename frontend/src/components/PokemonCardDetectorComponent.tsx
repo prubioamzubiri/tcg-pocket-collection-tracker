@@ -448,7 +448,7 @@ const PokemonCardDetector: FC<PokemonCardDetectorProps> = ({ onDetectionComplete
               </Alert>
             )}
 
-            {!isInitialized && (
+            {!isInitialized && state !== State.UploadingImages && (
               <Alert variant="default">
                 <AlertDescription className="flex items-center space-x-2">
                   <Spinner />
