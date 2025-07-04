@@ -43,7 +43,7 @@ function App() {
 
   useEffect(() => {
     // @ts-ignore
-    window.umami?.track({ website: 'bcc831c4-41f3-4228-aeda-d0c448d34c37', url: location.pathname })
+    window.umami?.track((props) => ({ ...props, url: location.pathname }))
   }, [location])
 
   useEffect(() => {
