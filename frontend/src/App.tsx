@@ -6,7 +6,7 @@ import type { AccountRow, CollectionRow } from '@/types'
 import loadable from '@loadable/component'
 import { useEffect, useMemo, useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
-import { Route, Routes } from 'react-router'
+import { Route, Routes, useLocation } from 'react-router'
 import { Header } from './components/Header.tsx'
 import { Toaster } from './components/ui/toaster.tsx'
 import { CollectionContext } from './lib/context/CollectionContext.ts'
@@ -21,6 +21,7 @@ const EditProfile = loadable(() => import('./components/EditProfile.tsx'))
 
 function App() {
   const { toast } = useToast()
+  const location = useLocation()
 
   const [user, setUser] = useState<User | null>(null)
   const [account, setAccount] = useState<AccountRow | null>(null)
@@ -39,6 +40,11 @@ function App() {
 
     return () => subscription.unsubscribe()
   }, [])
+
+  useEffect(() => {
+    // @ts-ignore
+    window.umami?.track({ website: 'bcc831c4-41f3-4228-aeda-d0c448d34c37', url: location.pathname })
+  }, [location])
 
   useEffect(() => {
     if (user) {
