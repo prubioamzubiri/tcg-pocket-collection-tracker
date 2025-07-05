@@ -243,6 +243,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "nicolasfeyer",
+      "name": "Nicolas Feyer",
+      "avatar_url": "https://avatars.githubusercontent.com/u/17156492?v=4",
+      "profile": "https://github.com/nicolasfeyer",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
