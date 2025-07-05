@@ -1,6 +1,6 @@
 # TCG Pocket Collection Tracker
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-27-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-28-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 TCG Pocket Collection Tracker is an application designed to help users efficiently track their Pokémon Pocket game cards, identify optimal card packs to open, manage trades, and engage with both friends and the community at large. Our application is completely free, open-source, and prioritizes user privacy by not selling data, tracking analytics or using advertisements.
@@ -88,6 +88,7 @@ We encourage contributors to incrementally improve the project by making small c
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/greg19"><img src="https://avatars.githubusercontent.com/u/29665730?v=4?s=100" width="100px;" alt="Grzegorz Kwacz"/><br /><sub><b>Grzegorz Kwacz</b></sub></a><br /><a href="https://github.com/marcelpanse/tcg-pocket-collection-tracker/commits?author=greg19" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://bugraisadev.vercel.app/"><img src="https://avatars.githubusercontent.com/u/38170967?v=4?s=100" width="100px;" alt="Buğra Ercan"/><br /><sub><b>Buğra Ercan</b></sub></a><br /><a href="https://github.com/marcelpanse/tcg-pocket-collection-tracker/commits?author=sanshigo345" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/nicolasfeyer"><img src="https://avatars.githubusercontent.com/u/17156492?v=4?s=100" width="100px;" alt="Nicolas Feyer"/><br /><sub><b>Nicolas Feyer</b></sub></a><br /><a href="https://github.com/marcelpanse/tcg-pocket-collection-tracker/commits?author=nicolasfeyer" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/StephenAloche"><img src="https://avatars.githubusercontent.com/u/38354616?v=4?s=100" width="100px;" alt="StephenAloche"/><br /><sub><b>StephenAloche</b></sub></a><br /><a href="https://github.com/marcelpanse/tcg-pocket-collection-tracker/commits?author=StephenAloche" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
