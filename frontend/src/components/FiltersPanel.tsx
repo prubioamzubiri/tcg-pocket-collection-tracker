@@ -194,7 +194,7 @@ const FilterPanel: FC<Props> = ({ children, cards, onFiltersChanged, onChangeToM
             <DialogTrigger asChild>
               <Button variant="outline">{t('filters.allFilters')}</Button>
             </DialogTrigger>
-            <DialogContent className="border-1 border-neutral-700 shadow-none">
+            <DialogContent className="border-1 border-neutral-700 shadow-none h-[90vh] content-start">
               <DialogHeader>
                 <DialogTitle>{t('filters.filtersCount', { count: (getFilteredCards || []).filter((c) => !c.linkedCardID).length })}</DialogTitle>
               </DialogHeader>
