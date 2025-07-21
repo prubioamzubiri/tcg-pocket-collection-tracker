@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { allCards, basicRarities, expansionsDict } from '@/lib/CardsDB.ts'
 import { CollectionContext } from '@/lib/context/CollectionContext.ts'
 import { UserContext } from '@/lib/context/UserContext.ts'
+import { levenshtein } from '@/lib/levenshtein'
 import { getCardNameByLang } from '@/lib/utils'
 import type { Card, CardType, CollectionRow, Mission, Rarity } from '@/types'
 import i18n from 'i18next'
@@ -165,11 +166,16 @@ const FilterPanel: FC<Props> = ({
     filteredCards = filteredCards.filter(filterCardTypes)
 
     if (filters.search) {
+      const threshold = 2 // tweak if needed
+
       filteredCards = filteredCards.filter((card) => {
-        return (
-          getCardNameByLang(card, i18n.language).toLowerCase().includes(filters.search.toLowerCase()) ||
-          card.card_id.toLowerCase().includes(filters.search.toLowerCase())
-        )
+        const name = getCardNameByLang(card, i18n.language).toLowerCase()
+        const query = filters.search.toLowerCase()
+        const isExactMatch = name.includes(query)
+        const isFuzzyMatch = levenshtein(name, query) <= threshold
+        const isIdMatch = card.card_id.toLowerCase().includes(query)
+
+        return isExactMatch || isFuzzyMatch || isIdMatch
       })
     }
 
