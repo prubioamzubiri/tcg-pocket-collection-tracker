@@ -2,6 +2,7 @@ import loadable from '@loadable/component'
 import { useEffect, useMemo, useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Route, Routes, useLocation } from 'react-router'
+import DonationPopup from '@/components/DonationPopup.tsx'
 import InstallPrompt from '@/components/InstallPrompt.tsx'
 import { useToast } from '@/hooks/use-toast.ts'
 import { authSSO, supabase } from '@/lib/Auth.ts'
@@ -105,6 +106,7 @@ function App() {
           </Routes>
           <EditProfile account={account} setAccount={setAccount} isProfileDialogOpen={isProfileDialogOpen} setIsProfileDialogOpen={setIsProfileDialogOpen} />
           <InstallPrompt />
+          <DonationPopup />
           {isOverviewPage && <Footer />}
         </ErrorBoundary>
       </CollectionContext.Provider>
