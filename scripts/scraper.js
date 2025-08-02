@@ -11,7 +11,7 @@ const imagesDir = 'frontend/public/images/en-US/'
 const imagesPath = '/images/en-US/'
 
 // const expansions = ['A1', 'A1a', 'A2', 'A2a', 'A2b', 'A3', 'A3a', 'A3b', 'A4', 'P-A']
-const expansions = ['P-A', 'A4']
+const expansions = ['P-A']
 const packs = [
   'Pikachu pack',
   'Charizard pack',
