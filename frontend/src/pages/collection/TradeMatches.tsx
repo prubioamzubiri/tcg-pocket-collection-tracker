@@ -1,5 +1,13 @@
-import { SocialShareButtons } from '@/components/SocialShareButtons.tsx'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { CircleHelp } from 'lucide-react'
+import { type FC, useContext, useEffect, useMemo, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
+import { useLocation, useNavigate } from 'react-router'
+import { Tooltip } from 'react-tooltip'
+import { z } from 'zod'
 import NumberFilter from '@/components/filters/NumberFilter.tsx'
+import { SocialShareButtons } from '@/components/SocialShareButtons.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog.tsx'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from '@/components/ui/form'
@@ -10,15 +18,6 @@ import { supabase } from '@/lib/Auth.ts'
 import { expansions, getCardById } from '@/lib/CardsDB'
 import { UserContext } from '@/lib/context/UserContext.ts'
 import type { AccountRow, Card, CollectionRow, Rarity } from '@/types'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { CircleHelp } from 'lucide-react'
-import { type FC, useContext, useEffect, useState } from 'react'
-import { useMemo } from 'react'
-import { useForm } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
-import { useLocation, useNavigate } from 'react-router'
-import { Tooltip } from 'react-tooltip'
-import { z } from 'zod'
 
 interface Props {
   ownedCards: CollectionRow[]
@@ -136,20 +135,22 @@ const TradeMatches: FC<Props> = ({ ownedCards, friendCards, ownAccount, friendAc
 
   const formSchema = z.object({
     is_active_trading: z.boolean(),
-    min_number_of_cards_to_keep: z.coerce.number().min(1).max(10),
-    max_number_of_cards_wanted: z.coerce.number().min(1).max(10),
+    min_number_of_cards_to_keep: z.number().min(1).max(10),
+    max_number_of_cards_wanted: z.number().min(1).max(10),
   })
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  type FormValues = z.infer<typeof formSchema>
+
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    values: {
+    defaultValues: {
       is_active_trading: account?.is_active_trading || false,
       min_number_of_cards_to_keep: account?.min_number_of_cards_to_keep || 1,
       max_number_of_cards_wanted: account?.max_number_of_cards_wanted || 1,
     },
   })
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: FormValues) => {
     try {
       const updatedAccount = await supabase
         .from('accounts')

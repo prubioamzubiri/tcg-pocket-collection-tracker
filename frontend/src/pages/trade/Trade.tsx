@@ -1,3 +1,6 @@
+import { use, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router'
 import { CardsTable } from '@/components/CardsTable.tsx'
 import NumberFilter from '@/components/filters/NumberFilter.tsx'
 import RarityFilter from '@/components/filters/RarityFilter.tsx'
@@ -12,9 +15,6 @@ import { NoCardsNeeded } from '@/pages/trade/components/NoCardsNeeded.tsx'
 import { NoSellableCards } from '@/pages/trade/components/NoSellableCards.tsx'
 import { NoTradeableCards } from '@/pages/trade/components/NoTradeableCards.tsx'
 import type { Card, Rarity } from '@/types'
-import { use, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router'
 import { UserNotLoggedIn } from './components/UserNotLoggedIn'
 
 function Trade() {

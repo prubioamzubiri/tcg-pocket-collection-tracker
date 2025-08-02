@@ -1,12 +1,12 @@
+import i18n from 'i18next'
+import { use, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Card as CardComponent } from '@/components/Card'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { getCardById, getExpansionById, pullRateForSpecificCard, sellableForTokensDictionary } from '@/lib/CardsDB.ts'
 import { CollectionContext } from '@/lib/context/CollectionContext'
 import { getCardNameByLang } from '@/lib/utils'
 import type { Card, CollectionRow } from '@/types'
-import i18n from 'i18next'
-import { use, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 
 interface CardDetailProps {
   cardId: string

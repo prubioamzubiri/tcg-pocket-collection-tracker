@@ -1,9 +1,9 @@
-import useWindowDimensions from '@/lib/hooks/useWindowDimensionsHook.ts'
-import type { Card as CardType } from '@/types'
-import { type Row, createColumnHelper, getCoreRowModel, getGroupedRowModel, useReactTable } from '@tanstack/react-table'
+import { createColumnHelper, getCoreRowModel, getGroupedRowModel, type Row, useReactTable } from '@tanstack/react-table'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import useWindowDimensions from '@/lib/hooks/useWindowDimensionsHook.ts'
+import type { Card as CardType } from '@/types'
 import { Card } from './Card.tsx'
 
 const columnHelper = createColumnHelper<CardType>()

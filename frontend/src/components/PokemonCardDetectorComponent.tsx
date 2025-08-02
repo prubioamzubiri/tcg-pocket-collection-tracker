@@ -1,3 +1,7 @@
+import i18n from 'i18next'
+import type { ChangeEvent, FC } from 'react'
+import { use, useEffect, useMemo, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { incrementMultipleCards } from '@/components/Card'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
@@ -10,10 +14,6 @@ import { CardHashStorageService } from '@/services/CardHashStorageService'
 import { ImageSimilarityService } from '@/services/ImageHashingService'
 import PokemonCardDetectorService, { type DetectionResult } from '@/services/PokemonCardDetectionServices'
 import type { Card, CollectionRow } from '@/types'
-import i18n from 'i18next'
-import type { ChangeEvent, FC } from 'react'
-import { use, useEffect, useMemo, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 
 interface PokemonCardDetectorProps {
   onDetectionComplete?: (results: DetectionResult[]) => void
@@ -355,7 +355,8 @@ const PokemonCardDetector: FC<PokemonCardDetectorProps> = ({ onDetectionComplete
 
   const renderPotentialMatches = async (card: ExtractedCard, index: number) => {
     return (
-      <div
+      <button
+        type="button"
         key={index}
         className={`border rounded-md p-2 cursor-pointer transition-all duration-200 ${
           card.selected ? 'border-blue-300 bg-blue-50 dark:bg-blue-900/70' : 'border-gray-200 grayscale'
@@ -395,7 +396,7 @@ const PokemonCardDetector: FC<PokemonCardDetectorProps> = ({ onDetectionComplete
             </span>
           </div>
         </div>
-      </div>
+      </button>
     )
   }
 
@@ -453,7 +454,8 @@ const PokemonCardDetector: FC<PokemonCardDetectorProps> = ({ onDetectionComplete
             )}
 
             {isInitialized && state === State.UploadImages && (
-              <div
+              <button
+                type="button"
                 className="file-input-container flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-900/10"
                 onClick={() => fileInputRef.current?.click()}
               >
@@ -464,7 +466,7 @@ const PokemonCardDetector: FC<PokemonCardDetectorProps> = ({ onDetectionComplete
                 <Button variant="outline" className="mt-2">
                   {t('selectImages')}
                 </Button>
-              </div>
+              </button>
             )}
 
             {state === State.UploadingImages && (

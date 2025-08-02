@@ -1,7 +1,7 @@
-import { getCardNameByLang } from '@/lib/utils'
-import type { Card } from '@/types'
 import i18n from 'i18next'
 import { type CSSProperties, type Dispatch, type SetStateAction, useCallback, useRef, useState } from 'react'
+import { getCardNameByLang } from '@/lib/utils'
+import type { Card } from '@/types'
 
 interface FancyCardProps {
   card: Card

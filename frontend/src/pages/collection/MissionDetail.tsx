@@ -1,9 +1,9 @@
+import i18n from 'i18next'
+import { useTranslation } from 'react-i18next'
 import FancyCard from '@/components/FancyCard.tsx'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { expansions, getCardById, getExpansionById, pullRateForSpecificCard } from '@/lib/CardsDB.ts'
 import { getCardNameByLang } from '@/lib/utils.ts'
-import i18n from 'i18next'
-import { useTranslation } from 'react-i18next'
 
 interface MissionDetailProps {
   missionCardOptions: string[]

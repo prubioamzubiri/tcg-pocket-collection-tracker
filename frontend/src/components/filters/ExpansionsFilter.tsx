@@ -1,6 +1,6 @@
-import { expansions } from '@/lib/CardsDB.ts'
 import type { FC } from 'react'
 import { useTranslation } from 'react-i18next'
+import { expansions } from '@/lib/CardsDB.ts'
 
 interface Props {
   value: string

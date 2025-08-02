@@ -10,12 +10,12 @@ export function LicenseModal({ onClose }: { onClose: () => void }) {
     return () => document.removeEventListener('keydown', esc)
   }, [onClose])
 
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleBackdropClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (e.target === e.currentTarget) onClose()
   }
 
   return (
-    <div onClick={handleBackdropClick} className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+    <button type="button" onClick={handleBackdropClick} className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
       <div className="bg-gray-200 text-gray-800 p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-lg mx-4">
         <h2 className="text-xl font-bold mb-4">{t('modal.title')}</h2>
 
@@ -43,6 +43,6 @@ export function LicenseModal({ onClose }: { onClose: () => void }) {
         <p className="text-sm mb-2 whitespace-pre-line">{t('modal.disclaimerText')}</p>
         <p className="text-sm">{t('modal.copyright', { projectName: 'TCG Pocket Collection Tracker' })}</p>
       </div>
-    </div>
+    </button>
   )
 }

@@ -1,7 +1,7 @@
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs.tsx'
-import { getExpansionById } from '@/lib/CardsDB.ts'
 import type { FC } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs.tsx'
+import { getExpansionById } from '@/lib/CardsDB.ts'
 
 interface Props {
   value: string

@@ -1,3 +1,7 @@
+import i18n from 'i18next'
+import { MinusIcon, PlusIcon } from 'lucide-react'
+import { use, useCallback, useEffect, useState } from 'react'
+import { useParams } from 'react-router'
 import FancyCard from '@/components/FancyCard.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import { supabase } from '@/lib/Auth.ts'
@@ -5,10 +9,6 @@ import { CollectionContext } from '@/lib/context/CollectionContext.ts'
 import { type User, UserContext } from '@/lib/context/UserContext.ts'
 import { getCardNameByLang } from '@/lib/utils'
 import type { Card as CardType, CollectionRow } from '@/types'
-import i18n from 'i18next'
-import { MinusIcon, PlusIcon } from 'lucide-react'
-import { use, useCallback, useEffect, useState } from 'react'
-import { useParams } from 'react-router'
 
 interface CardProps {
   card: CardType
@@ -21,10 +21,6 @@ const _inputDebounce: Record<string, number | null> = {}
 
 export function Card({ card, useMaxWidth = false, editable = true }: CardProps) {
   const params = useParams()
-
-  if (card.linkedCardID) {
-    return null
-  }
 
   const { user, setIsLoginDialogOpen } = use(UserContext)
   const { ownedCards, setOwnedCards, setSelectedCardId } = use(CollectionContext)
@@ -95,11 +91,15 @@ export function Card({ card, useMaxWidth = false, editable = true }: CardProps) 
     }
   }
 
+  if (card.linkedCardID) {
+    return null
+  }
+
   return (
     <div className={`group flex w-fit ${!useMaxWidth ? 'max-w-32 md:max-w-40' : ''} flex-col items-center rounded-lg`}>
-      <div className="cursor-pointer" onClick={() => setSelectedCardId(card.card_id)}>
+      <button type="button" className="cursor-pointer" onClick={() => setSelectedCardId(card.card_id)}>
         <FancyCard card={card} selected={amountOwned > 0} clickable={!useMaxWidth} />
-      </div>
+      </button>
       <p className="max-w-[130px] overflow-hidden text-ellipsis whitespace-nowrap font-semibold text-[12px] pt-2">
         {card.card_id} - {getCardNameByLang(card, i18n.language)}
       </p>

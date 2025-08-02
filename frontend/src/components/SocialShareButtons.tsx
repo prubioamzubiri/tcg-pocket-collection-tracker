@@ -1,6 +1,3 @@
-import { Button } from '@/components/ui/button.tsx'
-import { toast } from '@/hooks/use-toast'
-import { UserContext } from '@/lib/context/UserContext.ts'
 import { type FC, useContext } from 'react'
 import {
   BlueskyIcon,
@@ -24,6 +21,9 @@ import {
   WhatsappShareButton,
   XIcon,
 } from 'react-share'
+import { Button } from '@/components/ui/button.tsx'
+import { toast } from '@/hooks/use-toast'
+import { UserContext } from '@/lib/context/UserContext.ts'
 
 export const SocialShareButtons: FC = () => {
   const { account } = useContext(UserContext)
