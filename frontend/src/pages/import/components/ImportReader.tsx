@@ -5,6 +5,7 @@ import XLSX from 'xlsx'
 import { supabase } from '@/lib/Auth.ts'
 import { CollectionContext } from '@/lib/context/CollectionContext'
 import { UserContext } from '@/lib/context/UserContext'
+import { updateCollectionCache } from '@/lib/fetchCollection.ts'
 import type { CollectionRow, ImportExportRow } from '@/types'
 
 export const ImportReader = () => {
@@ -64,6 +65,8 @@ export const ImportReader = () => {
       if (error) {
         throw new Error('Error updating collection')
       }
+
+      updateCollectionCache(ownedCards, user.user.email)
     }
   }
 

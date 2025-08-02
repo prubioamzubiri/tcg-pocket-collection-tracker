@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button.tsx'
 import { supabase } from '@/lib/Auth.ts'
 import { CollectionContext } from '@/lib/context/CollectionContext.ts'
 import { type User, UserContext } from '@/lib/context/UserContext.ts'
+import { updateCollectionCache } from '@/lib/fetchCollection.ts'
 import { getCardNameByLang } from '@/lib/utils'
 import type { Card as CardType, CollectionRow } from '@/types'
 
@@ -57,6 +58,8 @@ export function Card({ card, useMaxWidth = false, editable = true }: CardProps) 
         if (error) {
           throw new Error('Error updating collection')
         }
+
+        updateCollectionCache(ownedCards, user.user.email)
       }, 1000)
     },
     [ownedCards, user, setOwnedCards, amountOwned],
@@ -155,6 +158,8 @@ export const updateMultipleCards = async (
     throw new Error('Error bulk updating collection')
   }
 
+  updateCollectionCache(ownedCardsCopy, user.user.email)
+
   // update the UI
   for (const cardId of cardIds) {
     const ownedCard = ownedCardsCopy.find((row) => row.card_id === cardId)
@@ -218,6 +223,9 @@ export const incrementMultipleCards = async (
   if (error) {
     throw new Error(`Error bulk updating collection: ${error.message}`)
   }
+
+  updateCollectionCache(ownedCardsCopy, user.user.email)
+
   setOwnedCards([...ownedCardsCopy]) // rerender the component
 
   return cardArray
