@@ -197,7 +197,7 @@ const FilterPanel: FC<Props> = ({
       })
     }
 
-    const amounts = new Map(ownedCards.map((x) => [x.card_id, x.amount_owned]))
+    const amounts = new Map((cards || []).map((x) => [x.card_id, x.amount_owned]))
 
     for (const card of filteredCards) {
       if (!card.linkedCardID) {
