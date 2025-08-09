@@ -150,7 +150,7 @@ function Overview() {
       </article>
 
       {ownedCards.length > 0 && (
-        <div className="max-w-7xl my-8 mx-8 ">
+        <div className="mx-auto max-w-2xl my-8">
           <Alert className="border-1 border-neutral-700 shadow-none">
             <Heart className="h-4 w-4" />
             <AlertTitle>{t('stats.title')}</AlertTitle>
