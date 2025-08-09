@@ -6,7 +6,7 @@ on:
 permissions:
   contents: write
 env:
-  GHOST_API_KEY: ${{ secrets.GHOST_API_KEY }}
+  VITE_GHOST_API_KEY: ${{ secrets.VITE_GHOST_API_KEY }}
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
