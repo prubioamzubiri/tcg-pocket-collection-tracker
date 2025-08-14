@@ -4,7 +4,6 @@ import { RankBadge } from '@/components/ui/rank-badge'
 import { getCardById } from '@/lib/CardsDB'
 import { CollectionContext } from '@/lib/context/CollectionContext'
 import type { Card } from '@/types'
-import CardDetail from '../collection/CardDetail'
 
 export interface IDeck {
   name: string
@@ -18,7 +17,7 @@ export interface IDeck {
 }
 
 export const DeckItem = ({ deck }: { deck: IDeck }) => {
-  const { ownedCards, selectedCardId, setSelectedCardId } = useContext(CollectionContext)
+  const { ownedCards, setSelectedCardId } = useContext(CollectionContext)
   const [isOpen, setIsOpen] = useState(false)
 
   const missingCards: Card[] = deck.cards
@@ -79,9 +78,7 @@ export const DeckItem = ({ deck }: { deck: IDeck }) => {
                   className={'group flex w-fit max-w-11 sm:max-w-20 md:max-w-30 flex-col items-center rounded-lg cursor-pointer'}
                   key={`${cardObj.name}-${idx}`}
                 >
-                  <button type="button" className="cursor-pointer" onClick={() => setSelectedCardId(`${cardObj.card_id}`)}>
-                    <FancyCard card={cardObj} selected={selected} clickable={true} />
-                  </button>
+                  <FancyCard card={cardObj} selected={selected} setIsSelected={() => setSelectedCardId(`${cardObj.card_id}`)} clickable={true} />
 
                   <span className="font-semibold max-w-[130px] overflow-hidden pt-2 text-[12px] text-ellipsis">{cardObj.name}</span>
                 </div>
@@ -89,7 +86,6 @@ export const DeckItem = ({ deck }: { deck: IDeck }) => {
             )
           })}
         </div>
-        <div>{selectedCardId && <CardDetail cardId={selectedCardId} onClose={() => setSelectedCardId('')} />}</div>
       </div>
     </div>
   )

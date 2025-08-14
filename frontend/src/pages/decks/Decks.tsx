@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import SearchInput from '@/components/filters/SearchInput'
+import { CollectionContext } from '@/lib/context/CollectionContext.ts'
+import CardDetail from '@/pages/collection/CardDetail.tsx'
 import sampleDecks8 from '../../../assets/decks/decks-game8.json'
 import { DeckItem, type IDeck } from './DeckItem'
 
@@ -40,6 +42,8 @@ const rankInfo: Record<string, { title: string; tooltip: string }> = {
 }
 
 function Decks() {
+  const { selectedCardId, setSelectedCardId } = useContext(CollectionContext)
+
   const decksMeta8 = sampleDecks8 as IDeck[]
 
   const [searchValue, setSearchValue] = useState('')
@@ -87,6 +91,7 @@ function Decks() {
             </div>
           )
         })}
+      <div>{selectedCardId && <CardDetail cardId={selectedCardId} onClose={() => setSelectedCardId('')} />}</div>
     </div>
   )
 }
