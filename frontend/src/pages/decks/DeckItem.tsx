@@ -33,16 +33,16 @@ export const DeckItem = ({ deck }: { deck: IDeck }) => {
   }
 
   return (
-    <div key={deck.name} className="flex flex-col mt-5 cursor-pointer">
+    <div key={deck.name} className="flex flex-col mt-5 cursor-pointer border-b-1 border-slate-600">
       {/* biome-ignore lint/a11y/useSemanticElements: want to manage click on all div but can't use button for easthetic reasons */}
       <div
-        className="border-b-1 border-slate-600 tracking-tight pb-5 flex flex-row gap-x-2"
+        className="flex-wrap tracking-tight pb-5 flex flex-col sm:flex-row gap-x-2"
         role="button"
         tabIndex={0}
         aria-expanded={isOpen}
         onClick={() => setIsOpen(!isOpen)}
       >
-        <div className="flex justify-center items-center gap-2 min-w-0 sm:min-w-40">
+        <div className="flex items-center gap-2 min-w-0 sm:min-w-40">
           <img src={deck.img_url} alt={deck.name} className="w-20 object-cover object-[0%_20%]" />
           <RankBadge rank={deck.rank} />
           <div className="flex flex-col gap-2 min-w-4">
@@ -52,12 +52,14 @@ export const DeckItem = ({ deck }: { deck: IDeck }) => {
           </div>
         </div>
 
-        <div className="flex justify-center items-center gap-2">
-          <h2 className="text-center font-semibold text-md sm:text-lg md:text-2xl">{deck.name}</h2>
-          {missingCards.length > 0 && `(${missingCards.length} missing)`}
-          <span className={`flex justify-center items-center transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`} aria-hidden="true">
-            ▲
-          </span>
+        <div className="flex items-center gap-2 flex-row pt-2">
+          <h2 className="text-nowrap font-semibold text-md sm:text-lg md:text-2xl">{deck.name}</h2>
+          <div className="flex flex-row gap-2 text-nowrap">
+            {missingCards.length > 0 && `(${missingCards.length} missing)`}
+            <div className={`flex items-center transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`} aria-hidden="true">
+              ▲
+            </div>
+          </div>
         </div>
       </div>
 
@@ -74,10 +76,7 @@ export const DeckItem = ({ deck }: { deck: IDeck }) => {
             const selected = cardObj ? isSelected(deck.cards, cardObj, idx) : false
             return (
               cardObj && (
-                <div
-                  className={'group flex w-fit max-w-11 sm:max-w-20 md:max-w-30 flex-col items-center rounded-lg cursor-pointer'}
-                  key={`${cardObj.name}-${idx}`}
-                >
+                <div className={'group flex w-fit max-w-30 flex-col items-center rounded-lg cursor-pointer'} key={`${cardObj.name}-${idx}`}>
                   <FancyCard card={cardObj} selected={selected} setIsSelected={() => setSelectedCardId(`${cardObj.card_id}`)} clickable={true} />
 
                   <span className="font-semibold max-w-[130px] overflow-hidden pt-2 text-[12px] text-ellipsis">{cardObj.name}</span>
