@@ -2,6 +2,7 @@ import i18n from 'i18next'
 import { use, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Card as CardComponent } from '@/components/Card'
+import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { getCardById, getExpansionById, pullRateForSpecificCard, sellableForTokensDictionary } from '@/lib/CardsDB.ts'
 import { CollectionContext } from '@/lib/context/CollectionContext'
@@ -19,6 +20,7 @@ function CardDetail({ cardId: initialCardId, onClose }: Readonly<CardDetailProps
   const card: Card = getCardById(cardId) || ({} as Card)
   const expansion = getExpansionById(card.expansion)
   const { ownedCards } = use(CollectionContext)
+  const [isImageDialogOpen, setIsImageDialogOpen] = useState(false)
 
   // if we draw from 'everypack' we need to take one of the packs to calculated based on
   const packName = card.pack === 'everypack' ? expansion?.packs[0].name : card.pack
@@ -49,8 +51,23 @@ function CardDetail({ cardId: initialCardId, onClose }: Readonly<CardDetailProps
         </SheetHeader>
         <div className="flex flex-col items-center">
           <div className="px-10 py-4 w-full">
-            <CardComponent key={cardId} card={{ ...card, amount_owned: row?.amount_owned || 0 }} useMaxWidth />
+            <button type="button" onClick={() => setIsImageDialogOpen(true)} className="cursor-pointer">
+              <CardComponent key={cardId} card={{ ...card, amount_owned: row?.amount_owned || 0 }} useMaxWidth />
+            </button>
           </div>
+
+          <Dialog open={isImageDialogOpen} onOpenChange={setIsImageDialogOpen}>
+            <DialogContent className="flex items-center justify-center p-0 max-w-3xl max-h-[90vh]">
+              {card.image && (
+                <img
+                  src={card.image}
+                  alt={getCardNameByLang(card, i18n.language)}
+                  className="w-full h-full object-scale-down"
+                  onClick={() => setIsImageDialogOpen(false)}
+                />
+              )}
+            </DialogContent>
+          </Dialog>
 
           <div className="p-4 w-full">
             <div className="mb-8">
