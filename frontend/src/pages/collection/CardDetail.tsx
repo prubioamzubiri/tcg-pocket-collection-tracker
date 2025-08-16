@@ -51,8 +51,13 @@ function CardDetail({ cardId: initialCardId, onClose }: Readonly<CardDetailProps
         </SheetHeader>
         <div className="flex flex-col items-center">
           <div className="px-10 py-4 w-full">
-            <button type="button" onClick={() => setIsImageDialogOpen(true)} className="cursor-pointer">
-              <CardComponent key={cardId} card={{ ...card, amount_owned: row?.amount_owned || 0 }} useMaxWidth />
+            <button type="button" className="cursor-pointer">
+              <CardComponent
+                key={cardId}
+                card={{ ...card, amount_owned: row?.amount_owned || 0 }}
+                useMaxWidth
+                onImageClick={() => setIsImageDialogOpen(true)}
+              />
             </button>
           </div>
 
