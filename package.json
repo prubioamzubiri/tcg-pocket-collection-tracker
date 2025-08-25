@@ -18,7 +18,7 @@
     "lefthook": "^1.12.3"
   },
   "type": "module",
-  "packageManager": "pnpm@10.14.0",
+  "packageManager": "pnpm@10.15.0",
   "engines": {
     "node": ">=20"
   },
@@ -35,7 +35,7 @@
   "dependencies": {
     "cheerio": "^1.1.2",
     "fs-extra": "^11.3.1",
-    "glob": "^11.0.0",
+    "glob": "^11.0.3",
     "node-fetch": "^3.3.2"
   }
 }
