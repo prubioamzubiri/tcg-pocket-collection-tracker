@@ -47,7 +47,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    // @ts-ignore
+    // @ts-expect-error
     window.umami?.track((props) => ({ ...props, url: location.pathname }))
   }, [location])
 

@@ -44,7 +44,7 @@ function parseCards($, cards, expansion) {
     } else {
       const ids = line.match(/#\d\d\d/g)
       if (ids != null) {
-        const options = ids.map((id) => `${expansion}-${Number.parseInt(id.slice(1))}`)
+        const options = ids.map((id) => `${expansion}-${Number.parseInt(id.slice(1), 10)}`)
         if (isOfTheFollowing) {
           combinationCard.options = combinationCard.options.concat(options)
         } else {
@@ -52,7 +52,7 @@ function parseCards($, cards, expansion) {
           card.options = options
           const amount = line.match(/×\d+/g)
           if (amount != null) {
-            card.amount = Number.parseInt(amount[0].slice(1))
+            card.amount = Number.parseInt(amount[0].slice(1), 10)
           } else {
             card.amount = 1
           }
@@ -92,13 +92,17 @@ async function getExpansionMissions(expansion) {
               if (node.type === 'text') {
                 // Add text content to rewards array if it's not just whitespace
                 const text = $(node).text().trim()
-                if (text) rewardItems.push(text)
+                if (text) {
+                  rewardItems.push(text)
+                }
               } else if (node.name === 'br') {
                 // Don't need to do anything special for <br> tags as we're collecting items separately
               } else if (node.name) {
                 // Handle other HTML elements (spans with images, etc.)
                 const text = $(node).text().trim()
-                if (text) rewardItems.push(text)
+                if (text) {
+                  rewardItems.push(text)
+                }
               }
             })
 

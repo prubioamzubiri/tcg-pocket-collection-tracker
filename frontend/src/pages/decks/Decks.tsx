@@ -56,7 +56,9 @@ function Decks() {
 
   const groupedDecks = filteredAndSortedDecks.reduce(
     (acc, deck) => {
-      if (!acc[deck.rank]) acc[deck.rank] = []
+      if (!acc[deck.rank]) {
+        acc[deck.rank] = []
+      }
       acc[deck.rank].push(deck)
       return acc
     },

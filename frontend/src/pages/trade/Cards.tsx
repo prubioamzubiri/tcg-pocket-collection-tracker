@@ -30,7 +30,9 @@ function Cards() {
   const tradeableExpansions = useMemo(() => expansions.filter((e) => e.tradeable).map((e) => e.id), [])
 
   const filterRarities = (c: Card) => {
-    if (rarityFilter.length === 0) return true
+    if (rarityFilter.length === 0) {
+      return true
+    }
     return c.rarity !== '' && rarityFilter.includes(c.rarity)
   }
 

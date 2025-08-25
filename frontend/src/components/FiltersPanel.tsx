@@ -103,12 +103,16 @@ const FilterPanel: FC<Props> = ({
   const [missions, setMissions] = useState<Mission[] | null>(null)
 
   const filterRarities = (c: Card) => {
-    if (filters.rarity.length === 0) return true
+    if (filters.rarity.length === 0) {
+      return true
+    }
     return c.rarity !== '' && filters.rarity.includes(c.rarity)
   }
 
   const filterCardTypes = (c: Card) => {
-    if (filters.cardType.length === 0) return true
+    if (filters.cardType.length === 0) {
+      return true
+    }
     if (c.card_type.toLowerCase() === 'trainer') {
       return filters.cardType.includes('trainer')
     }

@@ -1,12 +1,11 @@
 import { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Tooltip } from 'react-tooltip'
 import { incrementMultipleCards } from '@/components/Card'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast.ts'
-import { getCardById } from '@/lib/CardsDB'
 import { CollectionContext } from '@/lib/context/CollectionContext'
 import { UserContext } from '@/lib/context/UserContext'
+import { TradeListRow } from '@/pages/trade/components/TradeListRow.tsx'
 import type { TradeRow, TradeStatus } from '@/types'
 
 interface Props {
@@ -28,61 +27,8 @@ function TradeList({ trades: allTrades, update, viewHistory }: Props) {
   const trades = viewHistory ? allTrades.filter((x) => !interesting(x)) : allTrades.filter(interesting)
   const [selectedTradeId, setSelectedTradeId] = useState<number | undefined>(undefined)
 
-  if (!account || !user) return null
-
-  function onClick(row: TradeRow) {
-    if (selectedTradeId === row.id) {
-      setSelectedTradeId(undefined)
-    } else {
-      setSelectedTradeId(row.id)
-    }
-  }
-
-  const status = (row: TradeRow) => {
-    const style = {
-      offered: { icon: row.offering_friend_id === account.friend_id ? '→' : '←', color: 'bg-amber-600' },
-      accepted: { icon: '↔', color: 'bg-lime-600' },
-      declined: { icon: 'X', color: 'bg-stone-600' },
-      finished: { icon: '✓', color: 'bg-indigo-600' },
-    }
-    return (
-      <>
-        <Tooltip id={`tooltip-${row.id}`} />
-        <span className={`rounded-full text-center w-9 ${style[row.status].color}`} data-tooltip-id={`tooltip-${row.id}`} data-tooltip-content={row.status}>
-          {style[row.status].icon}
-        </span>
-      </>
-    )
-  }
-
-  function card(card_id: string) {
-    const card = getCardById(card_id)
-    if (!card) {
-      return <span className="w-1/2 text-center">?</span>
-    }
-    return (
-      <span className="flex rounded px-1 w-1/2 bg-zinc-800">
-        <span className="min-w-10">{card.rarity} </span>
-        <span className="min-w-14 me-4">{card.card_id} </span>
-        <span>{card.name}</span>
-        <span className="text-neutral-400 ml-auto">×{ownedCards.find((c) => c.card_id === card.card_id)?.amount_owned || 0}</span>
-      </span>
-    )
-  }
-
-  const Row = ({ row }: { row: TradeRow }) => {
-    const yourCard = row.offering_friend_id === account.friend_id ? row.offer_card_id : row.receiver_card_id
-    const friendCard = row.offering_friend_id === account.friend_id ? row.receiver_card_id : row.offer_card_id
-    return (
-      <li
-        className={`flex cursor-pointer justify-between rounded gap-4 p-1 my-1 ${selectedTradeId === row.id && 'bg-green-900'} hover:bg-neutral-500`}
-        onClick={() => onClick(row)}
-      >
-        {status(row)}
-        {card(yourCard)}
-        {card(friendCard)}
-      </li>
-    )
+  if (!account || !user) {
+    return null
   }
 
   const increment = async (row: TradeRow) => {
@@ -143,14 +89,18 @@ function TradeList({ trades: allTrades, update, viewHistory }: Props) {
           </>
         )
       case 'declined':
-        if (i_ended) return null
+        if (i_ended) {
+          return null
+        }
         return (
           <Button type="button" onClick={end}>
             {t('actionHide')}
           </Button>
         )
       case 'finished':
-        if (i_ended) return null
+        if (i_ended) {
+          return null
+        }
         return (
           <>
             <Button
@@ -175,7 +125,9 @@ function TradeList({ trades: allTrades, update, viewHistory }: Props) {
 
   const selectedTrade = trades.find((r) => r.id === selectedTradeId)
 
-  if (trades.length === 0) return <div className="rounded-lg border-1 border-neutral-700 border-solid p-2 text-center">{t('noActiveTrades')}</div>
+  if (trades.length === 0) {
+    return <div className="rounded-lg border-1 border-neutral-700 border-solid p-2 text-center">{t('noActiveTrades')}</div>
+  }
 
   return (
     <div className="rounded-lg border-1 border-neutral-700 border-solid p-2">
@@ -188,7 +140,7 @@ function TradeList({ trades: allTrades, update, viewHistory }: Props) {
         {trades
           .toSorted((a, b) => (a.created_at > b.created_at ? -1 : 1))
           .map((x) => (
-            <Row key={x.id} row={x} />
+            <TradeListRow key={x.id} row={x} selectedTradeId={selectedTradeId} setSelectedTradeId={setSelectedTradeId} />
           ))}
       </ul>
       {selectedTrade && <div className="flex gap-4 text-center items-center mt-2">{actions(selectedTrade)}</div>}

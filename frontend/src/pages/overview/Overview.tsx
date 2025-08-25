@@ -39,7 +39,7 @@ function Overview() {
   })
   const [numberFilter, setNumberFilter] = useState(() => {
     const savedNumberFilter = localStorage.getItem('numberFilter')
-    return savedNumberFilter ? Number.parseInt(savedNumberFilter) : 1
+    return savedNumberFilter ? Number.parseInt(savedNumberFilter, 10) : 1
   })
   const [deckbuildingMode, setDeckbuildingMode] = useState(() => {
     const savedDeckbuildingFilter = localStorage.getItem('deckbuildingFilter')

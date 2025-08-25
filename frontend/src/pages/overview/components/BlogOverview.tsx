@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-expect-error
 import GhostContentAPI from '@tryghost/content-api'
 import { useEffect, useState } from 'react'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card.tsx'

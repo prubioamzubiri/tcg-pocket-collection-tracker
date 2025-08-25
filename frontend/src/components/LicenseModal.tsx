@@ -11,7 +11,9 @@ export function LicenseModal({ onClose }: { onClose: () => void }) {
   }, [onClose])
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    if (e.target === e.currentTarget) onClose()
+    if (e.target === e.currentTarget) {
+      onClose()
+    }
   }
 
   return (

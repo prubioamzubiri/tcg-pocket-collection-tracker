@@ -123,13 +123,17 @@ function extractSetAndPackInfo($) {
 }
 
 function urlToCardId(url) {
-  if (!url) throw new Error('url is false')
+  if (!url) {
+    throw new Error('url is false')
+  }
 
   // Assumes the url ends with /cards/expansion/number
   const regex = /.*\/cards\/([a-zA-Z0-9-]+)\/(\d+)/g
   const matches = [...url.matchAll(regex)]
 
-  if (matches.length === 0) throw new Error(`couldn't extract card id from '${url}'`)
+  if (matches.length === 0) {
+    throw new Error(`couldn't extract card id from '${url}'`)
+  }
   return `${matches[0][1]}-${matches[0][2]}`
 }
 

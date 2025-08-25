@@ -54,7 +54,9 @@ export async function fetchCollection(email?: string, friendId?: string) {
   // No cache available or friend collection, fetch from API
   const { count, error } = await supabase.from(tableName).select('*', { count: 'exact', head: true }).eq(key, value)
 
-  if (error) throw new Error('Error fetching collection')
+  if (error) {
+    throw new Error('Error fetching collection')
+  }
 
   if (!count) {
     return []

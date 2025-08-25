@@ -11,8 +11,12 @@ import TradeList from './TradeList'
 
 function groupTrades(arr: TradeRow[], id: string) {
   return Object.groupBy(arr, (row) => {
-    if (row.offering_friend_id === id) return row.receiving_friend_id
-    if (row.receiving_friend_id === id) return row.offering_friend_id
+    if (row.offering_friend_id === id) {
+      return row.receiving_friend_id
+    }
+    if (row.receiving_friend_id === id) {
+      return row.offering_friend_id
+    }
     return 'undefined'
   })
 }
@@ -100,7 +104,9 @@ function TradeOffers() {
     return null
   }
 
-  if (trades.length === 0) return <p>{t('noTradeOffers')}</p>
+  if (trades.length === 0) {
+    return <p>{t('noTradeOffers')}</p>
+  }
 
   const friends = groupTrades(trades, account.friend_id)
   return (

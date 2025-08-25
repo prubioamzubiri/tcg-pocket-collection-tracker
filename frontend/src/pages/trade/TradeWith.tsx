@@ -4,16 +4,14 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router'
 import { Tooltip } from 'react-tooltip'
 import NumberFilter from '@/components/filters/NumberFilter.tsx'
-import { Button } from '@/components/ui/button'
-import { useToast } from '@/hooks/use-toast.ts'
-import { supabase } from '@/lib/Auth'
 import { expansions, getCardById } from '@/lib/CardsDB.ts'
 import { CollectionContext } from '@/lib/context/CollectionContext'
 import { UserContext } from '@/lib/context/UserContext'
 import { fetchPublicAccount } from '@/lib/fetchAccount'
 import { fetchCollection } from '@/lib/fetchCollection'
 import { CardList } from '@/pages/trade/components/CardList.tsx'
-import type { AccountRow, Card, CollectionRow, Rarity, TradeRow } from '@/types'
+import { TradeOffer } from '@/pages/trade/components/TradeOffer.tsx'
+import type { AccountRow, Card, CollectionRow, Rarity } from '@/types'
 
 const rarityOrder: Rarity[] = ['◊', '◊◊', '◊◊◊', '◊◊◊◊', '☆']
 
@@ -23,7 +21,6 @@ interface TradeCard extends Card {
 
 const TradeWith: FC = () => {
   const { t } = useTranslation('trade-matches')
-  const { toast } = useToast()
 
   const { friendId } = useParams()
 
@@ -38,14 +35,20 @@ const TradeWith: FC = () => {
   const [friendCard, setFriendCard] = useState<Card | null>(null)
 
   useEffect(() => {
-    if (!friendAccount && friendId) fetchPublicAccount(friendId).then(setFriendAccount)
-    if (!friendCards) fetchCollection(undefined, friendId).then(setFriendCards)
+    if (!friendAccount && friendId) {
+      fetchPublicAccount(friendId).then(setFriendAccount)
+    }
+    if (!friendCards) {
+      fetchCollection(undefined, friendId).then(setFriendCards)
+    }
   })
 
   const tradeableExpansions = useMemo(() => expansions.filter((e) => e.tradeable).map((e) => e.id), [])
 
   const friendExtraCards = useMemo(() => {
-    if (!friendCards) return null
+    if (!friendCards) {
+      return null
+    }
     const result: Record<Rarity, TradeCard[]> = {
       '◊': [],
       '◊◊': [],
@@ -80,7 +83,9 @@ const TradeWith: FC = () => {
   }, [ownedCards, friendCards, userCardsMaxFilter, friendCardsMinFilter])
 
   const userExtraCards = useMemo(() => {
-    if (!friendCards) return null
+    if (!friendCards) {
+      return null
+    }
     const result: Record<Rarity, TradeCard[]> = {
       '◊': [],
       '◊◊': [],
@@ -121,70 +126,13 @@ const TradeWith: FC = () => {
     return rarityOrder.some((rarity) => friendExtraCards && friendExtraCards[rarity].length > 0 && userExtraCards && userExtraCards[rarity].length > 0)
   }, [friendExtraCards, userExtraCards])
 
-  if (!friendId) return 'Wrong friend id'
-
-  function TradeOffer({ yourId, friendId }: { yourId: string; friendId: string }) {
-    function card(c: Card | null) {
-      if (!c) {
-        return <span className="w-1/2 text-center">–</span>
-      }
-      return (
-        <span className="flex w-1/2">
-          <span className="min-w-10">{c.rarity} </span>
-          <span className="min-w-14 me-4">{c.card_id} </span>
-          <span>{c.name}</span>
-        </span>
-      )
-    }
-
-    const enabled = yourCard && friendCard && yourCard.rarity === friendCard.rarity
-
-    async function submit() {
-      if (!enabled) {
-        return
-      }
-      const trade: TradeRow = {
-        offering_friend_id: yourId,
-        receiving_friend_id: friendId,
-        offer_card_id: yourCard.card_id,
-        receiver_card_id: friendCard.card_id,
-        status: 'offered',
-      } as TradeRow
-      const { error } = await supabase.from('trades').insert(trade)
-      if (error) {
-        console.log(error)
-        toast({ title: t('tradeFailed'), variant: 'default' })
-      } else {
-        setYourCard(null)
-        setFriendCard(null)
-        toast({ title: t('tradeOffered'), variant: 'default' })
-      }
-    }
-
-    return (
-      <div className="rounded-lg border-1 border-neutral-700 border-solid p-2 text-center">
-        <div className="flex justify-between mx-2 mb-2">
-          <h4 className="text-lg font-medium">{t('youGive')}</h4>
-          <h4 className="text-lg font-medium">{t('youReceive')}</h4>
-        </div>
-        <div className="flex justify-between rounded bg-zinc-800 px-1 mt-2">
-          {yourCard || friendCard ? (
-            <>
-              {card(yourCard)}
-              {card(friendCard)}
-            </>
-          ) : (
-            <span className="w-full text-center">Select cards to trade below</span>
-          )}
-        </div>
-        <Button className="text-center mt-4" type="button" variant="outline" onClick={submit} disabled={!enabled}>
-          {t('offerTrades')}
-        </Button>
-      </div>
-    )
+  if (!friendId) {
+    return 'Wrong friend id'
   }
 
-  if (!account || !friendAccount || friendExtraCards === null || userExtraCards === null) return null
+  if (!account || !friendAccount || friendExtraCards === null || userExtraCards === null) {
+    return null
+  }
 
   if (!friendAccount.is_active_trading) {
     return (
@@ -216,7 +164,15 @@ const TradeWith: FC = () => {
           <NumberFilter numberFilter={friendCardsMinFilter} setNumberFilter={setFriendCardsMinFilter} options={[2, 3, 4, 5]} labelKey="minNum" />
         </div>
       </div>
-      <TradeOffer yourId={account.friend_id} friendId={friendAccount.friend_id} />
+
+      <TradeOffer
+        yourId={account.friend_id}
+        friendId={friendAccount.friend_id}
+        yourCard={yourCard}
+        friendCard={friendCard}
+        setYourCard={setYourCard}
+        setFriendCard={setFriendCard}
+      />
 
       {!hasPossibleTrades && (
         <div className="text-center py-8">

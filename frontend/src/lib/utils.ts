@@ -10,7 +10,9 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getCardNameByLang(card: Card, lang: string): string {
-  if (card.name === undefined || card.name === null) return ''
+  if (card.name === undefined || card.name === null) {
+    return ''
+  }
 
   switch (card.card_type) {
     case 'pokémon': {

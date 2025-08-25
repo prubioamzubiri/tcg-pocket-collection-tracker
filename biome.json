@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.1.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
   "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "formatter": {
     "enabled": true,
@@ -33,21 +33,25 @@
       "correctness": {
         "noUnusedImports": "error",
         "noUnusedVariables": "error",
-        "useExhaustiveDependencies": "off"
+        "useExhaustiveDependencies": "off",
+        "useUniqueElementIds": "off"
       },
       "complexity": {
         "useSimplifiedLogicExpression": "off",
-        "noStaticOnlyClass": "off"
+        "noStaticOnlyClass": "off",
+        "noImportantStyles": "off"
       },
       "suspicious": {
         "noConfusingVoidType": "off",
-        "noArrayIndexKey": "off"
+        "noArrayIndexKey": "off",
+        "noUnknownAtRules": "off"
       },
       "style": {
         "useExportType": "error",
         "noUselessElse": "off",
         "useNodejsImportProtocol": "error",
-        "useImportType": "error"
+        "useImportType": "error",
+        "useBlockStatements": "error"
       },
       "a11y": {
         "useKeyWithClickEvents": "off",

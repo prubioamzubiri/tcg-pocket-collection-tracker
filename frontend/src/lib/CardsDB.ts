@@ -46,7 +46,9 @@ const rarityOverrides = {
 const update = (cards: Card[], expansionName: ExpansionId) => {
   for (const card of cards) {
     // we set the card_id to the linkedCardID if it exists, so we really treat it as a single card even though it appears in multiple expansions.
-    if (card.linkedCardID) card.card_id = card.linkedCardID
+    if (card.linkedCardID) {
+      card.card_id = card.linkedCardID
+    }
     card.expansion = expansionName
     if (rarityOverrides[expansionName]) {
       const inPackId = Number(card.card_id.split('-').pop())
@@ -268,7 +270,9 @@ export const getNrOfCardsOwned = ({ ownedCards, rarityFilter, numberFilter, expa
     number: (cr: CardWithAmount) => cr.amount_owned > numberFilter - 1,
     rarity: (cr: CardWithAmount) => {
       const cardRarity = getCardById(cr.card_id)?.rarity
-      if (!rarityFilter.length || !cardRarity) return true
+      if (!rarityFilter.length || !cardRarity) {
+        return true
+      }
       return rarityFilter.includes(cardRarity)
     },
     expansion: (cr: CardWithAmount) => (expansion ? expansion.cards.find((c) => cr.card_id === c.card_id) : true),
@@ -454,7 +458,9 @@ export const pullRate = ({ ownedCards, expansion, pack, rarityFilter = [], numbe
   if (rarityFilter.length > 0) {
     //filter out cards that are not in the rarity filter
     missingCards = missingCards.filter((c) => {
-      if (c.rarity === '') return false
+      if (c.rarity === '') {
+        return false
+      }
       return rarityFilter.includes(c.rarity)
     })
   }
@@ -508,7 +514,9 @@ const pullRateForCardSubset = (missingCards: Card[], expansion: Expansion, cards
   for (const card of missingCardsFromPack) {
     const rarityList = [card.rarity]
     // Skip cards that cannot be picked
-    if (rarityList[0] === 'P' || rarityList[0] === '') continue
+    if (rarityList[0] === 'P' || rarityList[0] === '') {
+      continue
+    }
 
     if (deckbuildingMode) {
       // while in deckbuilding mode, we only have diamond cards in the list,
