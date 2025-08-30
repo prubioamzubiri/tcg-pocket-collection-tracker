@@ -9,6 +9,7 @@ const PAGE_SIZE = 500
 async function fetchCollection(table: string, key: string, value: string): Promise<CollectionRow[]> {
   const { count, error } = await supabase.from(table).select('*', { count: 'exact', head: true }).eq(key, value)
   if (error) {
+    console.log(error)
     throw new Error('Error fetching collection')
   }
   if (!count) {
@@ -18,7 +19,7 @@ async function fetchCollection(table: string, key: string, value: string): Promi
 }
 
 export async function fetchPublicCollection(friendId: string) {
-  return await fetchCollection('public_cards', 'friendId', friendId)
+  return await fetchCollection('public_cards', 'friend_id', friendId)
 }
 
 export async function fetchOwnCollection(email: string, collectionLastUpdated: Date): Promise<CollectionRow[]> {
