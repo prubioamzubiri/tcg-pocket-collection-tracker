@@ -164,6 +164,8 @@ function App() {
     return { friendAccount: await account, friendCollection: await collection }
   }
 
+  const errorDiv = <div className="m-4">A new version was deployed, please refresh the page to see the latest changes.</div>
+
   const router = createHashRouter([
     {
       element: (
@@ -174,6 +176,7 @@ function App() {
           <EditProfile account={account} setAccount={setAccount} isProfileDialogOpen={isProfileDialogOpen} setIsProfileDialogOpen={setIsProfileDialogOpen} />
         </>
       ),
+      errorElement: errorDiv,
       children: [
         { path: '/', element: <Overview /> },
         { path: '/collection/:friendId?/trade?', element: <Collection />, loader: collectionLoader },
@@ -187,7 +190,7 @@ function App() {
   return (
     <UserContext.Provider value={userContextValue}>
       <CollectionContext.Provider value={collectionContextValue}>
-        <ErrorBoundary fallback={<div className="m-4">A new version was deployed, please refresh the page to see the latest changes.</div>}>
+        <ErrorBoundary fallback={errorDiv}>
           <Toaster />
           <RouterProvider router={router} />
           <InstallPrompt />
