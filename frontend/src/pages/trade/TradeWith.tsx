@@ -129,26 +129,14 @@ function TradeWith() {
   }
 
   return (
-    <div className="kap-4 justify-center max-w-2xl m-auto">
+    <div className="kap-4 justify-center max-w-2xl m-auto px-2">
       <h1 className="mb-4">
         <span className="text-2xl font-light">{t('tradingWith')}</span>
         <span className="text-2xl font-bold"> {friendAccount.username} </span>
-        <span className="text-sm">
+        <span className="block sm:inline text-sm">
           <FriendIdDisplay friendId={friendAccount.friend_id} />
         </span>
       </h1>
-      <div className="flex gap-4 mb-2 mt-4 justify-between">
-        <div className="flex items-center gap-2">
-          <NumberFilter numberFilter={userCardsMaxFilter} setNumberFilter={setUserCardsMaxFilter} options={[0, 1, 2, 3, 4, 5]} labelKey="maxNum" />
-          <Tooltip id="minFilter" style={{ maxWidth: '300px', whiteSpace: 'normal' }} clickable={true} />
-          <CircleHelp className="h-4 w-4" data-tooltip-id="minFilter" data-tooltip-content={t('minFilterTooltip')} />
-        </div>
-        <div className="flex items-center gap-2">
-          <Tooltip id="maxFilter" style={{ maxWidth: '300px', whiteSpace: 'normal' }} clickable={true} />
-          <CircleHelp className="h-4 w-4" data-tooltip-id="maxFilter" data-tooltip-content={t('maxFilterTooltip')} />
-          <NumberFilter numberFilter={friendCardsMinFilter} setNumberFilter={setFriendCardsMinFilter} options={[2, 3, 4, 5]} labelKey="minNum" />
-        </div>
-      </div>
 
       <TradeOffer
         yourId={account.friend_id}
@@ -158,6 +146,31 @@ function TradeWith() {
         setYourCard={setYourCard}
         setFriendCard={setFriendCard}
       />
+
+      <div className="flex flex-col sm:flex-row sm:justify-between gap-2 mb-2 mt-2">
+        <div className="flex items-center gap-2">
+          <Tooltip id="maxFilter" style={{ maxWidth: '300px', whiteSpace: 'normal' }} clickable={true} />
+          <NumberFilter
+            className="w-full sm:w-[260px]"
+            numberFilter={friendCardsMinFilter}
+            setNumberFilter={setFriendCardsMinFilter}
+            options={[2, 3, 4, 5]}
+            labelKey="minNum"
+          />
+          <CircleHelp className="h-4 w-4 mx-1" data-tooltip-id="maxFilter" data-tooltip-content={t('maxFilterTooltip')} />
+        </div>
+        <div className="flex sm:flex-row-reverse items-center gap-2">
+          <Tooltip id="minFilter" style={{ maxWidth: '300px', whiteSpace: 'normal' }} clickable={true} />
+          <NumberFilter
+            className="w-full sm:w-[260px]"
+            numberFilter={userCardsMaxFilter}
+            setNumberFilter={setUserCardsMaxFilter}
+            options={[0, 1, 2, 3, 4, 5]}
+            labelKey="maxNum"
+          />
+          <CircleHelp className="h-4 w-4 mx-1" data-tooltip-id="minFilter" data-tooltip-content={t('minFilterTooltip')} />
+        </div>
+      </div>
 
       {!hasPossibleTrades && (
         <div className="text-center py-8">
@@ -171,14 +184,14 @@ function TradeWith() {
           friendExtraCards[rarity].length > 0 &&
           userExtraCards[rarity].length > 0 && (
             <div key={rarity} className="mb-4">
-              <h3 className="text-lg font-semibold mb-2 mt-6">{rarity}</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <h4 className="text-md font-medium mb-2">{t('youHave')}</h4>
+              <h3 className="text-xl font-semibold mb-1 text-center">[ {rarity} ]</h3>
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+                <div className="w-full sm:w-1/2">
+                  <h4 className="text-md font-medium mb-1 ml-2">{t('youHave')}</h4>
                   <CardList cards={userExtraCards[rarity]} ownedCards={ownedCards} selected={yourCard} setSelected={setYourCard} />
                 </div>
-                <div>
-                  <h4 className="text-md font-medium mb-2">{t('friendHas')}</h4>
+                <div className="w-full sm:w-1/2">
+                  <h4 className="text-md font-medium mb-1 ml-2">{t('friendHas')}</h4>
                   <CardList cards={friendExtraCards[rarity]} ownedCards={ownedCards} selected={friendCard} setSelected={setFriendCard} />
                 </div>
               </div>
