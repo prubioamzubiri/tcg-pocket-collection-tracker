@@ -1,4 +1,4 @@
-import { use, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CardsTable } from '@/components/CardsTable'
 import NumberFilter from '@/components/filters/NumberFilter.tsx'
@@ -7,19 +7,22 @@ import { Button } from '@/components/ui/button.tsx'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { toast } from '@/hooks/use-toast.ts'
 import { allCards, expansions } from '@/lib/CardsDB.ts'
-import { CollectionContext } from '@/lib/context/CollectionContext.ts'
-import { UserContext } from '@/lib/context/UserContext'
 import { NoCardsNeeded } from '@/pages/trade/components/NoCardsNeeded.tsx'
 import { NoTradeableCards } from '@/pages/trade/components/NoTradeableCards.tsx'
+import { useAccount } from '@/services/account/useAccount.ts'
+import { useUser } from '@/services/auth/useAuth.ts'
+import { useCollection } from '@/services/collection/useCollection.ts'
 import { type Card, type Rarity, tradableRarities } from '@/types'
 import { UserNotLoggedIn } from './components/UserNotLoggedIn'
 
 const tradeableExpansions = expansions.filter((e) => e.tradeable).map((e) => e.id)
 
-function Cards() {
+function TradeCards() {
   const { t } = useTranslation('pages/trade')
-  const { user, account } = use(UserContext)
-  const { ownedCards } = use(CollectionContext)
+
+  const { data: user } = useUser()
+  const { data: account } = useAccount()
+  const { data: ownedCards = [] } = useCollection()
 
   const [rarityFilter, setRarityFilter] = useState<Rarity[]>([])
   const [lookingForMaxCards, setLookingForMaxCards] = useState<number>((account?.max_number_of_cards_wanted ?? 1) - 1)
@@ -157,4 +160,4 @@ function Cards() {
   )
 }
 
-export default Cards
+export default TradeCards
