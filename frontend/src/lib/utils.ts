@@ -24,7 +24,7 @@ export function getCardNameByLang(card: Card, lang: string): string {
 
   switch (card.card_type) {
     case 'pokémon': {
-      let cardName = card.ex === 'yes' ? card.name.slice(0, -3) : card.name
+      let cardName = card.ex ? card.name.slice(0, -3) : card.name
       const key = cardName.toLowerCase()
       const cardNameTranslations = pokemonTranslations[key as keyof typeof pokemonTranslations]
 
@@ -32,7 +32,7 @@ export function getCardNameByLang(card: Card, lang: string): string {
         cardName = cardNameTranslations[lang as keyof typeof cardNameTranslations] || cardName
       }
 
-      return card.ex === 'yes' ? `${cardName} ex` : cardName
+      return card.ex ? `${cardName} ex` : cardName
     }
     case 'trainer': {
       if (card.evolution_type === 'item' || card.evolution_type === 'tool') {
