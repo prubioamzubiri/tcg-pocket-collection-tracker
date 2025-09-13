@@ -62,7 +62,7 @@ export interface Expansion {
   cards: Card[]
   packs: Pack[]
   missions?: Mission[]
-  tradeable?: boolean
+  tradeable: boolean
   promo?: boolean
   containsShinies?: boolean
   containsBabies?: boolean
