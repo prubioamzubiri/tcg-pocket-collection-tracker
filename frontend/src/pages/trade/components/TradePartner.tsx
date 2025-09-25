@@ -6,8 +6,7 @@ import { Button } from '@/components/ui/button.tsx'
 import { Switch } from '@/components/ui/switch.tsx'
 import TradeList from '@/pages/trade/components/TradeList.tsx'
 import { usePublicAccount } from '@/services/account/useAccount.ts'
-import { useTrades, useUpdateTrade } from '@/services/trade/useTrade.ts'
-import type { TradeRow } from '@/types'
+import { useTrades } from '@/services/trade/useTrade.ts'
 
 interface TradePartnerProps {
   friendId: string
@@ -19,13 +18,8 @@ function TradePartner({ friendId }: TradePartnerProps) {
 
   const { data: trades } = useTrades()
   const { data: friendAccount } = usePublicAccount(friendId)
-  const updateTradeMutation = useUpdateTrade()
 
   const [viewHistory, setViewHistory] = useState<boolean>(false)
-
-  async function update(id: number, trade: Partial<TradeRow>) {
-    updateTradeMutation.mutate({ id, trade })
-  }
 
   return (
     <div className="w-full">
@@ -46,11 +40,7 @@ function TradePartner({ friendId }: TradePartnerProps) {
         </span>
       </div>
       {friendAccount !== null && trades && (
-        <TradeList
-          trades={trades.filter((t) => t.offering_friend_id === friendId || t.receiving_friend_id === friendId)}
-          update={update}
-          viewHistory={viewHistory}
-        />
+        <TradeList trades={trades.filter((t) => t.offering_friend_id === friendId || t.receiving_friend_id === friendId)} viewHistory={viewHistory} />
       )}
     </div>
   )

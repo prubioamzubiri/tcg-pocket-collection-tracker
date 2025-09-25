@@ -51,6 +51,8 @@ export const TradeOffer: FC<Props> = ({ yourId, friendId, yourCard, friendCard, 
     setYourCard(null)
     setFriendCard(null)
     toast({ title: t('tradeOffered'), variant: 'default' })
+    // @ts-expect-error runtime script on window object
+    window.umami.track('Offer trade')
   }
 
   if (!yourCard && !friendCard) {
@@ -73,14 +75,7 @@ export const TradeOffer: FC<Props> = ({ yourId, friendId, yourCard, friendCard, 
           {card(friendCard)}
         </div>
       </div>
-      <Button
-        data-umami-event="Offer trade"
-        className="block w-full sm:w-1/2 mx-auto text-center"
-        type="button"
-        variant="outline"
-        onClick={submit}
-        disabled={!enabled}
-      >
+      <Button className="block w-full sm:w-1/2 mx-auto text-center" type="button" variant="outline" onClick={submit} disabled={!enabled}>
         {t('offerTrades')}
       </Button>
     </div>
