@@ -73,7 +73,14 @@ export const TradeOffer: FC<Props> = ({ yourId, friendId, yourCard, friendCard, 
           {card(friendCard)}
         </div>
       </div>
-      <Button className="block w-full sm:w-1/2 mx-auto text-center" type="button" variant="outline" onClick={submit} disabled={!enabled}>
+      <Button
+        data-umami-event="Offer trade"
+        className="block w-full sm:w-1/2 mx-auto text-center"
+        type="button"
+        variant="outline"
+        onClick={submit}
+        disabled={!enabled}
+      >
         {t('offerTrades')}
       </Button>
     </div>
