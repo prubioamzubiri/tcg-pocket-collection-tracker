@@ -2,6 +2,7 @@ import i18n from 'i18next'
 import type { ChangeEvent, Dispatch, SetStateAction } from 'react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CardLine } from '@/components/CardLine'
 import { Spinner } from '@/components/Spinner.tsx'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
@@ -10,7 +11,7 @@ import { calculatePerceptualHash, calculateSimilarity, imageToBuffers } from '@/
 import { getCardNameByLang } from '@/lib/utils'
 import { useCollection, useUpdateCards } from '@/services/collection/useCollection'
 import CardDetectorService, { type DetectionResult } from '@/services/scanner/CardDetectionService'
-import type { Card, CollectionRowUpdate } from '@/types'
+import type { Card } from '@/types'
 
 interface ExtractedCard {
   imageUrl: string
@@ -22,6 +23,12 @@ interface ExtractedCard {
   }
   resolvedImageUrl?: string
   selected?: boolean
+}
+
+interface IncrementedCard {
+  card_id: string
+  previous_amount: number
+  increment: number
 }
 
 enum State {
@@ -56,7 +63,7 @@ const Scan = () => {
   const [amount, setAmount] = useState(1)
 
   const [extractedCards, setExtractedCards] = useState<ExtractedCard[]>([])
-  const [incrementedCards, setIncrementedCards] = useState<number>(0)
+  const [incrementedCards, setIncrementedCards] = useState<IncrementedCard[]>([])
 
   const detectorService = useMemo(() => CardDetectorService.getInstance(), [])
 
@@ -273,45 +280,38 @@ const Scan = () => {
 
   const selectedCount = useMemo(() => extractedCards.filter((card) => card.selected).length, [extractedCards])
 
-  const incrementCards = async (cardIds: string[]) => {
-    const counts = new Map()
-    for (const cardId of cardIds) {
-      counts.set(cardId, (counts.get(cardId) || 0) + amount)
-    }
-
-    const cardArray: CollectionRowUpdate[] = []
-
-    for (const [card_id, increment] of counts) {
-      const ownedCard = ownedCards.find((row) => row.card_id === card_id)
-      cardArray.push({ card_id, amount_owned: (ownedCard?.amount_owned ?? 0) + increment })
-    }
-
-    updateCardsMutation.mutate({ updates: cardArray })
-
-    return cardIds.length * amount
-  }
-
   const handleConfirm = async () => {
-    if (amount === 0) {
-      setState(State.ProcessUpdates + 1)
-      setIncrementedCards(0)
-      return
-    }
-
     setState(State.ProcessUpdates)
 
     const cardIds = extractedCards.filter((card) => card.selected && card.matchedCard).map((card) => card.matchedCard.card.card_id)
 
-    if (cardIds.length > 0) {
-      try {
-        const incrementedCards = await incrementCards(cardIds.filter((id): id is string => id !== undefined))
-        setIncrementedCards(incrementedCards)
-      } catch (error) {
-        setError(`Error incrementing card quantities: ${error}`)
-        setState(State.Error)
-        return
-      }
+    if (amount === 0 || cardIds.length === 0) {
+      setState(State.ProcessUpdates + 1)
+      setIncrementedCards([])
+      return
     }
+
+    const counts = new Map()
+    for (const cardId of cardIds) {
+      counts.set(cardId, (counts.get(cardId) ?? 0) + amount)
+    }
+
+    const updates: IncrementedCard[] = []
+
+    for (const [card_id, increment] of counts) {
+      const previous_amount = ownedCards.find((row) => row.card_id === card_id)?.amount_owned ?? 0
+      updates.push({ card_id, previous_amount, increment })
+    }
+
+    try {
+      updateCardsMutation.mutate({ updates: updates.map((x) => ({ card_id: x.card_id, amount_owned: x.previous_amount + x.increment })) })
+    } catch (error) {
+      setError(`Error incrementing card quantities: ${error}`)
+      setState(State.Error)
+      return
+    }
+
+    setIncrementedCards(updates)
     setState(State.ProcessUpdates + 1)
   }
 
@@ -441,12 +441,19 @@ const Scan = () => {
       )}
 
       {state === State.Confirmation && (
-        <>
-          <p className="text-xl text-center mb-8">{t('success', { n: incrementedCards })}</p>
+        <div className="flex flex-col w-full max-w-lg mx-auto">
+          <p className="text-xl text-center mb-4">{t('success', { n: incrementedCards.reduce((acc, x) => acc + x.increment, 0) })}</p>
+          <ul className="flex flex-col gap-2 mb-8">
+            {incrementedCards.map((x) => (
+              <li key={x.card_id}>
+                <CardLine card_id={x.card_id} amount_owned={x.previous_amount} increment={x.increment} />
+              </li>
+            ))}
+          </ul>
           <Button onClick={() => setState(State.UploadImages)} variant="default">
             {t('scanMore')}
           </Button>
-        </>
+        </div>
       )}
     </div>
   )
