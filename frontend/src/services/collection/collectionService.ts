@@ -1,4 +1,3 @@
-import type { PostgrestError } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabase'
 import type { AccountRow, CardAmountsRowUpdate, CardAmountUpdate, CollectionRow, CollectionRowUpdate } from '@/types'
 
@@ -154,52 +153,34 @@ async function fetchCollectionFromAPI(table: string, key: string, value: string)
 async function fetchRange(table: string, key: string, value: string, total: number, start: number, end: number): Promise<CollectionRow[]> {
   console.log('fetching range', total, start, end)
 
-  let cards: CollectionRow[]
-  let hasError: PostgrestError | null = null
-
-  if (table === 'card_amounts') {
-    const { data, error } = await supabase
-      .from(table)
-      .select(`
-    *,
-    collection (
+  let select = `
+    *
+  `
+  if (!table.startsWith('public_')) {
+    select += `, collection (
       card_id
-    )
-  `)
-      .eq(key, value)
-      .range(start, end)
-
-    cards = data as CollectionRow[]
-    hasError = error
-  } else if (table === 'public_card_amounts') {
-    const { data, error } = await supabase.rpc('get_public_cards_with_collection', {
-      friend_id_value: value,
-      limit_count: end - start + 1,
-      offset_count: start,
-    })
-    cards = data
-    hasError = error
-  } else {
-    throw new Error('Invalid table name')
+    )`
   }
+  const { data, error } = await supabase.from(table).select(select).eq(key, value).range(start, end)
 
-  if (hasError) {
-    console.log('supa error', hasError)
+  if (error) {
+    console.log('supa error', error)
     throw new Error('Error fetching collection range')
   }
+  const rows = data as unknown as CollectionRow[]
 
   // convert to array of card_ids instead of nested objects for easier handling in the code.
-  cards.forEach((row) => {
+  rows.forEach((row) => {
     // @ts-expect-error
     row.collection = row.collection?.map((c: { card_id: string }) => c.card_id) || []
   })
 
-  console.log('fetched range', cards)
+  console.log('fetched range', data)
 
   if (end < total) {
-    return [...cards, ...(await fetchRange(table, key, value, total, end + 1, Math.min(total, end + PAGE_SIZE)))]
+    return [...rows, ...(await fetchRange(table, key, value, total, end + 1, Math.min(total, end + PAGE_SIZE)))]
   } else {
-    return cards
+    return rows
   }
 }
 
