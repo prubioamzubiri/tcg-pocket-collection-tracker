@@ -23,8 +23,8 @@ function TradeWith() {
   const { t } = useTranslation(['trade-matches', 'common'])
   const { friendId } = useParams()
 
-  const { data: friendAccount } = usePublicAccount(friendId)
-  const { data: friendCards } = usePublicCollection(friendId)
+  const { data: friendAccount, isLoading: friendAccountLoading, isError: friendAccountError } = usePublicAccount(friendId)
+  const { data: friendCards = new Map<number, CollectionRow>(), isLoading: friendCardsLoading, isError: friendCardsError } = usePublicCollection(friendId)
 
   const { data: account } = useAccount()
   const { data: ownedCards = new Map<number, CollectionRow>() } = useCollection()
@@ -40,11 +40,15 @@ function TradeWith() {
     return <p className="text-xl text-center py-8">{t('notFound')}</p>
   }
 
-  if (friendAccount === undefined || friendCards === undefined) {
+  if (friendAccountError || friendCardsError) {
+    return <p className="text-xl text-center py-8">{t('common:error')}</p>
+  }
+
+  if (friendAccountLoading || friendCardsLoading) {
     return <p className="text-xl text-center py-8">{t('common:loading')}...</p>
   }
 
-  if (!friendAccount.is_active_trading) {
+  if (!friendAccount?.is_active_trading) {
     return (
       <div className="text-center py-8">
         <p className="text-xl ">{t('inActiveTradePage', { username: friendAccount?.username })}</p>
