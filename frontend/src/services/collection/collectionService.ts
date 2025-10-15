@@ -164,7 +164,7 @@ async function fetchRange(table: string, key: string, value: string, total: numb
   const { data, error } = await supabase.from(table).select(select).eq(key, value).range(start, end)
 
   if (error) {
-    console.log('supa error', error)
+    console.log('supabase error', error)
     throw new Error('Error fetching collection range')
   }
   const rows = data as unknown as CollectionRow[]
