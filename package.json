@@ -15,12 +15,12 @@
     "sync-locales": "node scripts/sync-locales.js"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.4",
+    "@biomejs/biome": "2.2.6",
     "lefthook": "^1.13.6",
     "tsx": "^4.20.6"
   },
   "type": "module",
-  "packageManager": "pnpm@10.17.1",
+  "packageManager": "pnpm@10.18.3",
   "engines": {
     "node": ">=20"
   },
