@@ -66,8 +66,7 @@ Deno.serve(async (req) => {
                    FROM card_amounts c
                             JOIN recent_accounts ra ON ra.email = c.email
                             JOIN accounts a ON a.email = c.email
-                   WHERE c.tradable = TRUE 
-                       AND c.amount_owned > a.min_number_of_cards_to_keep
+                   WHERE c.amount_owned > a.min_number_of_cards_to_keep
                ),
                matches AS (
                    -- What you can get from them

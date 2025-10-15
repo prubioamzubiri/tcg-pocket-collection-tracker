@@ -68,6 +68,7 @@ export function useUpdateAccountTradingFields() {
       })
     },
     onSuccess: (updatedAccount) => {
+      queryClient.invalidateQueries({ queryKey: ['trading-partners'] })
       queryClient.setQueryData(['account', updatedAccount.email], updatedAccount)
     },
   })

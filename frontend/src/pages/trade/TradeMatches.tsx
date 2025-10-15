@@ -5,10 +5,14 @@ import { useTradingPartners } from '@/services/trade/useTrade.ts'
 function TradeMatches() {
   const { t } = useTranslation(['trade-matches', 'common'])
 
-  const { data: tradingPartners, isLoading } = useTradingPartners()
+  const { data: tradingPartners, isLoading, isError } = useTradingPartners()
 
   if (isLoading) {
     return <p>{t('common:loading')}</p>
+  }
+
+  if (isError) {
+    return <p>{t('common:error')}</p>
   }
 
   if (!tradingPartners?.length) {
